@@ -2,13 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Button } from 'semantic-ui-react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Login from './Auth/Login';
 
 function App() {
   return (
-    <div className="App">
-            <Button content='Primary' primary />
-            <Button content='Secondary' secondary />
-    </div>
+    <BrowserRouter>
+      <div className="App">
+          <Login />
+      </div>
+    </BrowserRouter>
+    
   );
 }
 
