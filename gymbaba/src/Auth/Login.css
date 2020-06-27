@@ -20,3 +20,10 @@
     width: 190px; 
     overflow: hidden;
   }
+
+  .error-msg{
+    float: left;
+    width: 100%;
+    color: red;
+    margin-bottom: 10px;
+  }
