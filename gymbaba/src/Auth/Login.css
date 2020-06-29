@@ -27,3 +27,13 @@
     color: red;
     margin-bottom: 10px;
   }
+
+  .login-page{
+    height: 100vh;
+    background: #000;
+    color: #fff;
+  }
+
+  .logo-img{
+    width: 150px !important;
+  }
