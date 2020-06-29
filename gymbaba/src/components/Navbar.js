@@ -1,44 +1,53 @@
-import { useBooleanKnob } from '@stardust-ui/docs-components'
-import React from 'react'
-import { Header, Icon, Image, Menu, Segment, Sidebar } from 'semantic-ui-react'
+import React from 'react';
+import 'antd/dist/antd.css';
+import './Navbar.css';
+import { Drawer, Button, Radio, Space } from 'antd';
+import { Icon } from 'semantic-ui-react';
 
-const Navbar = () => {
-  const [visible, setVisible] = useBooleanKnob({ name: 'visible' })
+export default class Navbar extends React.Component {
+  state = { visible: false, placement: 'left' };
 
-  return (
-    <Sidebar.Pushable as={Segment}>
-      <Sidebar
-        as={Menu}
-        animation='overlay'
-        icon='labeled'
-        inverted
-        onHide={() => setVisible(false)}
-        vertical
-        visible={visible}
-        width='thin'
-      >
-        <Menu.Item as='a'>
-          <Icon name='home' />
-          Home
-        </Menu.Item>
-        <Menu.Item as='a'>
-          <Icon name='gamepad' />
-          Games
-        </Menu.Item>
-        <Menu.Item as='a'>
-          <Icon name='camera' />
-          Channels
-        </Menu.Item>
-      </Sidebar>
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
 
-      <Sidebar.Pusher dimmed={visible}>
-        <Segment basic>
-          <Header as='h3'>Application Content</Header>
-          <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
-        </Segment>
-      </Sidebar.Pusher>
-    </Sidebar.Pushable>
-  )
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  onChange = e => {
+    this.setState({
+      placement: e.target.value,
+    });
+  };
+
+  render() {
+    const { placement, visible } = this.state;
+    return (
+      <>
+        <Space style={{float:'left'}}>
+          
+          <Button type="default" onClick={this.showDrawer}>
+            <i class="align justify icon"></i>
+          </Button>
+        </Space>
+        <Drawer
+          title="Basic Drawer"
+          placement={placement}
+          closable={false}
+          onClose={this.onClose}
+          visible={visible}
+          key={placement}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Drawer>
+      </>
+    );
+  }
 }
-
-export default Navbar

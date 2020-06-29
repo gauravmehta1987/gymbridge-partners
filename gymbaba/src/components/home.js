@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Image } from 'semantic-ui-react';
+// import 'antd/dist/antd.css';
 import './Home.css'
 // import Navbar from './Navbar';
 
