@@ -12,10 +12,25 @@ code {
     monospace;
 }
 
+body{
+  background-color: #ccc !important;
+}
+
+body .App{
+  background-color: #fff;
+  min-height: 100vh;
+}
+
 @media only screen and (min-width: 1200px){
-  body .container {
+  body .App {
    width: 1200px!important;
    margin: auto;
-   padding: 20px;
   }
+  .slot-content .day-info{
+    min-height: 150px !important;
+  }
+}
+.logout-new{
+  background-color: #0a0a0a;
+  color: #fff;
 }

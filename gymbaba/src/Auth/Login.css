@@ -37,3 +37,7 @@
   .logo-img{
     width: 150px !important;
   }
+
+  .logout{
+    display: none;
+  }

@@ -1,0 +1,64 @@
+.slot-content .mbr-gallery-filter li{
+   width: 300px;
+}
+.slot-content .day-info{
+   width: 250px;
+   height: auto;
+   min-height: 90px;
+   padding: 20px;
+}
+.slot-content .more-info{
+   margin-top: 10px;
+}
+.slot-content .more-info div{
+   width: 250px;
+}
+.slot-content .view-slot{
+   position: absolute;
+   bottom: -41px;
+   padding: 10px;
+   cursor: pointer;
+   width: 100%;
+   left: 0;
+   background: linear-gradient(45deg, #fbac7f, #e5658a);
+   color: #090909;
+}
+.slot-content .btn-md{
+   margin: 2.2rem .8rem !important;
+   padding: 0 !important;
+}
+.slot-content .first{
+   margin-top: 0 !important;
+}
+.slot-content .center-align{
+   left: 0;
+}
+.slot-form{
+   width: 100%;
+   float: left;
+}
+.slot-form .timeline{
+   width: calc(100% - 10px);
+}
+.slot-form .single-field{
+   float: none;
+   margin: auto !important;
+   clear: both !important;
+}
+.slot-form .timeline{
+   background: none;
+   border: none;
+}
+.single-field .ui.checkbox{
+   margin: auto;
+   width: 170px;
+   text-align: left;
+   margin-bottom: 10px;
+}
+.single-field .ui.checkbox label{
+   font-size: 1.2em;
+   padding-left: 1.5em;
+}
+.slot-form .timeline .field{
+   margin: 0;
+}
