@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
-import { Loader, Segment, Checkbox, Button } from 'semantic-ui-react'
+import { Loader, Segment, Checkbox, Button, Modal, Header, Icon } from 'semantic-ui-react'
 import config from '../../config';
 import axios from 'axios'
 import '../Profile/Profile.css'
 import './Slot.css'
 import { useHistory } from 'react-router'
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 function Slotbooking(){
 
@@ -76,9 +78,20 @@ function Slotbooking(){
    const [slots, setSlots] = useState([])
    const [status, setStatus] = useState(false)
    const [addSlot, setAddSlot] = useState(false)
+   const [loader, setLoader] = useState(false)
 
    const getSlotsData = () => {
-      let url = config.appApiLink+'session/8'
+      let stArr = history.location.pathname.split('/')
+      delete stArr.splice(0,1)
+      delete stArr.splice(0,1)
+      let newArr = stArr[0].split(',')
+      let daysCommaValues = []
+      for (let k = 0; k < newArr.length; k++) {
+         daysCommaValues.push(days.findIndex(x => (x == newArr[k])) - 1)
+      }
+
+      setLoader(true)
+      let url = config.appApiLink+'session/8'+'/'+(daysCommaValues.join())
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",
@@ -92,10 +105,12 @@ function Slotbooking(){
             console.log(response.data.data)
             setSlots(response.data.data)
             setStatus(true)
+            setLoader(false)
          }
       })
       .catch( error => {
       console.log(error);
+      setLoader(false)
       } );
    }
 
@@ -206,47 +221,82 @@ function Slotbooking(){
    const suggestions = (e) => {
       e.preventDefault()
 
+      let dayArr = []
+      let repeatArr = []
+
       if(!Monday && !Tuesday && !Wednesday && !Thursday && !Friday && !Saturday && !Sunday){
          return false
       }
-      if(startString === "" || endString === "")
-      return false
+      
+      if(Monday){
+         dayArr.push(0)
+         repeatArr.push(0)
+      }
+      if(Tuesday){
+         dayArr.push(1)
+         repeatArr.push(1)
+      }
+      if(Wednesday){
+         dayArr.push(2)
+         repeatArr.push(2)
+      }
+      if(Thursday){
+         dayArr.push(3)
+         repeatArr.push(3)
+      }
+      if(Friday){
+         dayArr.push(4)
+         repeatArr.push(4)
+      }
+      if(Saturday){
+         dayArr.push(5)
+         repeatArr.push(5)
+      }
+      if(Sunday){
+         dayArr.push(6)
+         repeatArr.push(6)
+      }
 
       let stt = 0;
       if(key === 'AM'){
          stt = parseInt(startTime)*60
       }else{
-         stt = parseInt(startTime)*12*60
+         stt = (parseInt(startTime)+12)*60
       }
 
       let ett = 0;
       if(key1 === 'AM'){
          ett = parseInt(endingTime)*60
       }else{
-         ett = parseInt(endingTime)*12*60
+         ett = (parseInt(endingTime)+12)*60
       }
 
       // console.log(startString,endString,duration, sanitize,members)
+      setLoader(true)
 
-      // let params = "?gymId=8&fromDate="+startString+"&endDate="+endString+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
+      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
 
-      // let url = config.appApiLink+'session/suggestion'+params;
-      // let apiHeader = {
-      //    headers: {
-      //        'Content-Type': "application/json",
-      //        'accept': "application/json",
-      //        'Authorization': localStorage.getItem('token')
-      //    }
-      // };
-      // axios.get( url, apiHeader )
-      // .then( response => {
-      //    if(response.data && response.data.status){
-      //       console.log(response.data)
-      //    }
-      // })
-      // .catch( error => {
-      // console.log(error);
-      // } );
+      let url = config.appApiLink+'session/suggestion'+params;
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.get( url, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status){
+            console.log(response.data)
+            setSlotPreview(response.data.data[0])
+            setSuggestionShow(true)
+            setLoader(false)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
    }
 
    const [startTime, setStartTime] = useState("")
@@ -288,14 +338,485 @@ function Slotbooking(){
    const backToSlots = (e) => {
       setAddSlot(false)
    }
+   
+   const backToSlot =(e) => {
+      e.preventDefault()
+      history.push({
+         pathname: '/slot'
+      })
+   }
+
+   const [suggestionShow, setSuggestionShow] = useState(false)
+   const [slotPreview, setSlotPreview] = useState([])
+
+   const closeModal = () => {
+      setSuggestionShow(false)
+   }
+
+   const saveSlot = (e) => {
+      e.preventDefault()
+
+      let dayArr1 = []
+      let repeatArr1 = []
+
+      if(!Monday && !Tuesday && !Wednesday && !Thursday && !Friday && !Saturday && !Sunday){
+         return false
+      }
+      
+      if(Monday){
+         dayArr1.push(0)
+         repeatArr1.push(0)
+      }
+      if(Tuesday){
+         dayArr1.push(1)
+         repeatArr1.push(1)
+      }
+      if(Wednesday){
+         dayArr1.push(2)
+         repeatArr1.push(2)
+      }
+      if(Thursday){
+         dayArr1.push(3)
+         repeatArr1.push(3)
+      }
+      if(Friday){
+         dayArr1.push(4)
+         repeatArr1.push(4)
+      }
+      if(Saturday){
+         dayArr1.push(5)
+         repeatArr1.push(5)
+      }
+      if(Sunday){
+         dayArr1.push(6)
+         repeatArr1.push(6)
+      }
+
+      let stt = 0;
+      if(key === 'AM'){
+         stt = parseInt(startTime)*60
+      }else{
+         stt = (parseInt(startTime)+12)*60
+      }
+
+      let ett = 0;
+      if(key1 === 'AM'){
+         ett = parseInt(endingTime)*60
+      }else{
+         ett = (parseInt(endingTime)+12)*60
+      }
+
+      let obj = {
+         "gymId": 8,
+         "days": dayArr1.join(),
+         "repeats": repeatArr1.join(),
+         "startTime": stt,
+         "endTime": ett,
+         "workoutTime": duration,
+         "breakTime": sanitize,
+         "memberCount": members
+       }
+
+      setLoader(true)
+
+      let url = config.appApiLink+'session/slot';
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.post( url, obj, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status){
+            console.log(response.data)
+            setLoader(false)
+            window.location.reload(false)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
+   }
+
+   const getTime = (st, en) => {
+      var str = '';
+      var stt1 = parseInt(parseInt(st)/60)
+      var sttMin = parseInt(st)%60
+      var ett1 = parseInt(parseInt(en)/60)
+      var ettMin = parseInt(en)%60
+   
+      if(stt1 < 12){
+         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+'AM'
+      }else if(stt1 === 12){
+         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+'PM'
+      }else {
+         str += ((stt1-12)+':'+(sttMin < 10 ? '0'+sttMin : sttMin))+'PM'
+      }
+      str += '-'
+      if(ett1 < 12){
+         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+'AM'
+      }else if(ett1 === 12){
+         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+'PM'
+      }else {
+         str += ((ett1-12)+':'+(ettMin < 10 ? '0'+ettMin : ettMin))+'PM'
+      }
+
+      return str
+   }
+
+   // this is the code for delete slot
+   const deleteSlot = (e, card) => {
+      e.preventDefault()
+      console.log(card)
+      confirmAlert({
+         title: 'Are you sure to do this?',
+         // message: 'Are you sure to do this.',
+         buttons: [
+           {
+             label: 'Yes',
+             onClick: () => {
+               setLoader(true)
+               let url = config.appApiLink+'session/'+card.SlotId;
+               let apiHeader = {
+                  headers: {
+                      'Content-Type': "application/json",
+                      'accept': "application/json",
+                      'Authorization': localStorage.getItem('token')
+                  }
+               };
+               axios.delete( url, apiHeader )
+               .then( response => {
+                  if(response.data && response.data.status){
+                     console.log(response.data)
+                     setLoader(false)
+                     // window.location.reload(false)
+                  }
+               })
+               .catch( error => {
+               setLoader(false)
+               console.log(error);
+               } );
+             }
+           },
+           {
+             label: 'No',
+             onClick: () => console.log('No')
+           }
+         ]
+       });
+   }
+
+   // this is the code for edit slot
+   const [editMode, setEditMode] = useState(false)
+   const [editData, setEditData] = useState('')
+
+   const [Monday1, setMonday1] = useState(false)
+   const [Tuesday1, setTuesday1] = useState(false)
+   const [Wednesday1, setWednesday1] = useState(false)
+   const [Thursday1, setThursday1] = useState(false)
+   const [Friday1, setFriday1] = useState(false)
+   const [Saturday1, setSaturday1] = useState(false)
+   const [Sunday1, setSunday1] = useState(false)
+
+   const viewSlot = (e, card) => {
+      e.preventDefault()
+      setEditData(card)
+      setKey1Edit("")
+      setKeyEdit("")
+      setStartTimeEdit("")
+      setEndTimeEdit("")
+      setMonday1(false)
+      setTuesday1(false)
+      setWednesday1(false)
+      setThursday1(false)
+      setFriday1(false)
+      setSaturday1(false)
+      setSunday1(false)
+      setDurationEdit("")
+      setSanitizeEdit("")
+      setMembersEdit("")
+      setPreviewEdit(true)
+
+      if(parseInt(card.StartMinute)/60 > 11){
+         setKeyEdit('PM')
+      }else{
+         setKeyEdit('AM')
+      }
+      setStartTimeEdit(parseInt(card.StartMinute)/60)
+      if(parseInt(card.EndMinute)/60 > 11){
+         setKey1Edit('PM')
+      }else{
+         setKey1Edit('AM')
+      }
+      setEndTimeEdit(parseInt(card.EndMinute)/60)
+      setEditMode(true)
+      if(card.days && card.days.length){
+         card.days.forEach(function(v){
+            if(days[v+1] === "Monday"){ setMonday1(true) }
+            if(days[v+1] === "Tuesday"){ setTuesday1(true) }
+            if(days[v+1] === "Wednesday"){ setWednesday1(true) }
+            if(days[v+1] === "Thursday"){ setThursday1(true) }
+            if(days[v+1] === "Friday"){ setFriday1(true) }
+            if(days[v+1] === "Saturday"){ setSaturday1(true) }
+            if(days[v+1] === "Sunday"){ setSunday1(true) }
+         })
+      }
+      if(card.WorkoutDuration){
+         setDurationEdit(card.WorkoutDuration)
+      }
+      if(card.BreakMinutes){
+         setSanitizeEdit(card.BreakMinutes)
+      }
+      if(card.MemberCount){
+         setMembersEdit(card.MemberCount)
+      }
+   }
+
+   const daysCheck1 = (e, day) => {
+      e.preventDefault()
+      if(day === 'Monday'){
+         const Day1 = !Monday
+         setMonday1(Day1)
+      }else if(day === 'Tuesday'){
+         const Day2 = !Tuesday
+         setTuesday1(Day2)
+      }else if(day === 'Wednesday'){
+         const Day3 = !Wednesday
+         setWednesday1(Day3)
+      }else if(day === 'Thursday'){
+         const Day4 = !Thursday
+         setThursday1(Day4)
+      }else if(day === 'Friday'){
+         const Day5 = !Friday
+         setFriday1(Day5)
+      }else if(day === 'Saturday'){
+         const Day6 = !Saturday
+         setSaturday1(Day6)
+      }else if(day === 'Sunday'){
+         const Day7 = !Sunday
+         setSunday1(Day7)
+      }
+   }
+
+   const closeEditModal = () => {
+      setEditData('')
+      setEditMode(false)
+   }
+
+   const [startTimeEdit, setStartTimeEdit] = useState("")
+   const [endingTimeEdit, setEndTimeEdit] = useState("")
+   const [keyEdit, setKeyEdit] = useState("AM")
+   const [key1Edit, setKey1Edit] = useState("AM")
+
+   const stTimeEdit = (e) => {
+      setStartTimeEdit(e.target.value)
+   }
+   const stAMPMEdit = (e) => {
+      setKeyEdit(e.target.value)
+   }
+   const edTimeEdit = (e) => {
+      setEndTimeEdit(e.target.value)
+   }
+   const stAMPM1Edit = (e) => {
+      setKey1Edit(e.target.value)
+   }
+
+   const [durationEdit, setDurationEdit] = useState("")
+   const [sanitizeEdit, setSanitizeEdit] = useState("")
+   const [membersEdit, setMembersEdit] = useState(0)
+   const [previewEdit, setPreviewEdit] = useState(true)
+   const [slotPreviewEdit, setSlotPreviewEdit] = useState([])
+
+   const sessionSLotEdit = (e, val) => {
+      if(val === 'duration'){
+         setDurationEdit(e.target.value)
+      }else if(val === 'sanitize'){
+         setSanitizeEdit(e.target.value)
+      }else if(val === 'members'){
+         setMembersEdit(e.target.value)
+      }
+   }
+
+   const previewEditSlot = (e) => {
+      e.preventDefault()
+
+      let dayArr = []
+      let repeatArr = []
+
+      if(!Monday1 && !Tuesday1 && !Wednesday1 && !Thursday1 && !Friday1 && !Saturday1 && !Sunday1){
+         return false
+      }
+      
+      if(Monday1){
+         dayArr.push(0)
+         repeatArr.push(0)
+      }
+      if(Tuesday1){
+         dayArr.push(1)
+         repeatArr.push(1)
+      }
+      if(Wednesday1){
+         dayArr.push(2)
+         repeatArr.push(2)
+      }
+      if(Thursday1){
+         dayArr.push(3)
+         repeatArr.push(3)
+      }
+      if(Friday1){
+         dayArr.push(4)
+         repeatArr.push(4)
+      }
+      if(Saturday1){
+         dayArr.push(5)
+         repeatArr.push(5)
+      }
+      if(Sunday1){
+         dayArr.push(6)
+         repeatArr.push(6)
+      }
+
+      let stt = 0;
+      if(keyEdit === 'AM'){
+         stt = parseInt(startTimeEdit)*60
+      }else{
+         stt = (parseInt(startTimeEdit)+12)*60
+      }
+
+      let ett = 0;
+      if(key1Edit === 'AM'){
+         ett = parseInt(endingTimeEdit)*60
+      }else{
+         ett = (parseInt(endingTimeEdit)+12)*60
+      }
+
+      setLoader(true)
+
+      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit
+
+      let url = config.appApiLink+'session/suggestion'+params;
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.get( url, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            console.log(response.data)
+            setSlotPreviewEdit(response.data.data[0])
+            setPreviewEdit(false)
+            setLoader(false)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
+   }
+
+   const saveEditSlot = (e) => {
+      e.preventDefault()
+
+      let dayArr1 = []
+      let repeatArr1 = []
+
+      if(!Monday1 && !Tuesday1 && !Wednesday1 && !Thursday1 && !Friday1 && !Saturday1 && !Sunday1){
+         return false
+      }
+      
+      if(Monday1){
+         dayArr1.push(0)
+         repeatArr1.push(0)
+      }
+      if(Tuesday1){
+         dayArr1.push(1)
+         repeatArr1.push(1)
+      }
+      if(Wednesday1){
+         dayArr1.push(2)
+         repeatArr1.push(2)
+      }
+      if(Thursday1){
+         dayArr1.push(3)
+         repeatArr1.push(3)
+      }
+      if(Friday1){
+         dayArr1.push(4)
+         repeatArr1.push(4)
+      }
+      if(Saturday1){
+         dayArr1.push(5)
+         repeatArr1.push(5)
+      }
+      if(Sunday1){
+         dayArr1.push(6)
+         repeatArr1.push(6)
+      }
+
+      let stt = 0;
+      if(keyEdit === 'AM'){
+         stt = parseInt(startTimeEdit)*60
+      }else{
+         stt = (parseInt(startTimeEdit)+12)*60
+      }
+
+      let ett = 0;
+      if(key1Edit === 'AM'){
+         ett = parseInt(endingTimeEdit)*60
+      }else{
+         ett = (parseInt(endingTimeEdit)+12)*60
+      }
+
+      let obj = {
+         "gymId": 8,
+         "days": dayArr1.join(),
+         "repeats": repeatArr1.join(),
+         "startTime": stt,
+         "endTime": ett,
+         "workoutTime": durationEdit,
+         "breakTime": sanitizeEdit,
+         "memberCount": membersEdit
+       }
+
+      setLoader(true)
+
+      let url = config.appApiLink+'session/slot/'+editData.SlotId;
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.put( url, obj, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status){
+            console.log(response.data)
+            setLoader(false)
+            window.location.reload(false)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
+   }
 
    return (
       <>
       <Navbar name={'Slot Booking'} />
       <div className="clearfix gym-main-div">
+            {loader && <Segment>
+               <Loader active />
+            </Segment>}
             {status?<div className="gym-container slot-content">
-               <h3>Gym Name</h3>
-
+            <h3 style={{float: 'left', width: '100%'}}>Gym Name</h3>
                {addSlot?<div className="slot-form">
                   <form className="ui form">
                      <div className='timeline'>
@@ -324,28 +845,6 @@ function Slotbooking(){
                            </div>}
                         </div>
                      </div>
-                     {/* <div className='timeline'>
-                        <div className="field">
-                           <label htmlFor="session-from">Session From</label>
-                           <div className="ui input">
-                           <select id="session-from" value={session_from} onChange={(e) => sessionSLot(e, 'from')}>
-                              {days.map((option, id) => (
-                                 <option key={"fr" + id} value={option}>{option}</option>
-                              ))}
-                           </select>
-                           </div>
-                        </div>
-                        <div className="field">
-                           <label htmlFor="session-to">Session to</label>
-                           <div className="ui input">
-                           <select id="session-to" value={session_to} onChange={(e) => sessionSLot(e, 'to')}>
-                              {days.map((option, id) => (
-                                 <option key={"to" + id} value={option}>{option}</option>
-                              ))}
-                           </select>
-                           </div>
-                        </div>
-                     </div> */}
                      <div className='timeline'>
                         <div className="field">
                            <label htmlFor="start-time">Start TIme</label>
@@ -422,22 +921,243 @@ function Slotbooking(){
                         Back
                      </Button>
                      <Button color='green' onClick={suggestions}>
-                        Suggestions
+                        Preview
                      </Button>
                   </form>
                </div>:
                   <div className="add-new">
-                     <Button color='green' onClick={addNewSlot}>
+                     <Button color='green' onClick={addNewSlot} className="pull-right">
                         Add Slot
+                     </Button>
+                     <Button color='black' onClick={backToSlot} className="pull-left">
+                        Back
                      </Button>
                   </div>
                }
+               
+               
+               {!addSlot && slots && slots.length > 0 && <div className="gym-container slot-content slot-list">
+                  
+                  <div className="mbr-gallery-filter container gallery-filter-active">
+                     <ul buttons="0">
+                     {slots.map((card, i) => (
+                        <li className="mbr-gallery-filter-all" key={"slot"+i}>
+                           <div className={"btn btn-md btn-primary-outline display-4 " + (i=== 0 && 'first')} onClick={(e) => viewSlot(e, card)}>
+                              <div className="day-info">
+                                 <div className="delete" onClick={(e) => deleteSlot(e, card)}>
+                                    <Icon disabled name='delete' />
+                                 </div>
+                                 <div className="center-align">
+                                    <div className="div-card-name">
+                                    {card.days.map((tt, j) => (
+                                       <div key={"ev"+j} className="dayname">
+                                          <span>Every {days[tt+1]}</span>{(j+1)<card.days.length && ','}&nbsp;
+                                       </div>
+                                    ))}
+                                    </div>
+                                    <div>Break Time: {card.BreakMinutes} mins</div>
+                                    <div>Members Allowed: {card.MemberCount}</div>
+                                    <div className=" preview">
+                                    {card.sessions.map((session, index) => (
+                                       <div key={'st' + index} className='slot'>
+                                          <span>{index+1}</span>
+                                          <div className="slot-more-info">{getTime(session.StartMinute, session.EndMinute)}</div>
+                                       </div>
+                                    ))}
+                                    {card.residue && <div className="slot" style={{whiteSpace: 'nowrap'}}>+{card.residue}</div>}
+                                    </div>
+                                 </div>
+                                 <div className="view-slot">Click to View/Edit Slot</div>
+                              </div>
+                           </div>
+                        </li>
+                     ))}
+                     </ul>
+                  </div>
+
+               </div>}
+
+               <Modal open={suggestionShow} onClose={closeModal} closeOnEscape={false} closeOnDimmerClick={false} className='custom'>
+                  <Modal.Header>Slot Preview</Modal.Header>
+                  <Modal.Content image className="overhide">
+                     <Modal.Description>
+                     <Header>
+                        <div>
+                           Repeat On:
+                           {Monday && <div>Every Monday</div>}
+                           {Tuesday && <div>Every Tuesday</div>}
+                           {Wednesday && <div>Every Wednesday</div>}
+                           {Thursday && <div>Every Thursday</div>}
+                           {Friday && <div>Every Friday</div>}
+                           {Saturday && <div>Every Saturday</div>}
+                           {Sunday && <div>Every Sunday</div>}
+                        </div>
+                        <br />
+                        <div>Timing Slots: {startTime}{key} - {endingTime}{key1}</div>
+                        <div>Break Time: <span style={{color: 'red'}}>{sanitize} mins</span></div>
+                        <div>Members Allowed: {members}</div>
+                     </Header>
+                     <div className="preview">
+                     {slotPreview.slots && slotPreview.slots.length > 0 && slotPreview.slots[0].sessions && slotPreview.slots[0].sessions.length > 0 && slotPreview.slots[0].sessions.map((session, index) => (
+                        <div key={'session' + index} className='slot'>
+                           <span>{index+1}</span>
+                           {/* <span>{parseInt(session.endTime) - parseInt(session.startTime)}</span> */}
+                           <div className="slot-more-info">{getTime(session.startTime, session.endTime)}</div>
+                        </div>
+                     ))}
+                     {slotPreview.slots && slotPreview.slots.length > 0 && slotPreview.slots[0] && <div className="slot" style={{whiteSpace: 'nowrap'}}>+{slotPreview.slots[0].residue}</div>}
+                     </div>
+                     </Modal.Description>
+                  </Modal.Content>
+                  <Modal.Actions>
+                     <Button color='black' onClick={closeModal}>
+                        Close
+                     </Button>
+                     <Button color='green' onClick={saveSlot}>
+                        Ok
+                     </Button>
+                  </Modal.Actions>
+               </Modal>
             
-            </div>:
-            <Segment>
-               <Loader active />
-            </Segment>}
+            </div>:null
+            }
          </div>
+
+         {editMode && <Modal open={editMode} onClose={closeEditModal} closeOnEscape={false} closeOnDimmerClick={false} className='custom'>
+            <Modal.Header>Edit Slot</Modal.Header>
+            <Modal.Content image className="overhide">
+               <Modal.Description>
+               <Header>
+                  
+               </Header>
+               <div className="slot-form">
+                  <form className="ui form">
+                     <div className='timeline'>
+                        <div className="field single-field">
+                           <label htmlFor="repeat-on" style={{marginBottom: '20px'}}>Repeat On</label>
+                           {daysInfo.includes('Monday')&&<div className="ui input">
+                           <Checkbox label="Every Monday" checked={Monday1} onChange={(e) => daysCheck1(e, 'Monday')} /><br />
+                           </div>}
+                           {daysInfo.includes('Tuesday')&&<div className="ui input">
+                           <Checkbox label="Every Tuesday" checked={Tuesday1} onChange={(e) => daysCheck1(e, 'Tuesday')} />
+                           </div>}
+                           {daysInfo.includes('Wednesday')&&<div className="ui input">
+                           <Checkbox label="Every Wednesday" checked={Wednesday1} onChange={(e) => daysCheck1(e, 'Wednesday')} />
+                           </div>}
+                           {daysInfo.includes('Thursday')&&<div className="ui input">
+                           <Checkbox label="Every Thursday" checked={Thursday1} onChange={(e) => daysCheck1(e, 'Thursday')} />
+                           </div>}
+                           {daysInfo.includes('Friday')&&<div className="ui input">
+                           <Checkbox label="Every Friday" checked={Friday1} onChange={(e) => daysCheck1(e, 'Friday')} />
+                           </div>}
+                           {daysInfo.includes('Saturday')&&<div className="ui input">
+                           <Checkbox label="Every Saturday" checked={Saturday1} onChange={(e) => daysCheck1(e, 'Saturday')} />
+                           </div>}
+                           {daysInfo.includes('Sunday')&&<div className="ui input">
+                           <Checkbox label="Every Sunday" checked={Sunday1} onChange={(e) => daysCheck1(e, 'Sunday')} />
+                           </div>}
+                        </div>
+                     </div>
+                     <div className='timeline'>
+                        <div className="field">
+                           <label htmlFor="start-time1">Start TIme</label>
+                           <div className="ui input">
+                           <select id="start-time1" value={startTimeEdit} onChange={stTimeEdit}>
+                              {timings.map((option, id) => (
+                                 <option key={"tt" + id} value={option.hour}>{option.name}</option>
+                              ))}
+                           </select>
+                           </div>
+                        </div>
+                        <div className="field">
+                           <label htmlFor="start">AM/PM</label>
+                           <div className="ui input">
+                           <select id="start" value={keyEdit} onChange={stAMPMEdit}>
+                              <option value='AM'>AM</option>
+                              <option value='PM'>PM</option>
+                           </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div className='timeline'>
+                        <div className="field">
+                           <label htmlFor="end-time">End TIme</label>
+                           <div className="ui input">
+                           <select id="end-time" value={endingTimeEdit} onChange={edTimeEdit}>
+                              {timings.map((option, id) => (
+                                 <option key={"tt" + id} value={option.hour}>{option.name}</option>
+                              ))}
+                           </select>
+                           </div>
+                        </div>
+                        <div className="field">
+                           <label htmlFor="end">AM/PM</label>
+                           <div className="ui input">
+                           <select id="end" value={key1Edit} onChange={stAMPM1Edit}>
+                              <option value='AM'>AM</option>
+                              <option value='PM'>PM</option>
+                           </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div className='timeline'>
+                        <div className="field single-field">
+                           <label htmlFor="Duration">Workout Duration</label>
+                           <div className="ui input">
+                           <select id="Duration" value={durationEdit} onChange={(e) => sessionSLotEdit(e, 'duration')}>
+                              {durationValues.map((option, id) => (
+                                 <option key={"du" + id} value={option.value}>{option.display}</option>
+                              ))}
+                           </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div className='timeline'>
+                        <div className="field">
+                           <label htmlFor="sanitize">Break Time</label>
+                           <div className="ui input">
+                           <select id="sanitize" value={sanitizeEdit} onChange={(e) => sessionSLotEdit(e, 'sanitize')}>
+                              {sanitizeValues.map((option, id) => (
+                                 <option key={"sa" + id} value={option}>{option}</option>
+                              ))}
+                           </select>
+                           </div>
+                        </div>
+                        <div className="field">
+                           <label htmlFor="members">Members Allowed</label>
+                           <div className="ui input">
+                              <input id="members" value={membersEdit} onChange={(e) => sessionSLotEdit(e, 'members')} />
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+                  <div className="new">
+                     <div className="preview">
+                     {slotPreviewEdit.slots && slotPreviewEdit.slots.length > 0 && slotPreviewEdit.slots[0].sessions && slotPreviewEdit.slots[0].sessions.length > 0 && slotPreviewEdit.slots[0].sessions.map((session, index) => (
+                        <div key={'session' + index} className='slot'>
+                           <span>{index+1}</span>
+                           <div className="slot-more-info">{getTime(session.startTime, session.endTime)}</div>
+                        </div>
+                     ))}
+                     {slotPreviewEdit.slots && slotPreviewEdit.slots.length > 0 && slotPreviewEdit.slots[0] && <div className="slot" style={{whiteSpace: 'nowrap'}}>+{slotPreviewEdit.slots[0].residue}</div>}
+                     </div>
+                  </div>
+               </div>
+               </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+               <Button color='black' onClick={closeEditModal}>
+                  Close
+               </Button>
+               {previewEdit && <Button color='green' onClick={previewEditSlot}>
+                  Preview
+               </Button>}
+               {slotPreviewEdit.slots && slotPreviewEdit.slots.length > 0 && slotPreviewEdit.slots[0].sessions && slotPreviewEdit.slots[0].sessions.length > 0 && <Button color='green' onClick={saveEditSlot}>
+                  Ok
+               </Button>
+               }
+            </Modal.Actions>
+         </Modal>}
       </>
    )
 }

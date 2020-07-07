@@ -62,3 +62,157 @@
 .slot-form .timeline .field{
    margin: 0;
 }
+/* .preview {
+   display: inline-block;
+   float: none;
+   margin-bottom: 40px;
+} */
+.preview .slot {
+   display: inline-block;
+   float: none;
+   position: relative;
+}
+.preview .slot {
+   background: #fff;
+   color: #21ba45;
+   width: 40px;
+   height: 40px;
+   border-radius: 20px;
+   text-align: center;
+   padding-top: 8px;
+   margin-left: 20px;
+   border: 2px solid #21ba45;
+   font-weight: bold;
+}
+.preview .slot:first-child{
+   margin-left: 0;
+}
+.preview .slot:after{
+   content: no-close-quote;
+   position: absolute;
+   background-color: red;
+   width: 24px;
+   height: 2px;
+   border-radius: 50%;
+   margin-left: 14px;
+   top: 25px;
+ }
+ .preview .slot:last-child{
+    border-radius: 0;
+ }
+ .preview .slot:last-child:after{
+  content: '';
+  display: none;
+}
+.preview .slot:before{
+   content: no-close-quote;
+   position: absolute;
+   background-color: red;
+   width: 24px;
+   height: 2px;
+   border-radius: 50%;
+   margin-left: 23px;
+   top: 13px;
+ }
+ .preview .slot:last-child::before{
+  content: '';
+  display: none;
+}
+.slot-more-info {
+   color: #000;
+   position: absolute;
+   top: 60px;
+   text-align: left;
+   font-size: 0.8em;
+   white-space: normal;
+}
+.residue{
+   color: green;
+   font-size: 1.5em;
+   display: inline-block;
+   float: none;
+   position: relative;
+}
+.slot-list .slot-more-info{
+   width: 60px;
+   white-space: initial;
+   height: 50px;
+}
+.slot-list .day-info{
+   min-height: 210px;
+   width: 280px;
+   position: relative;
+}
+.slot-list .day-info .delete{
+   position: absolute;
+   right: 0;
+   top: 0;
+}
+.slot-list .day-info .delete i{
+   opacity: 1 !important;
+   font-size: 1.5em;
+   color: #000;
+}
+.preview{
+   margin-bottom: 20px;
+   white-space: nowrap;
+   overflow-x: auto;
+   overflow-y: hidden;
+   height: 110px;
+}
+.slot-list .day-info .preview{
+   margin-bottom: 0;
+   margin-top: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+}
+.slot-list .center-align{
+   overflow: hidden;
+   font-size: 0.8em;
+}
+.overhide .description{
+   overflow: hidden;
+}
+.overhide ::-webkit-scrollbar, .gym-container ::-webkit-scrollbar {
+   display: none;
+}
+.div-card-name{
+   width: 100%;
+   text-align: center;
+   display: block;
+}
+.dayname{
+   display: inline-block;
+}
+.gym-container h3{
+   margin: 20px 0 20px 0 !important;
+}
+.add-new{
+   position: relative;
+}
+.add-new .ui.green{
+   position: absolute;
+   top: -51px;
+   right: 0;
+   z-index: 22;
+}
+.add-new .ui.black{
+   position: absolute;
+   top: -51px;
+   left: 0;
+   z-index: 22;
+}
+.new{
+   float: left;
+   width: 100%;
+   padding: 10px;
+}
+.new .preview{
+   height: auto;
+}
+
+@media only screen and (min-width: 1200px){
+   .slot-list .day-info{
+      min-height: 210px !important;
+   }
+}

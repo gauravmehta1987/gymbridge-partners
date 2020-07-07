@@ -34,3 +34,9 @@ body .App{
   background-color: #0a0a0a;
   color: #fff;
 }
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}

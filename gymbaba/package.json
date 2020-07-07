@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "otp-input-react": "^0.2.4",
     "react": "^16.13.1",
+    "react-confirm-alert": "^2.6.1",
     "react-device-detect": "^1.13.1",
     "react-dom": "^16.13.1",
     "react-image-fallback": "^8.0.0",
