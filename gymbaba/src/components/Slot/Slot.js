@@ -78,7 +78,7 @@ function Slot(){
                         <div className="btn btn-md btn-primary-outline display-4 not">
                            <div className="day-info" style={{height: (gymInfo.summary.offDayArr[1].split(',').length*30)+"px"}}>
                               <div className="center-align">
-                                 {gymInfo.summary.offDayArr[1].split(/[ ,]+/).join(' ,')}
+                                 {gymInfo.summary.offDayArr[1].split(/[ ,]+/).join(', ')}
                               </div>
                            </div>
                         </div>

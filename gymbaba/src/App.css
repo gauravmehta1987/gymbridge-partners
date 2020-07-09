@@ -40,3 +40,6 @@
 .container{
   padding: 20px;
 }
+body{
+  padding-top: 40px !important;
+}

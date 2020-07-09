@@ -29,6 +29,13 @@ body .App{
   .slot-content .day-info{
     min-height: 150px !important;
   }
+  .navigation-menu{
+    width: 1200px!important;
+  }
+  .login-page{
+    width: 1200px!important;
+    margin: 0 !important;
+  }
 }
 .logout-new{
   background-color: #0a0a0a;
@@ -39,4 +46,11 @@ body .App{
 }
 .pull-right{
   float: right;
+}
+.ui.segment{
+  z-index: 9999999;
+  top: 0;
+}
+#__react-alert__ div{
+  z-index: 10000 !important;
 }

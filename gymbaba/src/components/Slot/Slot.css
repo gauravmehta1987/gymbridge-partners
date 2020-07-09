@@ -143,12 +143,18 @@
    width: 280px;
    position: relative;
 }
-.slot-list .day-info .delete{
+.mbr-gallery-filter li .btn{
+   position: relative;
+}
+.delete{
    position: absolute;
    right: 0;
    top: 0;
+   width: 30px;
+   height: 30px;
+   z-index: 1;
 }
-.slot-list .day-info .delete i{
+.delete i{
    opacity: 1 !important;
    font-size: 1.5em;
    color: #000;
@@ -188,19 +194,16 @@
    margin: 20px 0 20px 0 !important;
 }
 .add-new{
-   position: relative;
+   position: fixed;
+   z-index: 5;
+   top: 4px;
+   width: 100%;
 }
 .add-new .ui.green{
-   position: absolute;
-   top: -51px;
-   right: 0;
-   z-index: 22;
+   float: right;
 }
 .add-new .ui.black{
-   position: absolute;
-   top: -51px;
-   left: 0;
-   z-index: 22;
+   float: left;
 }
 .new{
    float: left;
@@ -214,5 +217,8 @@
 @media only screen and (min-width: 1200px){
    .slot-list .day-info{
       min-height: 210px !important;
+   }
+   .add-new{
+      width: 1200px;
    }
 }

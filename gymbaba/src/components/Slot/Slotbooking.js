@@ -8,6 +8,7 @@ import './Slot.css'
 import { useHistory } from 'react-router'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
+import { useAlert } from 'react-alert'
 
 function Slotbooking(){
 
@@ -79,7 +80,8 @@ function Slotbooking(){
    const [status, setStatus] = useState(false)
    const [addSlot, setAddSlot] = useState(false)
    const [loader, setLoader] = useState(false)
-
+   const alert = useAlert()
+   
    const getSlotsData = () => {
       let stArr = history.location.pathname.split('/')
       delete stArr.splice(0,1)
@@ -101,11 +103,14 @@ function Slotbooking(){
       };
       axios.get( url, apiHeader )
       .then( response => {
-         if(response.data && response.data.status){
+         if(response.data && response.data.status === 'success'){
             console.log(response.data.data)
             setSlots(response.data.data)
             setStatus(true)
             setLoader(false)
+         }else {
+            console.log('error')
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -286,11 +291,14 @@ function Slotbooking(){
       };
       axios.get( url, apiHeader )
       .then( response => {
-         if(response.data && response.data.status){
+         if(response.data && response.data.status === 'success'){
             console.log(response.data)
             setSlotPreview(response.data.data[0])
             setSuggestionShow(true)
             setLoader(false)
+         }else{
+            setLoader(false)
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -429,10 +437,14 @@ function Slotbooking(){
       };
       axios.post( url, obj, apiHeader )
       .then( response => {
-         if(response.data && response.data.status){
+         if(response.data && response.data.status === 'success'){
             console.log(response.data)
             setLoader(false)
             window.location.reload(false)
+         }else {
+            console.log('error')
+            setLoader(false)
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -489,10 +501,14 @@ function Slotbooking(){
                };
                axios.delete( url, apiHeader )
                .then( response => {
-                  if(response.data && response.data.status){
+                  if(response.data && response.data.status === 'success'){
                      console.log(response.data)
                      setLoader(false)
-                     // window.location.reload(false)
+                     window.location.reload(false)
+                  }else {
+                     console.log('error')
+                     setLoader(false)
+                     alert.show(response.data.message)
                   }
                })
                .catch( error => {
@@ -712,6 +728,10 @@ function Slotbooking(){
             setSlotPreviewEdit(response.data.data[0])
             setPreviewEdit(false)
             setLoader(false)
+         }else{
+            setLoader(false)
+            console.log('here')
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -796,10 +816,14 @@ function Slotbooking(){
       };
       axios.put( url, obj, apiHeader )
       .then( response => {
-         if(response.data && response.data.status){
+         if(response.data && response.data.status === 'success'){
             console.log(response.data)
             setLoader(false)
             window.location.reload(false)
+         }else {
+            console.log('error')
+            setLoader(false)
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -936,17 +960,17 @@ function Slotbooking(){
                }
                
                
-               {!addSlot && slots && slots.length > 0 && <div className="gym-container slot-content slot-list">
+               {!addSlot && slots.slots && slots.slots.length > 0 && <div className="gym-container slot-content slot-list">
                   
                   <div className="mbr-gallery-filter container gallery-filter-active">
                      <ul buttons="0">
-                     {slots.map((card, i) => (
+                     {slots.slots.map((card, i) => (
                         <li className="mbr-gallery-filter-all" key={"slot"+i}>
-                           <div className={"btn btn-md btn-primary-outline display-4 " + (i=== 0 && 'first')} onClick={(e) => viewSlot(e, card)}>
-                              <div className="day-info">
-                                 <div className="delete" onClick={(e) => deleteSlot(e, card)}>
-                                    <Icon disabled name='delete' />
-                                 </div>
+                           <div className={"btn btn-md btn-primary-outline display-4 " + (i=== 0 && 'first')}>
+                              <div className="delete" onClick={(e) => deleteSlot(e, card)}>
+                                 <Icon disabled name='delete' />
+                              </div>
+                              <div className="day-info" onClick={(e) => viewSlot(e, card)}>
                                  <div className="center-align">
                                     <div className="div-card-name">
                                     {card.days.map((tt, j) => (

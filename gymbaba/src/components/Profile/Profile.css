@@ -137,3 +137,7 @@
 .mbr-gallery-filter li .btn.not .center-align{
    position: relative;
 }
+.mbr-gallery-filter li .btn.yes .center-align{
+   position: relative;
+   top: 10px;
+}

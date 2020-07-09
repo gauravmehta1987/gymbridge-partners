@@ -52,6 +52,7 @@ function Login(){
                 history.push({
                     pathname:  "/"
                  })
+                window.location.reload(false)
             }  
         })
         .catch( error => {

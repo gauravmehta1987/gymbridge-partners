@@ -28,12 +28,13 @@ export default class Navbar extends React.Component {
   logout = e => {
     localStorage.setItem('userDetails', null);
     localStorage.setItem('token', null);
-    if(!this.props || !this.props.hasOwnProperty('history')){
-      this.props = {
-        history: []
-      }
-    }
-    this.props.history.push("/login");
+    window.location.reload(false)
+    // if(!this.props || !this.props.hasOwnProperty('history')){
+    //   this.props = {
+    //     history: []
+    //   }
+    // }
+    // this.props.history.push("/login");
   }
 
   render() {

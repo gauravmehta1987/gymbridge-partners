@@ -8,6 +8,7 @@ import axios from 'axios'
 function Profile(){
 
    const [title, setTitle] = useState('')
+   const [loader, setLoader] = useState(false)
 
    const [open, setOpen] = useState(false)
 
@@ -43,6 +44,7 @@ function Profile(){
 
    const fetchGymData = () => {
       setGymInfo('');
+      setLoader(true)
       let st1 = [];
       let st2 = [];
       let st3 = [];
@@ -62,6 +64,7 @@ function Profile(){
       .then( response => {
          if(response.data && response.data.status){
             setGymInfo(response.data.data[0])
+            setLoader(false)
 
             if (response.data.data[0].timeSlots && response.data.data[0].timeSlots.length) {
                setTimeSlots(response.data.data[0].timeSlots)
@@ -129,6 +132,7 @@ function Profile(){
       })
       .catch( error => {
       console.log(error);
+      setLoader(false)
       } );      
     };
 
@@ -250,6 +254,7 @@ function Profile(){
             })
          })
       }
+      setLoader(true)
 
       let url = config.apiLink+'/onboarding/gym';
       let apiHeader = {
@@ -262,12 +267,18 @@ function Profile(){
       axios.put( url, newGym, apiHeader )
       .then( response => {
          if(response.data && response.data.status){
-            setGymInfo(newGym)
-            setTimeSlots(newGym.timeSlots)
+            // console.log(response.data)
+            // setGymInfo(newGym)
+            // setTimeSlots(newGym.timeSlots)
+            window.location.reload(false)
+            setLoader(false)
+         }else{
+            console.log('error')
          }
       })
       .catch( error => {
       console.log(error);
+      setLoader(false)
       // window.location.reload(false)
       } );
 
@@ -337,13 +348,16 @@ function Profile(){
    return (
       <>
       <Navbar name={'Profile'} />
+      {loader && <Segment>
+               <Loader active />
+            </Segment>}
          <div className="clearfix gym-main-div">
             {gymInfo?<div className="gym-container">
                <h3>{gymInfo.Name}</h3>
                <div className="mbr-gallery-filter container gallery-filter-active">
                   <ul buttons="0">
                      <li className="mbr-gallery-filter-all">
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData1.length === 0 && 'not')} onClick={() => viewModal('Monday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData1.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Monday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Monday
@@ -359,7 +373,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData2.length === 0 && 'not')} onClick={() => viewModal('Tuesday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData2.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Tuesday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Tuesday
@@ -375,7 +389,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData3.length === 0 && 'not')} onClick={() => viewModal('Wednesday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData3.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Wednesday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Wednesday
@@ -391,7 +405,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData4.length === 0 && 'not')} onClick={() => viewModal('Thrusday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData4.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Thrusday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Thrusday
@@ -407,7 +421,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData5.length === 0 && 'not')} onClick={() => viewModal('Friday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData5.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Friday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Friday
@@ -423,7 +437,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData6.length === 0 && 'not')} onClick={() => viewModal('Saturday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData6.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Saturday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Saturday
@@ -439,7 +453,7 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData7.length === 0 && 'not')} onClick={() => viewModal('Sunday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData7.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Sunday')}>
                            <div className="day-info">
                               <div className="center-align">
                                  Sunday
@@ -523,21 +537,11 @@ function Profile(){
                      <Button color='green' onClick={save}>
                         Save
                      </Button>
-                     {/* <Button
-                     positive
-                     // icon='checkmark'
-                     labelPosition='right'
-                     content="Save"
-                     key="Save"
-                     onClick={save}
-                     /> */}
                   </Modal.Actions>
                </Modal>
 
             </div>:
-            <Segment>
-               <Loader active />
-            </Segment>}
+            null}
          </div>
       </>
    )
