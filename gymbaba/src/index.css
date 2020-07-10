@@ -49,7 +49,13 @@ body .App{
 }
 .ui.segment{
   z-index: 9999999;
+  position: fixed !important;
   top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 !important;
+  background: #ffffff52 !important;
 }
 #__react-alert__ div{
   z-index: 10000 !important;

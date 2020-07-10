@@ -72,6 +72,7 @@ function Slotbooking(){
    const [members, setMembers] = useState(0)
    const [startString, setStartString] = useState("")
    const [endString, setEndString] = useState("")
+   const [gym, setGym] = useState("")
 
    const history = useHistory()
 
@@ -121,6 +122,9 @@ function Slotbooking(){
 
    useEffect(() => {
       setDaysInfo(history.location.pathname)
+      if(localStorage.getItem('gymName')){
+         setGym(localStorage.getItem('gymName'))
+      }
       getSlotsData()
     },[]);
 
@@ -840,7 +844,7 @@ function Slotbooking(){
                <Loader active />
             </Segment>}
             {status?<div className="gym-container slot-content">
-            <h3 style={{float: 'left', width: '100%'}}>Gym Name</h3>
+            <h3 style={{float: 'left', width: '100%'}}>{gym}</h3>
                {addSlot?<div className="slot-form">
                   <form className="ui form">
                      <div className='timeline'>

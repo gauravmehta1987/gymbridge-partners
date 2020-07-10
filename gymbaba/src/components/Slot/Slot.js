@@ -26,6 +26,7 @@ function Slot(){
       axios.get( url, apiHeader )
       .then( response => {
          if(response.data && response.data.status){
+            localStorage.setItem('gymName', response.data.data.gymName);
             setGymInfo(response.data.data)
          }
       })
