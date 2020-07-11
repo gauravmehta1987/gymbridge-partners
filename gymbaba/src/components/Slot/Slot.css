@@ -213,6 +213,25 @@
 .new .preview{
    height: auto;
 }
+.input-range__track{
+   touch-action: auto;
+}
+.time-range{
+   width: 100%;
+   float: left;
+}
+.time-range span{
+   width: 140px;
+   text-align: left;
+   float: left;
+}
+.time-range span:last-child{
+   text-align: right;
+   float: right;
+}
+.input-range{
+   margin-top: -20px;
+}
 
 @media only screen and (min-width: 1200px){
    .slot-list .day-info{

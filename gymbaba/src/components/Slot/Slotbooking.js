@@ -9,6 +9,8 @@ import { useHistory } from 'react-router'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { useAlert } from 'react-alert'
+import TimeRangeSlider from 'react-time-range-slider'
+import 'react-time-range-slider/dist/styles.css'
 
 function Slotbooking(){
 
@@ -266,21 +268,12 @@ function Slotbooking(){
          repeatArr.push(6)
       }
 
-      let stt = 0;
-      if(key === 'AM'){
-         stt = parseInt(startTime)*60
-      }else{
-         stt = (parseInt(startTime)+12)*60
-      }
+      let st_t = stEnValue.start.split(':');
+      let stt = (parseInt(st_t[0])*60)+parseInt(st_t[1])
 
-      let ett = 0;
-      if(key1 === 'AM'){
-         ett = parseInt(endingTime)*60
-      }else{
-         ett = (parseInt(endingTime)+12)*60
-      }
+      let et_t = stEnValue.end.split(':');
+      let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
-      // console.log(startString,endString,duration, sanitize,members)
       setLoader(true)
 
       let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
@@ -328,6 +321,27 @@ function Slotbooking(){
    const stAMPM1 = (e) => {
       setKey1(e.target.value)
    }
+
+   const changeStartHandler = (time) => {
+      // console.log(time)
+   }
+
+   const timeChangeHandler = (time) => {
+      setStEnValue({...stEnValue, 
+         start: time.start,
+         end: time.end
+      })
+   }
+
+   const changeCompleteHandler = (time) => {
+      // console.log(time)
+   }
+
+   const [stEnValue, setStEnValue] = useState({
+      start: "01:00",
+      end: "23:59"
+   })
+
    const addNewSlot = (e) => {
       // reset all the form values 
       setDuration(durationValues[0].value)
@@ -346,6 +360,10 @@ function Slotbooking(){
       setSunday(false)
       // hiding form
       setAddSlot(true)
+      setStEnValue({...stEnValue, 
+         start: "01:00",
+         end: "23:59"
+      })
    }
    const backToSlots = (e) => {
       setAddSlot(false)
@@ -404,19 +422,11 @@ function Slotbooking(){
          repeatArr1.push(6)
       }
 
-      let stt = 0;
-      if(key === 'AM'){
-         stt = parseInt(startTime)*60
-      }else{
-         stt = (parseInt(startTime)+12)*60
-      }
+      let st_t = stEnValue.start.split(':');
+      let stt = (parseInt(st_t[0])*60)+parseInt(st_t[1])
 
-      let ett = 0;
-      if(key1 === 'AM'){
-         ett = parseInt(endingTime)*60
-      }else{
-         ett = (parseInt(endingTime)+12)*60
-      }
+      let et_t = stEnValue.end.split(':');
+      let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
       let obj = {
          "gymId": 8,
@@ -480,6 +490,24 @@ function Slotbooking(){
          str += ((ett1-12)+':'+(ettMin < 10 ? '0'+ettMin : ettMin))+'PM'
       }
 
+      return str
+   }
+
+   const getTiming = (st) => {
+      var tmArr = st.split(':')
+      var str = '';
+      var mm = '';
+      if(parseInt(tmArr[0]) > 12){
+         str = parseInt(tmArr[0]) - 12
+         mm = 'PM'
+      }else if(parseInt(tmArr[0]) === 12){
+         str = tmArr[0]
+         mm = 'PM'
+      }else {
+         str = tmArr[0]
+         mm = 'AM'
+      }
+      str += ':'+tmArr[1]+mm
       return str
    }
 
@@ -560,18 +588,29 @@ function Slotbooking(){
       setMembersEdit("")
       setPreviewEdit(true)
 
-      if(parseInt(card.StartMinute)/60 > 11){
-         setKeyEdit('PM')
-      }else{
-         setKeyEdit('AM')
-      }
-      setStartTimeEdit(parseInt(card.StartMinute)/60)
-      if(parseInt(card.EndMinute)/60 > 11){
-         setKey1Edit('PM')
-      }else{
-         setKey1Edit('AM')
-      }
-      setEndTimeEdit(parseInt(card.EndMinute)/60)
+      // if(parseInt(card.StartMinute)/60 > 11){
+      //    setKeyEdit('PM')
+      // }else{
+      //    setKeyEdit('AM')
+      // }
+      // setStartTimeEdit(parseInt(card.StartMinute)/60)
+      // if(parseInt(card.EndMinute)/60 > 11){
+      //    setKey1Edit('PM')
+      // }else{
+      //    setKey1Edit('AM')
+      // }
+      // setEndTimeEdit(parseInt(card.EndMinute)/60)
+
+
+      let str1 = parseInt(card.StartMinute)/60 + ':' + (parseInt(card.StartMinute)%60 < 10 ? ('0'+parseInt(card.StartMinute)%60) : parseInt(card.StartMinute)%60);
+      let str2 = parseInt(card.EndMinute)/60 + ':' + (parseInt(card.EndMinute)%60 < 10 ? ('0'+parseInt(card.EndMinute)%60) : parseInt(card.EndMinute)%60);
+
+      setStEnValueEdit({...stEnValueEdit, 
+         start: str1,
+         end: str2
+      })
+
+
       setEditMode(true)
       if(card.days && card.days.length){
          card.days.forEach(function(v){
@@ -594,6 +633,18 @@ function Slotbooking(){
          setMembersEdit(card.MemberCount)
       }
    }
+
+   const timeChangeHandlerEdit = (time) => {
+      setStEnValueEdit({...stEnValue, 
+         start: time.start,
+         end: time.end
+      })
+   }
+
+   const [stEnValueEdit, setStEnValueEdit] = useState({
+      start: "01:00",
+      end: "23:59"
+   })
 
    const daysCheck1 = (e, day) => {
       e.preventDefault()
@@ -699,19 +750,11 @@ function Slotbooking(){
          repeatArr.push(6)
       }
 
-      let stt = 0;
-      if(keyEdit === 'AM'){
-         stt = parseInt(startTimeEdit)*60
-      }else{
-         stt = (parseInt(startTimeEdit)+12)*60
-      }
+      let st_t = stEnValueEdit.start.split(':');
+      let stt = (parseInt(st_t[0])*60)+parseInt(st_t[1])
 
-      let ett = 0;
-      if(key1Edit === 'AM'){
-         ett = parseInt(endingTimeEdit)*60
-      }else{
-         ett = (parseInt(endingTimeEdit)+12)*60
-      }
+      let et_t = stEnValueEdit.end.split(':');
+      let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
       setLoader(true)
 
@@ -783,19 +826,11 @@ function Slotbooking(){
          repeatArr1.push(6)
       }
 
-      let stt = 0;
-      if(keyEdit === 'AM'){
-         stt = parseInt(startTimeEdit)*60
-      }else{
-         stt = (parseInt(startTimeEdit)+12)*60
-      }
+      let st_t = stEnValueEdit.start.split(':');
+      let stt = (parseInt(st_t[0])*60)+parseInt(st_t[1])
 
-      let ett = 0;
-      if(key1Edit === 'AM'){
-         ett = parseInt(endingTimeEdit)*60
-      }else{
-         ett = (parseInt(endingTimeEdit)+12)*60
-      }
+      let et_t = stEnValueEdit.end.split(':');
+      let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
       let obj = {
          "gymId": 8,
@@ -873,7 +908,26 @@ function Slotbooking(){
                            </div>}
                         </div>
                      </div>
-                     <div className='timeline'>
+                     
+                     <div className="timeline">
+                        <div className="time-range">
+                           <span><b>Start Time:</b> {getTiming(stEnValue.start)}</span>
+                           <span><b>End Time:</b> {getTiming(stEnValue.end)}</span>
+                        </div>
+                        <TimeRangeSlider
+                           disabled={false}
+                           format={24}
+                           maxValue={"23:59"}
+                           minValue={"01:00"}
+                           name={"time_range"}
+                           onChangeStart={changeStartHandler}
+                           onChangeComplete={changeCompleteHandler}
+                           onChange={timeChangeHandler}
+                           step={5}
+                           passive={false}
+                           value={stEnValue}/>
+                     </div>
+                     {/* <div className='timeline'>
                         <div className="field">
                            <label htmlFor="start-time">Start TIme</label>
                            <div className="ui input">
@@ -914,7 +968,7 @@ function Slotbooking(){
                            </select>
                            </div>
                         </div>
-                     </div>
+                     </div> */}
                      <div className='timeline'>
                         <div className="field single-field">
                            <label htmlFor="Duration">Workout Duration</label>
@@ -1086,7 +1140,23 @@ function Slotbooking(){
                            </div>}
                         </div>
                      </div>
-                     <div className='timeline'>
+                     <div className="timeline">
+                        <div className="time-range">
+                           <span><b>Start Time:</b> {getTiming(stEnValueEdit.start)}</span>
+                           <span><b>End Time:</b> {getTiming(stEnValueEdit.end)}</span>
+                        </div>
+                        <TimeRangeSlider
+                           disabled={false}
+                           format={24}
+                           maxValue={"23:59"}
+                           minValue={"01:00"}
+                           name={"time_range"}
+                           onChange={timeChangeHandlerEdit}
+                           step={5}
+                           passive={false}
+                           value={stEnValueEdit}/>
+                     </div>
+                     {/* <div className='timeline'>
                         <div className="field">
                            <label htmlFor="start-time1">Start TIme</label>
                            <div className="ui input">
@@ -1127,7 +1197,7 @@ function Slotbooking(){
                            </select>
                            </div>
                         </div>
-                     </div>
+                     </div> */}
                      <div className='timeline'>
                         <div className="field single-field">
                            <label htmlFor="Duration">Workout Duration</label>
