@@ -875,7 +875,7 @@ function Slotbooking(){
       <>
       <Navbar name={'Slot Booking'} />
       <div className="clearfix gym-main-div">
-            {loader && <Segment>
+            {loader && <Segment className="loader">
                <Loader active />
             </Segment>}
             {status?<div className="gym-container slot-content">

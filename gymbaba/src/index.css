@@ -47,7 +47,7 @@ body .App{
 .pull-right{
   float: right;
 }
-.ui.segment{
+.ui.segment.loader{
   z-index: 9999999;
   position: fixed !important;
   top: 0;

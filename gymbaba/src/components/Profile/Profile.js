@@ -348,7 +348,7 @@ function Profile(){
    return (
       <>
       <Navbar name={'Profile'} />
-      {loader && <Segment>
+      {loader && <Segment className="loader">
                <Loader active />
             </Segment>}
          <div className="clearfix gym-main-div">

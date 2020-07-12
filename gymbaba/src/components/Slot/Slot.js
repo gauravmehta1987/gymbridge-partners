@@ -89,7 +89,7 @@ function Slot(){
                </div>
 
             </div>:
-            <Segment>
+            <Segment className="loader">
                <Loader active />
             </Segment>}
          </div>
