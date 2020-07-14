@@ -11,7 +11,7 @@
    margin-top: 10px;
 }
 .slot-content .more-info div{
-   width: 250px;
+   width: 210px;
 }
 .slot-content .view-slot{
    position: absolute;
@@ -211,7 +211,7 @@
    padding: 10px;
 }
 .new .preview{
-   height: auto;
+   height: 90px;
 }
 .input-range__track{
    touch-action: auto;

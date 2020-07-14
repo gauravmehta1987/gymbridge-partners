@@ -1,26 +1,23 @@
 import { useReducer,useCallback, useContext } from "react"
 import axios from 'axios';
 import {AuthContext} from '../context/auth-context';
-import Config from '../config'
+import config from '../config'
 
 const authReducer = ( currentAuthState, action ) => {
     switch ( action.type ) {
         case 'AUTH_START': 
-            return {token: null, userId: null, loading: true, networkError: null, accessLevel: 0, authRedirectPath: '/'};
+            return {token: null, loading: true, networkError: null, accessLevel: 0, authRedirectPath: '/'};
         case 'AUTH_SUCCESS': 
             return {
                 ...currentAuthState,
-                token: action.token, 
-                userId: action.userId, 
+                token: action.token,
                 loading: false, 
                 accessLevel: action.accessLevel
             }
         case 'AUTH_FAIL': 
             return {...currentAuthState, loading: false, networkError: action.networkError};
         case 'AUTH_LOGOUT': 
-            return {token: null, userId: null, loading: false, networkError: null, accessLevel: 0, authRedirectPath: '/'};
-        case 'SET_AUTH_REDIRECT_PATH': 
-            return {...currentAuthState, authRedirectPath: action.authRedirectPath}
+            return {token: null, loading: false, networkError: null, accessLevel: 0, authRedirectPath: '/'};
         default:
             throw new Error( 'Should not have reached here!' );
     }
@@ -29,7 +26,6 @@ const authReducer = ( currentAuthState, action ) => {
 const useAuth = () => {
     const [authState, dispatchAuth] = useReducer(authReducer, {
             token: null,
-            userId: null,
             networkError: null,
             loading: false,
             accessLevel: 0,
@@ -37,83 +33,74 @@ const useAuth = () => {
         });
     const authContext = useContext(AuthContext);
 
-        const sendSignInRequest = useCallback((email, password) => {
-            dispatchAuth({type: 'AUTH_START'});
-            const url = Config.SERVER_URL + '/_ah/api/loginEndpoints/v1/login?email='+email+'&password='+password;
-            axios.post(url)
-                .then( response => {
-                    if(response.data.status) {
-                        const expirationTimeInSec = 3600;
-                        const expirationDate = new Date(new Date().getTime() + expirationTimeInSec * 1000);
-                        const accessLevel = 3;
-                        localStorage.setItem('token', response.data.provider.token);
-                        localStorage.setItem('name', response.data.provider.name);
-                        localStorage.setItem('email', response.data.provider.email);
-                        localStorage.setItem('expirationDate', expirationDate);
-                        localStorage.setItem('userId', response.data.provider.id);
-                        localStorage.setItem('accessLevel', accessLevel);
-                        dispatchAuth({type: 'AUTH_SUCCESS', 
-                            token: response.data.provider.token, 
-                            userId: response.data.provider.id, 
-                            accessLevel: accessLevel
-                        });
-                        authContext.setAccessLevel(accessLevel);
-                    }else {
-                        console.log('[auth.js] SignIn Error: ' + response.data.errorMessage);
-                        dispatchAuth({type: 'AUTH_FAIL', networkError: response.data.errorMessage});
-                    }
-                } )
-                .catch( error => {
-                    console.log('[auth.js] SignIn Network Error: ' + error.response.data.massage);
-                    dispatchAuth({type: 'AUTH_FAIL', networkError: error.response.data.massage});
-                } );
-        },[authContext]);
+    const sendSignInRequest = useCallback((phone, otp) => {
+        dispatchAuth({type: 'AUTH_START'});
 
-        const sendSignOutRequest = useCallback((email, password) => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('name');
-            localStorage.removeItem('email');
-            localStorage.removeItem('expirationDate');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('accessLevel');
+        let url = config.API_HOST+"/application/v1/login";
+        let obj = {
+            mobilenumber: phone,
+            otp: "d2a4827cfdc71b46ff518dbdcbc596befa12bbefb919cc8790d16836d25136dc" // this is static but need to change
+        };
+        let apiHeader = {
+            headers: {
+                'Content-Type': "application/json",
+                'accept': "application/json"
+            }
+        };
+        axios.post( url, obj, apiHeader)
+        .then( response => {
+            if(response.status){
+                console.log(response.data.data)
+                localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
+                localStorage.setItem('token', response.data.data.token);
+                dispatchAuth({type: 'AUTH_SUCCESS', 
+                    token: response.data.data.token,
+                    accessLevel: 1
+                });
+                authContext.setAccessLevel(1);
+            }else {
+                console.log('[auth.js] SignIn Error: ' + response.data.message);
+                dispatchAuth({type: 'AUTH_FAIL', networkError: response.data.message});
+            }
+        })
+        .catch( error => {
+            console.log(error);
+            dispatchAuth({type: 'AUTH_FAIL', networkError: 'error'});
+        } );
+    },[authContext]);
+
+    const sendSignOutRequest = useCallback((email, password) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userDetails');
+        localStorage.removeItem('accessLevel');
+        dispatchAuth({type: 'AUTH_LOGOUT'});
+        authContext.setAccessLevel(0);
+    },[authContext]);
+
+    const checkAuthState = useCallback(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
             dispatchAuth({type: 'AUTH_LOGOUT'});
             authContext.setAccessLevel(0);
-        },[authContext]);
+        } else {
+            dispatchAuth({type: 'AUTH_SUCCESS', 
+                token: token,
+                accessLevel: 1
+            });
+            authContext.setAccessLevel(1);
+        }
+    },[authContext]);
 
-        const checkAuthState = useCallback(() => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                dispatchAuth({type: 'AUTH_LOGOUT'});
-                authContext.setAccessLevel(0);
-            } else {
-                const expirationDate = new Date(localStorage.getItem('expirationDate'));
-                if (expirationDate <= new Date()) {
-                    dispatchAuth({type: 'AUTH_LOGOUT'});
-                    authContext.setAccessLevel(0);
-                } else {
-                    const userId = localStorage.getItem('userId');
-                    const accessLevel = localStorage.getItem('accessLevel');
-                    dispatchAuth({type: 'AUTH_SUCCESS', 
-                        token: token, 
-                        userId: userId, 
-                        accessLevel: accessLevel
-                    });
-                    authContext.setAccessLevel(accessLevel);
-                }   
-            }
-        },[authContext]);
-
-        return {
-            token: authState.token,
-            userId: authState.userId,
-            networkError: authState.networkError,
-            isLoading: authState.loading,
-            accessLevel: authState.accessLevel,
-            authRedirectPath: authState.authRedirectPath,
-            sendSignInRequest: sendSignInRequest,
-            sendSignOutRequest: sendSignOutRequest,
-            checkAuthState: checkAuthState
-        };
+    return {
+        token: authState.token,
+        networkError: authState.networkError,
+        isLoading: authState.loading,
+        accessLevel: authState.accessLevel,
+        authRedirectPath: authState.authRedirectPath,
+        sendSignInRequest: sendSignInRequest,
+        sendSignOutRequest: sendSignOutRequest,
+        checkAuthState: checkAuthState
+    };
 }
 
 export default useAuth;

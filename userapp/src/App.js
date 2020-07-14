@@ -25,6 +25,8 @@ const App = (props) => {
     </Switch>
   );
 
+  // console.log(authContext)
+
   if (authContext.accessLevel > 0) {
     routes = (
       <Switch>

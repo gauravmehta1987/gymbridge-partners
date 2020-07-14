@@ -57,7 +57,7 @@ function Slot(){
                   <ul buttons="0">
                   {gymInfo.summary.cards && gymInfo.summary.cards.length > 0 && gymInfo.summary.cards.map((card, i) => (
                      <li className="mbr-gallery-filter-all" key={"slot"+i}>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (i=== 0 && 'first')} onClick={(e) => viewSlot(e, card)}>
+                        <div className="btn btn-md btn-primary-outline display-4 yes" onClick={(e) => viewSlot(e, card)}>
                            <div className="day-info" style={{height: (card.timings.split(',').length*40)+"px"}}>
                               <div className="center-align">
                                  {card.days.split(/[ ,]+/).join(' - ')}

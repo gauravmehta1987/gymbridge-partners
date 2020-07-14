@@ -276,7 +276,7 @@ function Slotbooking(){
 
       setLoader(true)
 
-      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
+      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
 
       let url = config.appApiLink+'session/suggestion'+params;
       let apiHeader = {
@@ -758,7 +758,7 @@ function Slotbooking(){
 
       setLoader(true)
 
-      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+stt+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit
+      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit
 
       let url = config.appApiLink+'session/suggestion'+params;
       let apiHeader = {

@@ -1,0 +1,46 @@
+#partitioned {
+   padding-left: 15px;
+   letter-spacing: 42px;
+   border: 0;
+   background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+   background-position: bottom;
+   background-size: 50px 1px;
+   background-repeat: repeat-x;
+   background-position-x: 35px;
+   width: 220px;
+   min-width: 220px;
+ }
+ 
+ #divInner{
+   left: 0;
+   position: sticky;
+ }
+ 
+ #divOuter{
+   width: 190px; 
+   overflow: hidden;
+ }
+
+ .error-msg{
+   float: left;
+   width: 100%;
+   color: red;
+   margin-bottom: 10px;
+ }
+
+ .login-page{
+   height: 100vh;
+   background: #000;
+   color: #fff;
+   position: fixed;
+   top: 0;
+   bottom: 0;
+ }
+
+ .logo-img{
+   width: 150px !important;
+ }
+
+ .logout{
+   display: none;
+ }
