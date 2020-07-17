@@ -74,7 +74,7 @@ function Slotbooking(){
    const [members, setMembers] = useState(0)
    const [startString, setStartString] = useState("")
    const [endString, setEndString] = useState("")
-   const [gym, setGym] = useState("")
+   // const [gym, setGym] = useState("")
 
    const history = useHistory()
 
@@ -124,9 +124,9 @@ function Slotbooking(){
 
    useEffect(() => {
       setDaysInfo(history.location.pathname)
-      if(localStorage.getItem('gymName')){
-         setGym(localStorage.getItem('gymName'))
-      }
+      // if(localStorage.getItem('gymName')){
+      //    setGym(localStorage.getItem('gymName'))
+      // }
       getSlotsData()
     },[]);
 
@@ -523,7 +523,7 @@ function Slotbooking(){
              label: 'Yes',
              onClick: () => {
                setLoader(true)
-               let url = config.appApiLink+'session/'+card.SlotId;
+               let url = config.appApiLink+'session/'+card.SlotId+'/'+card.days.join(',');
                let apiHeader = {
                   headers: {
                       'Content-Type': "application/json",
@@ -602,8 +602,8 @@ function Slotbooking(){
       // setEndTimeEdit(parseInt(card.EndMinute)/60)
 
 
-      let str1 = parseInt(card.StartMinute)/60 + ':' + (parseInt(card.StartMinute)%60 < 10 ? ('0'+parseInt(card.StartMinute)%60) : parseInt(card.StartMinute)%60);
-      let str2 = parseInt(card.EndMinute)/60 + ':' + (parseInt(card.EndMinute)%60 < 10 ? ('0'+parseInt(card.EndMinute)%60) : parseInt(card.EndMinute)%60);
+      let str1 = parseInt(parseInt(card.StartMinute)/60) + ':' + (parseInt(card.StartMinute)%60 < 10 ? ('0'+parseInt(card.StartMinute)%60) : parseInt(card.StartMinute)%60);
+      let str2 = parseInt(parseInt(card.EndMinute)/60) + ':' + (parseInt(card.EndMinute)%60 < 10 ? ('0'+parseInt(card.EndMinute)%60) : parseInt(card.EndMinute)%60);
 
       setStEnValueEdit({...stEnValueEdit, 
          start: str1,
@@ -632,6 +632,7 @@ function Slotbooking(){
       if(card.MemberCount){
          setMembersEdit(card.MemberCount)
       }
+      setSlotPreviewEdit([])
    }
 
    const timeChangeHandlerEdit = (time) => {
@@ -758,7 +759,7 @@ function Slotbooking(){
 
       setLoader(true)
 
-      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit
+      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit+"&isUpdate=true"
 
       let url = config.appApiLink+'session/suggestion'+params;
       let apiHeader = {
@@ -859,6 +860,13 @@ function Slotbooking(){
             console.log(response.data)
             setLoader(false)
             window.location.reload(false)
+         }else if(response.data && response.data.status === 'warning'){
+            console.log(response.data)
+            setLoader(false)
+            alert.show(response.data.message)
+            setTimeout(function(){
+               window.location.reload(false)
+            },5000)
          }else {
             console.log('error')
             setLoader(false)
@@ -879,7 +887,14 @@ function Slotbooking(){
                <Loader active />
             </Segment>}
             {status?<div className="gym-container slot-content">
-            <h3 style={{float: 'left', width: '100%'}}>{gym}</h3>
+            <h3 style={{float: 'left', width: '50%'}}>{slots.gym.name}</h3>
+            <div className="time-display">
+               <div>Gym Timings</div>
+               {slots.gym.slots && slots.gym.slots.length > 0 && <div className='slot-view'>
+                     <div className="info">{getTime(slots.gym.slots[0].StartTime, slots.gym.slots[0].EndTime)}</div>
+                  </div>
+               }
+            </div>
                {addSlot?<div className="slot-form">
                   <form className="ui form">
                      <div className='timeline'>
@@ -1075,7 +1090,7 @@ function Slotbooking(){
                            {Sunday && <div>Every Sunday</div>}
                         </div>
                         <br />
-                        <div>Timing Slots: {startTime}{key} - {endingTime}{key1}</div>
+                        <div>Timing Slots: {getTiming(stEnValue.start)} - {getTiming(stEnValue.end)}</div>
                         <div>Break Time: <span style={{color: 'red'}}>{sanitize} mins</span></div>
                         <div>Members Allowed: {members}</div>
                      </Header>
@@ -1084,7 +1099,7 @@ function Slotbooking(){
                         <div key={'session' + index} className='slot'>
                            <span>{index+1}</span>
                            {/* <span>{parseInt(session.endTime) - parseInt(session.startTime)}</span> */}
-                           <div className="slot-more-info">{getTime(session.startTime, session.endTime)}</div>
+                           <div className="slot-more-info">{getTime((session.startTime-1), (session.endTime-1))}</div>
                         </div>
                      ))}
                      {slotPreview.slots && slotPreview.slots.length > 0 && slotPreview.slots[0] && <div className="slot" style={{whiteSpace: 'nowrap'}}>+{slotPreview.slots[0].residue}</div>}
@@ -1234,7 +1249,7 @@ function Slotbooking(){
                      {slotPreviewEdit.slots && slotPreviewEdit.slots.length > 0 && slotPreviewEdit.slots[0].sessions && slotPreviewEdit.slots[0].sessions.length > 0 && slotPreviewEdit.slots[0].sessions.map((session, index) => (
                         <div key={'session' + index} className='slot'>
                            <span>{index+1}</span>
-                           <div className="slot-more-info">{getTime(session.startTime, session.endTime)}</div>
+                           <div className="slot-more-info">{getTime((session.startTime-1), (session.endTime-1))}</div>
                         </div>
                      ))}
                      {slotPreviewEdit.slots && slotPreviewEdit.slots.length > 0 && slotPreviewEdit.slots[0] && <div className="slot" style={{whiteSpace: 'nowrap'}}>+{slotPreviewEdit.slots[0].residue}</div>}

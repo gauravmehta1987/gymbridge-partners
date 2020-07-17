@@ -56,6 +56,15 @@ body .App{
   right: 0;
   margin: 0 !important;
   background: #ffffff52 !important;
+  display: block;
+  transform: none;
+  width: 100%;
+}
+.ui.segment.loader:before, .ui.segment.loader:after{
+  top: 48% !important;
+}
+.ui.loader.active{
+  display: block !important;
 }
 #__react-alert__ div{
   z-index: 10000 !important;
