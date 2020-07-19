@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Button, Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
+import {  Form, Grid, Header, Image, Segment } from 'semantic-ui-react';
 import './Login.css';
 import "semantic-ui-css/semantic.min.css";
 import useAuth from '../../hooks/auth';
@@ -8,7 +8,7 @@ import useAuth from '../../hooks/auth';
 function Login(){
     
     const [showOTP, setShowOTP] = useState(false);
-    const {isLoading, accessLevel,networkError, sendSignInRequest} = useAuth();
+    const { accessLevel,networkError, sendSignInRequest} = useAuth();
 
     let [phone, setPhone] = useState('');
 
@@ -74,8 +74,8 @@ function Login(){
                         {showOTP ? <Form.Input fluid icon='key' iconPosition='left' placeholder='Enter OTP' onChange={(e) => getOTP(e)} /> : null}
                         {error ? <div className="error-msg">Please check the mobile number</div> : null}
                         {!showOTP ? 
-                        <Button color='black' fluid size='large' style={{marginTop:'20px'}} onClick={handleClick}>Continue</Button>:
-                        <Button color='black' fluid size='large' style={{marginTop:'20px'}} onClick={submit}>Submit</Button>}
+                        <div className="ui black large fluid button" color='black' size='large' style={{marginTop:'40px'}} onClick={handleClick}>Continue</div>:
+                        <div className="ui black large fluid button" color='black' size='large' style={{marginTop:'40px'}} onClick={submit}>Submit</div>}
                     </Segment>
                 </Form>
                 

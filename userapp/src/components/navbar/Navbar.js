@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import './Navbar.css';
-import { Drawer, Button, Space } from 'antd';
+import { Drawer, Space } from 'antd';
 import { NavLink } from 'react-router-dom';
 import useAuth from '../../hooks/auth';
 import { Redirect } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom';
 
 function Navbar({name}){
 
-  const {isLoading, accessLevel,networkError, sendSignOutRequest} = useAuth();
+  const { accessLevel,networkError, sendSignOutRequest} = useAuth();
 
   const [state, setState] = useState({ visible: false, placement: 'left' })
   
@@ -49,9 +49,9 @@ function Navbar({name}){
       {serverErrorMessage}
       <div className="navigation-menu">
         <Space style={{float:'left', position: 'relative', zIndex: 2}}>
-          <Button type="default" onClick={showDrawer}>
+          <div className="ant-btn ant-btn-button" type="button" onClick={showDrawer}>
             <i className="align justify icon"></i>
-          </Button>
+          </div>
         </Space>
         <span className="head-name">{name}</span>
       </div>

@@ -82,6 +82,9 @@ function Slotbooking(){
    const [slots, setSlots] = useState([])
    const [status, setStatus] = useState(false)
    const [addSlot, setAddSlot] = useState(false)
+
+   const [gymTime, setGymTime] = useState([])
+
    const [loader, setLoader] = useState(false)
    const alert = useAlert()
    
@@ -111,6 +114,19 @@ function Slotbooking(){
             setSlots(response.data.data)
             setStatus(true)
             setLoader(false)
+            let stArr = []
+            if(response.data.data.gym && response.data.data.gym.slots && response.data.data.gym.slots.length){
+               response.data.data.gym.slots.forEach(function(v){
+                  var indx = stArr.findIndex(x => (x.Day == v.Day))
+                  if(indx === -1 && daysCommaValues[0] === v.Day){
+                     stArr.push(v)
+                  }else if(daysCommaValues[0] === v.Day) {
+                     stArr.push(v)
+                  }
+               })
+               setGymTime(stArr)
+            }
+
          }else {
             console.log('error')
             alert.show(response.data.message)
@@ -890,8 +906,10 @@ function Slotbooking(){
             <h3 style={{float: 'left', width: '50%'}}>{slots.gym.name}</h3>
             <div className="time-display">
                <div>Gym Timings</div>
-               {slots.gym.slots && slots.gym.slots.length > 0 && <div className='slot-view'>
-                     <div className="info">{getTime(slots.gym.slots[0].StartTime, slots.gym.slots[0].EndTime)}</div>
+               {gymTime && gymTime.length > 0 && <div className='slot-view'>
+                  {gymTime.map((time, id) => (
+                     <div key={"tm" + id} className="info">{getTime(time.StartTime, time.EndTime)}</div>
+                  ))}
                   </div>
                }
             </div>

@@ -1,0 +1,133 @@
+.slot-content{
+   text-align: center;
+   clear: both;
+   float: left;
+   width: 100%;
+   background-color: #fff;
+}
+.gym-container .time-display {
+   float: left;
+   width: 100%;
+   padding: 20px;
+}
+.gym-container .time-display .slot-view{
+   padding: 5px;
+}
+.gym-container .day-info {
+   width: 110px;
+   height: 60px;
+   position: relative;
+}
+.slot-content .day-info {
+   height: 200px;
+   padding: 20px;
+   width: 280px;
+}
+.gym-container .preview {
+   margin-bottom: 20px;
+   white-space: nowrap;
+   overflow-x: auto;
+   overflow-y: hidden;
+   height: 110px;
+}
+.gym-container .day-info .preview {
+   margin-bottom: 0;
+   margin-top: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+}
+.gym-container .preview .slot {
+   display: inline-block;
+   float: none;
+   position: relative;
+}
+.gym-container .preview .slot {
+   background: #fff;
+   color: #21ba45;
+   width: 40px;
+   height: 40px;
+   border-radius: 20px;
+   text-align: center;
+   padding-top: 8px;
+   margin-left: 20px;
+   border: 2px solid #21ba45;
+   font-weight: bold;
+}
+.gym-container .preview .slot:first-child {
+   margin-left: 0;
+}
+.gym-container .preview .slot:before {
+   content: no-close-quote;
+   position: absolute;
+   background-color: #fff;
+   width: 24px;
+   height: 2px;
+   border-radius: 50%;
+   margin-left: 23px;
+   top: 13px;
+}
+.gym-container .slot-more-info {
+   color: #fff;
+   position: absolute;
+   top: 60px;
+   text-align: left;
+   font-size: 0.8em;
+   white-space: normal;
+   width: 60px;
+   white-space: initial;
+   height: 50px;
+}
+.gym-container .preview .slot:after {
+   content: no-close-quote;
+   position: absolute;
+   background-color: #fff;
+   width: 24px;
+   height: 2px;
+   border-radius: 50%;
+   margin-left: 14px;
+   top: 25px;
+}
+.gym-container .preview .slot:last-child::before{
+   content: '';
+   display: none;
+ }
+ .gym-container .preview .slot:last-child::after{
+   content: '';
+   display: none;
+ }
+ .gym-container .preview ::-webkit-scrollbar, .gym-container ::-webkit-scrollbar {
+   display: none;
+}
+.gym-container .btn-md.md-btn{
+   margin: 0.2rem .8rem !important;
+}
+.gym-container .preview .slot.slot-green{
+   background-color: #1ef150;
+   color: #fff;
+   border: 2px solid #8cefa3;
+}
+.gym-container .preview .slot.slot-yellow{
+   background-color: #dbdb12;
+   color: #fff;
+   border: 2px solid #c6c607;
+}
+.gym-container .preview .slot.slot-red{
+   background-color: red;
+   color: #fff;
+   border: 2px solid red;
+}
+.gym-container .preview .slot.all-booked{
+   background-color: #a3a2a2;
+   color: #eae3e3;
+   border: 2px solid #adabab;
+   pointer-events: none;
+}
+.center-view .pre{
+   width: 67%;
+}
+.more-info .timeinfo{
+   width: 60%;
+}
+.more-info .tmName{
+   width: 40%;
+}

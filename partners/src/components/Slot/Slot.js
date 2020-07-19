@@ -74,7 +74,7 @@ function Slot(){
                         </div>
                      </li>
                   ))}
-                  {gymInfo.summary.offDayArr && gymInfo.summary.offDayArr.length > 0 ?
+                  {gymInfo.summary.offDayArr && gymInfo.summary.offDayArr.length > 0  && gymInfo.summary.offDayArr[1] ?
                      <li className="mbr-gallery-filter-all">
                         <div className="btn btn-md btn-primary-outline display-4 not">
                            <div className="day-info" style={{height: (gymInfo.summary.offDayArr[1].split(',').length*30)+"px"}}>

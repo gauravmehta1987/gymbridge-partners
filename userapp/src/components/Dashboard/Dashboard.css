@@ -1,0 +1,131 @@
+.active-sessions{
+   margin-bottom: 20px;
+}
+.session-info .extra.content{
+   padding: 0 !important;
+}
+.action-btn{
+   width: 100%;
+   background: red;
+}
+.action-btn .button{
+   padding: 10px;
+   text-align: center;
+   color: #fff;
+}
+
+.mbr-gallery-filter {
+   padding-top: 0px !important;
+   padding-bottom: 30px;
+   text-align: center;
+}
+
+.mbr-gallery-filter ul {
+   display: inline-block;
+   width: 100%;
+   padding-left: 0;
+   margin-bottom: 0;
+   list-style: none;
+}
+.mbr-gallery-filter li {
+   display: inline-block;
+   padding: 5px 0;
+   transition: all .3s ease-out;
+   width: 300px;
+}
+.btn-md {
+   font-weight: 500;
+   letter-spacing: 1px;
+   margin: .4rem .8rem !important;
+   transition: all 0.3s ease-in-out;
+   padding: 1rem 1rem;
+   border-radius: 3px;
+}
+.btn-md {
+   margin: 2.2rem .8rem !important;
+   padding: 0 !important;
+}
+.mbr-gallery-filter li .btn {
+   cursor: pointer;
+   background: none;
+   border-color: #eaebeb;
+   color: #0b566f;
+   background: linear-gradient(180deg,#42a5f5,#2196f3);
+   color: #fff;
+}
+.mbr-gallery-filter li .btn {
+   position: relative;
+}
+.day-info {
+   height: 130px;
+   padding: 20px;
+}
+.center-align {
+   margin: 0;
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   width: 100%;
+   text-align: center;
+   left: 0;
+}
+.center-view span{
+   width: 33%;
+   display: inline-block;
+   padding-left: 10px;
+   text-align: left;
+}
+.center-view .text-right{
+   padding: 10px;
+   text-align: right;
+}
+.lchild{
+   padding-left: 0 !important;
+   padding-right: 10px;
+   text-align: right !important;
+}
+.center{
+   text-align: center !important;
+}
+.more-info{
+   margin-top: 20px;
+}
+.more-info span{
+   width: 50%;
+   display: inline-block;
+   padding-left: 10px;
+   text-align: left;
+}
+.more-info span:last-child{
+   padding-left: 0;
+   padding-right: 10px;
+   text-align: right;
+}
+.view-slot {
+   position: absolute;
+   bottom: -41px;
+   padding: 10px;
+   cursor: pointer;
+   width: 100%;
+   left: 0;
+   background: linear-gradient(180deg,#42a5f5,#2196f3);
+   color: #090909;
+}
+.mt-0{
+   margin-top: 0 !important;
+}
+.book-session{
+   border: 1px solid #000;
+   float: left;
+   padding: 10px;
+   cursor: pointer;
+   background: #000;
+   margin-top: 20px;
+   clear: both;
+}
+.book-session a{
+   color: #fff;
+}
+.nobooking{
+   padding: 5px;
+}

@@ -19,7 +19,7 @@
 }
 .navigation-menu{
    padding: 5px;
-   border-bottom: 2px solid #ccc;
+   border-bottom: 0px solid #ccc;
    background: #000;
    color: #fff;
    position: fixed;

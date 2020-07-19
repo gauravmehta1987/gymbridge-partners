@@ -4,19 +4,37 @@ import { AuthContext } from "./context/auth-context";
 import useAuth from "./hooks/auth";
 import Login from "./components/Auth/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
+import { positions, Provider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
+
+const SessionBooking = React.lazy(() => {
+  return import("./components/Booking/SessionBooking");
+});
+
+const PreviousBooking = React.lazy(() => {
+  return import("./components/Booking/PreviousBooking");
+});
 
 const App = (props) => {
-  const [title, SetTitle] = useState("");
+  // const [title, SetTitle] = useState("");
 
-  const titles = (a) => {
-    SetTitle(a)
-  };
+  // const titles = (a) => {
+  //   SetTitle(a)
+  // };
+
+  const [status, SetStatus] = useState(false);
 
   const authContext = useContext(AuthContext)
   const { checkAuthState } = useAuth();
 
+  const options = {
+    timeout: 5000,
+    position: positions.TOP_CENTER
+  };
+
   useEffect(() => {
     checkAuthState();
+    SetStatus(true)
   }, [checkAuthState]);
 
   let routes = (
@@ -25,12 +43,12 @@ const App = (props) => {
     </Switch>
   );
 
-  // console.log(authContext)
-
   if (authContext.accessLevel > 0) {
     routes = (
       <Switch>
         <Route path="/" exact component={Dashboard} />
+        <Route path="/SessionBooking" render={(props) => <SessionBooking {...props} />} />
+        <Route path="/PreviousBooking" render={(props) => <PreviousBooking {...props} />} />
         <Redirect to="/" />
       </Switch>
     );
@@ -44,7 +62,7 @@ const App = (props) => {
 
   return (
     <>
-        <Suspense fallback={<p>Loading...</p>}>{routes}</Suspense>
+        {status && <Provider template={AlertTemplate} {...options}><Suspense fallback={<p>Loading...</p>}>{routes}</Suspense></Provider>}
     </>
   );
 };
