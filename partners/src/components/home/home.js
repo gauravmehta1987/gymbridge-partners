@@ -1,11 +1,15 @@
 import React from 'react'
-import { Card, Icon } from 'semantic-ui-react'
+import { Card, Icon, Button, Segment } from 'semantic-ui-react'
 import './Home.css'
 import 'antd/dist/antd.css'
 import Request from './Request'
 import Enquiry from './Enquiry'
 import Navbar from '../navbar/Navbar'
 import { useHistory } from 'react-router'
+import { useState } from 'react'
+import axios from 'axios'
+import config from '../../config'
+import { useAlert } from 'react-alert'
 
 function Home(){
 
@@ -17,15 +21,77 @@ function Home(){
          pathname:  "/slot"
       })
    }
+
+   const gotoSlotStats = (e) => {
+      e.preventDefault()
+      history.push({
+         pathname:  "/slotView"
+      })
+   }
+
+   const alert = useAlert()
+
+   const [bookingId, setBookingId] = useState('')
+   const [loader, setLoader] = useState(false)
+
+   const setBooking = (e) => {
+      setBookingId(e.target.value)
+   }
+
+   const checkBooking = () => {
+      setLoader(true)
+      let url = config.appApiLink + 'booking/attend'
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      }
+      let obj = {
+         bookingId: bookingId
+      }
+      axios.post( url, obj, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            console.log(response.data.data)
+            setLoader(false)
+            alert.show(response.data.message)
+         }else {
+            setLoader(false)
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
+   }
+
    return (
       <>
+      {loader && <Segment className="loader"></Segment>}
       <Navbar name={'Dashboard'} />
       <div className="container home-content">
+
+         <div className="check-booking">
+            <div className="field">
+               {/* <label htmlFor="bookingId">Booking Id</label> */}
+               <div className="ui input">
+                  <input id="bookingId" value={bookingId} placeholder="Booking Id" onChange={setBooking} />
+               </div>
+               <Button color='green' onClick={checkBooking} >Check Booking</Button>
+            </div>
+         </div>
 
          <div className="slot-link">
             <div className="slot-link-in" onClick={gotoSlot}>
                <div>Covid 19</div>
                <div>Slot Booking</div>
+            </div>
+            <div className="slot-link-in" onClick={gotoSlotStats} style={{marginLeft: '10px'}}>
+               <div>Slot Stats</div>
+               <div>&nbsp;</div>
             </div>
          </div>
 

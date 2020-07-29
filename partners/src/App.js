@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Redirect} from 'react-router-dom';
 import Login from './Auth/Login';
 import Profile from './components/Profile/Profile';
 import Slot from './components/Slot/Slot';
+import SlotView from './components/Slot/SlotView'
 import Slotbooking from './components/Slot/Slotbooking'
 import Home from './components/home/home';
 // import Navbar from './components/navbar/Navbar';
@@ -69,6 +70,7 @@ function App() {
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/Profile" component={Profile} />
               <Route exact path="/slot" component={Slot} />
+              <Route exact path="/slotView" component={SlotView} />
               <Route exact path="/slotbooking/:days" component={Slotbooking} />
               <Route exact path="/" component={Home} />
               {/* <Route  render={() => <Redirect to={{pathname: "/"}} />} /> */}

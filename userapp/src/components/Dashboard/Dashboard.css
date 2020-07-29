@@ -75,6 +75,9 @@
    padding-left: 10px;
    text-align: left;
 }
+.new-align span{
+   width: 50%;
+}
 .center-view .text-right{
    padding: 10px;
    text-align: right;
@@ -111,21 +114,53 @@
    background: linear-gradient(180deg,#42a5f5,#2196f3);
    color: #090909;
 }
+.nobook{
+   background: #ccc !important;
+}
 .mt-0{
    margin-top: 0 !important;
 }
 .book-session{
    border: 1px solid #000;
-   float: left;
    padding: 10px;
    cursor: pointer;
    background: #000;
    margin-top: 20px;
-   clear: both;
+   margin-left: 5px;
+   display: inline-block;
 }
 .book-session a{
    color: #fff;
 }
 .nobooking{
    padding: 5px;
+}
+.moreinfos{
+   float: left;
+   width: 100%;
+   text-align: center;
+}
+
+@media only screen and (max-width: 320px){
+   .container{
+      padding: 5px;
+   }
+   .react-confirm-alert-body{
+      width: 300px !important;
+   }
+   .head-name{
+      font-size: 1.2em;
+   }
+   .mbr-gallery-filter li{
+      width: 280px;
+   }
+   .slot-content .day-info{
+      width: 260px;
+   }
+}
+
+@media only screen and (max-width: 320px){
+   .book-session{
+      font-size: 0.8em;
+   }
 }

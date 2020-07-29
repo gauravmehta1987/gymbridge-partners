@@ -2,6 +2,7 @@
   "name": "userapp",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://ec2-18-216-49-41.us-east-2.compute.amazonaws.com:4245",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

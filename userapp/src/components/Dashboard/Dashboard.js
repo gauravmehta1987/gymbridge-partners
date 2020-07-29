@@ -82,6 +82,7 @@ function Dashboard(){
       .catch( error => {
       console.log(error);
       setLoader(false)
+      alert.show("API gives an error, please login again")
       } );
    }
 
@@ -193,43 +194,47 @@ function Dashboard(){
                <div className="mbr-gallery-filter container gallery-filter-active">
                   <ul buttons="0">
                      <li className="mbr-gallery-filter-all">
-                        <div className="btn btn-md btn-primary-outline display-4 mt-0">
-                        {slotDetails ? <div className="day-info">
-                              <div className="center-align center-view">
-                                 <span>{today.day}</span><span className="center">Today</span><span className="lchild">{today.date}</span>
-                                 <div className="text-right">Booking Id: <b>{slotDetails.Id}</b></div>
+                        <div className="center" style={{margin: '10px 0'}}><b>Today's Booking</b></div>
+                        <div className={"btn btn-md btn-primary-outline display-4 mt-0 "+ (slotDetails === '' ? 'nobook' : null)}>
+                           <div className="day-info">
+                              <div className="center-align center-view new-align">
+                                 {slotDetails ? <><span>{today.day}</span><span className="lchild">{today.date}</span>
+                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetails.Id}</b></div>
                                  <div className="more-info">
                                     {slotDetails.session && <span>{getTime(slotDetails.session.StartMinute, slotDetails.session.EndMinute)}</span>}
                                     {slotDetails.bookingStatus && <span>{slotDetails.bookingStatus.Name}</span>}
-                                 </div>
+                                 </div></>:<div className="nobooking">No booking</div>}
                               </div>
-                              {slotDetails.bookingStatus && slotDetails.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetails.Id)}>Cancel</div>}
-                           </div>:<div className="nobooking">No booking for today</div>}
+                              {slotDetails && slotDetails.bookingStatus && slotDetails.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetails.Id)}>Cancel</div>}
+                           </div>
                         </div>
                      </li>
                      <li className="mbr-gallery-filter-all">
-                        <div className="btn btn-md btn-primary-outline display-4">
-                        {slotDetailsTm ? <div className="day-info">
-                              <div className="center-align center-view">
-                                 <span>{tomorrow.day}</span><span className="center">Tomorrow</span><span className="lchild">{tomorrow.date}</span>
-                                 <div className="text-right">Booking Id: <b>{slotDetailsTm.Id}</b></div>
+                     <div className="center" style={{margin: '10px 0'}}><b>Tomorrow's Booking</b></div>
+                        <div className={"btn btn-md btn-primary-outline display-4 mt-0 " + (slotDetailsTm === '' ? 'nobook' : null)}>
+                           <div className="day-info">
+                              <div className="center-align center-view new-align">
+                                 {slotDetailsTm ? <><span>{tomorrow.day}</span><span className="lchild">{tomorrow.date}</span>
+                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetailsTm.Id}</b></div>
                                  <div className="more-info">
                                     {slotDetailsTm.session && <span>{getTime(slotDetailsTm.session.StartMinute, slotDetailsTm.session.EndMinute)}</span>}
                                     {slotDetailsTm.bookingStatus && <span>{slotDetailsTm.bookingStatus.Name}</span>}
-                                 </div>
+                                 </div></>:<div className="nobooking">No booking</div>}
                               </div>
-                              {slotDetailsTm.bookingStatus && slotDetailsTm.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetailsTm.Id)}>Cancel</div>}
-                           </div>:<div className="nobooking">No booking for tomorrow</div>}
+                              {slotDetailsTm && slotDetailsTm.bookingStatus && slotDetailsTm.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetailsTm.Id)}>Cancel</div>}
+                           </div>
                         </div>
                      </li>
                   </ul>
                </div>
             </div>
-            <div className="book-session">
-            <NavLink to="/SessionBooking">Click to book sessions</NavLink>
-            </div>
-            <div className="book-session">
-            <NavLink to="/PreviousBooking">Previous Bookings</NavLink>
+            <div className="moreinfos">
+               <div className="book-session">
+                  <NavLink to="/SessionBooking">Click to book sessions</NavLink>
+               </div>
+               <div className="book-session">
+                  <NavLink to="/PreviousBooking">Previous Bookings</NavLink>
+               </div>
             </div>
          </div>
       </>

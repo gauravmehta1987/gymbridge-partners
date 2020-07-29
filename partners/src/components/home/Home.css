@@ -172,6 +172,9 @@
    font-size: 1.5em;
    cursor: pointer;
 }
+.check-booking{
+   margin: 20px 0;
+}
 
 
 @media only screen and (max-width: 767px){
@@ -208,5 +211,30 @@
    }
    .mamber-trainer-card .ui.card .meta, .ui.cards>.card .meta{
       height: 20px;
+   }
+}
+
+@media only screen and (max-width: 320px){
+   .check-booking button{
+      margin-top: 20px !important;
+   }
+   .head-name{
+      font-size: 1.2em;
+   }
+   .container{
+      margin: 2px;
+   }
+   .time-display{
+      padding: 10px;
+   }
+   .slot-view{
+      padding: 10px;
+   }
+   .time-range span{
+      width: 110px;
+      font-size: 0.8em;
+   }
+   .react-confirm-alert-body{
+      width: 300px;
    }
 }

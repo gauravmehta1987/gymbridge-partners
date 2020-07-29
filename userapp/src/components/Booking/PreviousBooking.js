@@ -85,11 +85,12 @@ function PreviousBooking(){
             <div className="session-info">
                <div className="mbr-gallery-filter container gallery-filter-active">
                   <ul buttons="0">
-                     <li className="mbr-gallery-filter-all">
+                     {slotDetails && slotDetails.length > 0 ? 
+                     slotDetails.map((slot, id) => (
+                     <li className="mbr-gallery-filter-all" key={'slot' + id}>
                         <div className="btn btn-md btn-primary-outline display-4 mt-0">
-                        {slotDetails && slotDetails.length > 0 ? 
-                           slotDetails.map((slot, id) => (
-                              <div className="day-info" key={'slot' + id}>
+                        
+                              <div className="day-info">
                                  <div className="center-align center-view">
                                     {slot.session && slot.session.sessionMaster && <span>{dayName[slot.session.sessionMaster.DayId]}</span>}
                                     <span className="lchild pre">{slot.datview}</span>
@@ -100,10 +101,11 @@ function PreviousBooking(){
                                     </div>
                                  </div>
                               </div>
-                           ))
-                        :<div className="nobooking">No bookings</div>}
+                           
+                        {/* :<div className="nobooking">No bookings</div>} */}
                         </div>
                      </li>
+                     )) : null}
                   </ul>
                </div>
             </div>
