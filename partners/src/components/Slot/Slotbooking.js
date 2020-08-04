@@ -406,6 +406,7 @@ function Slotbooking(){
       let repeatArr1 = []
 
       if(!Monday && !Tuesday && !Wednesday && !Thursday && !Friday && !Saturday && !Sunday){
+         alert.show("Please select the days")
          return false
       }
       
@@ -899,9 +900,7 @@ function Slotbooking(){
       <>
       <Navbar name={'Slot Booking'} />
       <div className="clearfix gym-main-div">
-            {loader && <Segment className="loader">
-               <Loader active />
-            </Segment>}
+            {loader && <Segment className="loader"></Segment>}
             {status?<div className="gym-container slot-content">
             <h3 style={{float: 'left', width: '50%'}}>{slots.gym.name}</h3>
             <div className="time-display">

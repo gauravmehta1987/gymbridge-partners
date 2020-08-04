@@ -105,16 +105,19 @@
    background-color: #1ef150;
    color: #fff;
    border: 2px solid #8cefa3;
+   cursor: pointer;
 }
 .gym-container .preview .slot.slot-yellow{
    background-color: #dbdb12;
    color: #fff;
    border: 2px solid #c6c607;
+   cursor: pointer;
 }
 .gym-container .preview .slot.slot-red{
    background-color: red;
    color: #fff;
    border: 2px solid red;
+   cursor: pointer;
 }
 .gym-container .preview .slot.all-booked{
    background-color: #a3a2a2;

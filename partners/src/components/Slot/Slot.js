@@ -89,9 +89,7 @@ function Slot(){
                </div>
 
             </div>:
-            <Segment className="loader">
-               <Loader active />
-            </Segment>}
+            <Segment className="loader"></Segment>}
          </div>
       </>
    )

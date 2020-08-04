@@ -199,7 +199,7 @@ function Dashboard(){
                            <div className="day-info">
                               <div className="center-align center-view new-align">
                                  {slotDetails ? <><span>{today.day}</span><span className="lchild">{today.date}</span>
-                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetails.Id}</b></div>
+                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetails.BookingId}</b></div>
                                  <div className="more-info">
                                     {slotDetails.session && <span>{getTime(slotDetails.session.StartMinute, slotDetails.session.EndMinute)}</span>}
                                     {slotDetails.bookingStatus && <span>{slotDetails.bookingStatus.Name}</span>}
@@ -215,7 +215,7 @@ function Dashboard(){
                            <div className="day-info">
                               <div className="center-align center-view new-align">
                                  {slotDetailsTm ? <><span>{tomorrow.day}</span><span className="lchild">{tomorrow.date}</span>
-                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetailsTm.Id}</b></div>
+                                 <div className="center" style={{marginTop: '10px'}}>Booking Id: <b>{slotDetailsTm.BookingId}</b></div>
                                  <div className="more-info">
                                     {slotDetailsTm.session && <span>{getTime(slotDetailsTm.session.StartMinute, slotDetailsTm.session.EndMinute)}</span>}
                                     {slotDetailsTm.bookingStatus && <span>{slotDetailsTm.bookingStatus.Name}</span>}

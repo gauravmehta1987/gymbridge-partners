@@ -94,7 +94,7 @@ function PreviousBooking(){
                                  <div className="center-align center-view">
                                     {slot.session && slot.session.sessionMaster && <span>{dayName[slot.session.sessionMaster.DayId]}</span>}
                                     <span className="lchild pre">{slot.datview}</span>
-                                    <div className="text-right">Booking Id: <b>{slot.Id}</b></div>
+                                    <div className="text-right">Booking Id: <b>{slot.BookingId}</b></div>
                                     <div className="more-info">
                                        {slot.session && <span className="timeinfo">{getTime(slot.session.StartMinute, slot.session.EndMinute)}</span>}
                                        {slot.bookingStatus && <span className="tmName">{slot.bookingStatus.Name}</span>}

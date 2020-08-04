@@ -38,7 +38,6 @@
    width: 170px;
 }
 .mbr-gallery-filter li .btn {
-   cursor: pointer;
    background: none;
    border-color: #eaebeb;
    color: #0b566f;
@@ -101,7 +100,7 @@
    flex: auto !important;
 }
 .gym-main-div{
-   min-height: 100vh;
+   /* min-height: 100vh; */
 }
 .gym-main-div .ui.segment{
    height: 100vh;

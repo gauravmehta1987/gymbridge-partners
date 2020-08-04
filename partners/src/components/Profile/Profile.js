@@ -4,8 +4,11 @@ import { Button, Header, Modal, Checkbox, Loader, Segment } from 'semantic-ui-re
 import './Profile.css'
 import config from '../../config';
 import axios from 'axios'
+import { useAlert } from 'react-alert'
 
 function Profile(){
+
+   const alert = useAlert()
 
    const [title, setTitle] = useState('')
    const [loader, setLoader] = useState(false)
@@ -158,7 +161,7 @@ function Profile(){
          setData(timeSlotsData2)
       }else if(view === 'Wednesday'){
          setData(timeSlotsData3)
-      }else if(view === 'Thrusday'){
+      }else if(view === 'Thursday'){
          setData(timeSlotsData4)
       }else if(view === 'Friday'){
          setData(timeSlotsData5)
@@ -193,7 +196,7 @@ function Profile(){
          id = 1
       }else if(input === 'Wednesday'){
          id = 2
-      }else if(input === 'Thrusday'){
+      }else if(input === 'Thursday'){
          id = 3
       }else if(input === 'Friday'){
          id = 4
@@ -266,7 +269,7 @@ function Profile(){
       };
       axios.put( url, newGym, apiHeader )
       .then( response => {
-         if(response.data && response.data.status){
+         if(response.data && response.data.status === 'success'){
             // console.log(response.data)
             // setGymInfo(newGym)
             // setTimeSlots(newGym.timeSlots)
@@ -274,6 +277,7 @@ function Profile(){
             setLoader(false)
          }else{
             console.log('error')
+            alert.show(response.data.message)
          }
       })
       .catch( error => {
@@ -348,9 +352,7 @@ function Profile(){
    return (
       <>
       <Navbar name={'Profile'} />
-      {loader && <Segment className="loader">
-               <Loader active />
-            </Segment>}
+      {loader && <Segment className="loader"></Segment>}
          <div className="clearfix gym-main-div">
             {gymInfo?<div className="gym-container">
                <h3>{gymInfo.Name}</h3>
@@ -405,10 +407,10 @@ function Profile(){
                         </div>
                      </li>
                      <li>
-                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData4.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Thrusday')}>
+                        <div className={"btn btn-md btn-primary-outline display-4 " + (timeSlotsData4.length === 0 ? 'not' : 'yes')} onClick={() => viewModal('Thursday')}>
                            <div className="day-info">
                               <div className="center-align">
-                                 Thrusday
+                                 Thursday
                                  <div className="more-info">
                                  {timeSlotsData4.map((tt, i) => (
                                     <div key={"mon"+i} className="">
