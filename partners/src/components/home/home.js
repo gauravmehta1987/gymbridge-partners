@@ -86,17 +86,17 @@ function Home(){
 
          <div className="slot-link">
             <div className="slot-link-in" onClick={gotoSlot}>
-               <div>Covid 19</div>
-               <div>Slot Booking</div>
+               <div>Create</div>
+               <div>Session</div>
             </div>
             <div className="slot-link-in" onClick={gotoSlotStats} style={{marginLeft: '10px'}}>
-               <div>Slot Stats</div>
-               <div>&nbsp;</div>
+               <div>Session</div>
+               <div>Stats</div>
             </div>
          </div>
 
          <div className="mamber-trainer-card clearfix">
-            <Card className="card-details">
+            <Card className="card-details blur">
                <Card.Content>
                   <Icon disabled name='users' className="card-img members" />
                   <Card.Header>Members</Card.Header>
@@ -116,7 +116,7 @@ function Home(){
                </Card.Content>
             </Card>
 
-            <Card className="card-details">
+            <Card className="card-details blur">
                <Card.Content>
                   <Icon disabled name='odnoklassniki' className="card-img trainers" />
                   <Card.Header>Trainers</Card.Header>

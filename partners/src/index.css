@@ -67,6 +67,17 @@ body .App{
 .ui.loader.active{
   display: block !important;
 }
-#__react-alert__ div{
+#__react-alert__ > div > div, #__react-alert__ > div > div > div{
   z-index: 10000 !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+#__react-alert__ svg, #__react-alert__ button{
+  background: #000 !important;
+}
+#__react-alert__ svg{
+  stroke: #fff !important;
+}
+#__react-alert__ > div > div:first-child{
+  border: 1px solid;
 }

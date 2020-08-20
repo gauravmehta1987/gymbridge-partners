@@ -43,3 +43,9 @@
 body{
   padding-top: 40px !important;
 }
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

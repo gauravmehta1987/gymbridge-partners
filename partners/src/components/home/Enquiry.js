@@ -35,13 +35,13 @@ function Enquiry(){
 
    return (
       <>
-         <div className="request-card clearfix">
+         <div className="request-card clearfix blur">
             <div className="heading">
                <h2 className="floatLeft">Enquiries</h2>
                <span className="all-items">All Enquiry</span>
             </div>
             <div className="all-cards">
-            {enquiryList.map((enquiry, index) => (
+            {enquiryList.length > 0 ? enquiryList.map((enquiry, index) => (
                <div className="ui card" key={"enq" + index}>
                   <div className="card">
                      <div className="image card-image">
@@ -59,7 +59,7 @@ function Enquiry(){
                      <div className="action">Accept</div>
                   </div>
                </div>
-            ))}
+            )): 'No Enquiry'}
             </div>
          </div>
       </>

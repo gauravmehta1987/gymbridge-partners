@@ -160,7 +160,7 @@
    float: left;
 }
 .slot-link-in{
-   float: left;
+   display: inline-block;
    padding: 20px;
    text-align: left;
    border-radius: .28571429rem;
@@ -169,11 +169,14 @@
    margin-bottom: 20px;
    background-image: linear-gradient(to top, #f4faf4 0%, #bff6e4 100%) !important;
    color: #000000;
-   font-size: 1.5em;
+   font-size: 1.2em;
    cursor: pointer;
 }
 .check-booking{
    margin: 20px 0;
+}
+.blur{
+   opacity: 0.4 !important;
 }
 
 

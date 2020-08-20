@@ -4,6 +4,8 @@
    padding: 10px 0;
    text-align: center;
    border-bottom: 1px solid #ccc;
+   background-color: #fff;
+   color: #000;
 }
 .navbar .ant-drawer-body{
    padding: 0 !important;

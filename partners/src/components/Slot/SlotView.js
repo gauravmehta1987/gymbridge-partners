@@ -36,7 +36,7 @@ function SlotView(){
 
    const [startDate, setStartDate] = useState(new Date())
    const [displayDate, setDisplayDate] = useState('')
-   const [status, setStatus] = useState('Active')
+   const [status, setStatus] = useState('')
 
    const changeStatus = (e) => {
       e.preventDefault()
@@ -72,6 +72,7 @@ function SlotView(){
       .then( response => {
          if(response.data && response.data.status === 'success'){
             console.log(response.data)
+            setSlotDetails([])
             if(response.data.data && response.data.data.length){
                setSlotDetails(response.data.data)
             }
@@ -152,23 +153,25 @@ function SlotView(){
                clearIcon={null}
             />
             </div>
-            <div className="pull-left status">
+            <div className="status">
                <select value={status} onChange={changeStatus}>
+                  <option value=''>All</option>
                   <option value='Active'>Active</option>
-                  <option value='Process'>In Process</option>
+                  <option value='Process'>In Progress</option>
+                  <option value='Completed'>Completed</option>
                   <option value='Canceled'>Canceled</option>
-                  <option value='NotAttended'>Not Attended</option>
+                  <option value='Not Attended'>Not Attended</option>
                </select>
             </div>
 
             <div className="mbr-gallery-filter container gallery-filter-active">
                <ul buttons="0">
-               {slotDetails && slotDetails.length > 0 ? slotDetails.map((slot, i) => status === slot.bookingStatus.Name && (
+               {slotDetails && slotDetails.length > 0 ? slotDetails.map((slot, i) => (status === slot.bookingStatus.Name || status === '') && (
                   <li className="mbr-gallery-filter-all" key={"slot"+i}>
                      <div className="btn btn-md btn-primary-outline display-4 yes" onClick={(e) => viewSlot(e, slot)}>
                         <div className="day-info" style={{minHeight: '50px !important',height: '120px'}}>
                            <div className="center-align">
-                              <div className="text-right">Booking Id: <b>{slot.Id}</b></div>
+                              {/* <div className="text-right ellipsis">Booking Id: <b>{slot.BookingId}</b></div> */}
                               <div className="more-info">
                                  {slot.session && <span className="timeinfo">{getTime(slot.session.StartMinute, slot.session.EndMinute)}</span>}
                                  {slot.bookingStatus && <span className="tmName">Status: {slot.bookingStatus.Name}</span>}

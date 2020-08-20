@@ -32,7 +32,7 @@ function Request(){
 
    const fetchRequests = () => {
       setRequestList([])      
-      let url = config.API_HOST+'/application/v1/request?gymId=8';
+      let url = config.API_HOST+'/application/v1/request?gymId='+localStorage.getItem('gymId');
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",
@@ -57,7 +57,7 @@ function Request(){
    
    return (
       <>
-         <div className="request-card clearfix">
+         <div className="request-card clearfix blur">
             <div className="heading">
                <h2 className="floatLeft">Requests</h2>
                <span className="all-items">All Request</span>
@@ -79,7 +79,7 @@ function Request(){
                   > */}
             
 
-            {requestList.map((request, index) => (
+            {requestList.length > 0 ? requestList.map((request, index) => (
                <div className="ui card" key={"req" + index}>
                   <div className="card">
                      <div className="image card-image">
@@ -97,7 +97,7 @@ function Request(){
                      <div className="action">Accept</div>
                   </div>
                </div>
-            ))}
+            )) : 'No Request'}
 
             
             {/* </Carousel> */}

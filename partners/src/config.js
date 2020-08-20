@@ -1,8 +1,16 @@
 const config = {
-   API_HOST: "http://ec2-18-216-49-41.us-east-2.compute.amazonaws.com:3000",
-   MEDIA_LINK: "http://ec2-18-216-49-41.us-east-2.compute.amazonaws.com:3000/api/v1/media/",
-   apiLink: "http://ec2-18-216-49-41.us-east-2.compute.amazonaws.com:3000/api/v1/",
-   appApiLink: "http://ec2-18-216-49-41.us-east-2.compute.amazonaws.com:3000/application/v1/",
+   // production
+   // API_HOST: "https://api.gymbridge.com",
+   // MEDIA_LINK: "https://api.gymbridge.com/api/v1/media/",
+   // apiLink: "https://api.gymbridge.com/api/v1/",
+   // appApiLink: "https://api.gymbridge.com/application/v1/",
+
+   // development
+   API_HOST: "https://api.dev.gymbridge.com",
+   MEDIA_LINK: "https://api.dev.gymbridge.com/api/v1/media/",
+   apiLink: "https://api.dev.gymbridge.com/api/v1/",
+   appApiLink: "https://api.dev.gymbridge.com/application/v1/",
+
 }
 
 export default config;

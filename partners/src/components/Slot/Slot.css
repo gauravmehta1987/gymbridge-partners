@@ -15,17 +15,30 @@
 }
 .slot-content .view-slot{
    position: absolute;
-   bottom: -41px;
+   bottom: -50px;
    padding: 10px;
    cursor: pointer;
    width: 100%;
    left: 0;
-   background: linear-gradient(45deg, #fbac7f, #e5658a);
-   color: #090909;
+   background: #000000;
+   color: #fff;
+   border: 1px solid;
+   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   transition: box-shadow .1s ease,transform .1s ease;
+   border-radius: 10px;
 }
 .slot-content .btn-md{
-   margin: 2.2rem .8rem !important;
+   margin: 3.2rem .8rem !important;
    padding: 0 !important;
+}
+.slot-content .mbr-gallery-filter li.frst div {
+   margin-top: 0 !important;
+}
+.mbr-gallery-filter li .btn.yes .center-align.newlook{
+   top: 50% !important;
+}
+.slot-content .btn-md.viewmode{
+   margin-bottom: 0rem !important;
 }
 .slot-content .first{
    margin-top: 0 !important;
@@ -139,7 +152,7 @@
    height: 50px;
 }
 .slot-list .day-info{
-   min-height: 210px;
+   min-height: 220px;
    width: 280px;
    position: relative;
 }
@@ -183,15 +196,18 @@
    display: none;
 }
 .div-card-name{
-   width: 100%;
+   width: 96%;
    text-align: center;
    display: block;
+   margin: auto;
 }
 .dayname{
    display: inline-block;
 }
 .gym-container h3{
    margin: 20px 0 20px 0 !important;
+   font-size: 2em;
+   font-weight: bold;
 }
 .add-new{
    position: fixed;
@@ -201,6 +217,8 @@
 }
 .add-new .ui.green{
    float: right;
+   background: #fff;
+   color: #000;
 }
 .add-new .ui.black{
    float: left;
@@ -235,25 +253,33 @@
 
 .time-display{
    float: left;
-   width: 50%;
-   padding: 20px;
+   width: 100%;
+   padding: 0px;
+   font-weight: bold;
+   text-transform: uppercase;
 }
 
 .fullwidth{
    width: 100%;
 }
 .slot-view{
-   padding: 20px;
+   padding: 10px;
+   padding-top: 40px;
 }
 .calender{
-   float: left;
+   display: inline-block
 }
 .status{
    margin-left: 10px;
+   display: inline-block
 }
 .status select{
    height: 30px;
    width: 100px;
+   background: #000000e6;
+   color: #fff;
+   border-radius: 6px;
+   text-align-last: center;
 }
 .datepicker input{
    -webkit-user-select: none !important;
@@ -278,6 +304,50 @@
 #member-session .description{
    height: 260px;
    overflow: auto;
+}
+#member-session .header{
+   font-size: 1.2em
+}
+#member-session .content .header{
+   font-size: 1em
+}
+.previewNew{
+   width: 100%;
+   float: left;
+   text-align: center;
+   text-transform: uppercase;
+}
+.repeats{
+   font-weight: 600;
+}
+.repeats div{
+   font-weight: 400;
+   font-size: 1em;
+}
+.new-weight{
+   font-weight: 600;
+}
+.input-range__track--active{
+   background: #21ba45 !important;
+}
+.input-range__slider{
+   background: #21ba45 !important;
+   border: 1px solid #21ba45 !important;
+}
+.preview-btn{
+   background: #fff !important;
+   color: #000 !important;
+   border: 1px solid #000 !important;
+}
+.noslotyet{
+   float: left;
+   width: 100%;
+   margin-top: 40px;
+}
+.noslotyet span{
+   padding: 20px;
+   font-size: 1.5em;
+   border: 1px solid;
 }
 
 @media only screen and (min-width: 1200px){

@@ -23,6 +23,7 @@
    padding-top: 0px !important;
    padding-bottom: 30px;
    text-align: center;
+   margin-bottom: 20px !important;
 }
 .mbr-gallery-filter ul {
    display: inline-block;
@@ -39,10 +40,14 @@
 }
 .mbr-gallery-filter li .btn {
    background: none;
-   border-color: #eaebeb;
+   border-color: #000;
    color: #0b566f;
-   background: linear-gradient(45deg, #fbac7f, #e5658a);
-   color: #fff;
+   /* background: linear-gradient(45deg, #fbac7f, #e5658a); */
+   background: #fff;
+   color: #000;
+   border-radius: 10px;
+   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   transition: box-shadow .1s ease,transform .1s ease;
 }
 .btn {
     font-weight: 500;

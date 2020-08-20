@@ -25,8 +25,7 @@ function SessionBooking(){
       setLoader(true)
       let dd1 = days.findIndex(x => (x === d1))
       let dd2 = days.findIndex(x => (x === d2))
-      // let url = config.appApiLink + 'session/8' + '/' + dd1 + ',' + dd2
-      let url = config.appApiLink + 'sessions?gymId=8'
+      let url = config.appApiLink + 'sessions?gymId='+localStorage.getItem('gymId')
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",
@@ -112,19 +111,19 @@ function SessionBooking(){
       var ettMin = parseInt(en)%60
    
       if(stt1 < 12){
-         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+'AM'
+         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+' AM'
       }else if(stt1 === 12){
-         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+'PM'
+         str += stt1+':'+(sttMin < 10 ? '0'+sttMin : sttMin)+' PM'
       }else {
-         str += ((stt1-12)+':'+(sttMin < 10 ? '0'+sttMin : sttMin))+'PM'
+         str += ((stt1-12)+':'+(sttMin < 10 ? '0'+sttMin : sttMin))+' PM'
       }
       str += '-'
       if(ett1 < 12){
-         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+'AM'
+         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+' AM'
       }else if(ett1 === 12){
-         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+'PM'
+         str += ett1+':'+(ettMin < 10 ? '0'+ettMin : ettMin)+' PM'
       }else {
-         str += ((ett1-12)+':'+(ettMin < 10 ? '0'+ettMin : ettMin))+'PM'
+         str += ((ett1-12)+':'+(ettMin < 10 ? '0'+ettMin : ettMin))+' PM'
       }
 
       return str
@@ -133,10 +132,11 @@ function SessionBooking(){
    const bookSLot = (e, sessionId) => {
       e.preventDefault()
       confirmAlert({
-         title: 'Are you sure to do this?',
+         title: 'Confirm Booking ?',
          buttons: [
            {
-             label: 'Yes',
+             label: 'Confirm',
+             className: 'confirm',
              onClick: () => {
                setLoader(true)
                let url = config.appApiLink+'session/book'
@@ -172,7 +172,8 @@ function SessionBooking(){
              }
            },
            {
-             label: 'No',
+             label: 'Cancel',
+             className: 'cancel',
              onClick: () => console.log('No')
            }
          ]
@@ -184,7 +185,7 @@ function SessionBooking(){
       <Navbar name={'Book Session'} />
          {loader && <Segment className="loader"></Segment>}
          {slotsInfo && <div className="gym-container slot-content">
-            {slotsInfo.gym && <h3 style={{float: 'left', width: '100%', paddingTop: '20px'}}>{slotsInfo.gym.name}</h3>}
+            {slotsInfo.gym && <h3 style={{float: 'left', width: '100%', paddingTop: '10px', fontSize: '1.5em', fontWeight: 'bold'}}>{slotsInfo.gym.name}</h3>}
             <div className="time-display">
                <div><b>Today's Gym Timings</b></div>
                {gymTime && gymTime.length > 0 && <div className='slot-view'>
@@ -194,15 +195,15 @@ function SessionBooking(){
                </div>}
             </div>
             <div className="time-display" style={{paddingTop: 0}}>
-               <div><b>Today's Slots</b></div>
+               <div><b>Today's Gym Sessions</b></div>
                <div className="mbr-gallery-filter container gallery-filter-active">
                   <ul buttons="0">
                   {todaySLot && todaySLot.length > 0 && todaySLot.map((card, i) => (
                      <li className="mbr-gallery-filter-all" key={"slot"+i}>
                         <div className={"btn btn-md btn-primary-outline display-4 md-btn " + (i=== 0 && 'first')}>
-                           <div className="day-info">
+                           <div className="day-info mm-info">
                               <div className="center-align">
-                                 <div>Duration: {card.WorkoutDuration} mins</div>
+                                 {/* <div>Duration: {card.WorkoutDuration} mins</div> */}
                                  <div>Break Time: {card.BreakMinutes} mins</div>
                                  <div>Members Allowed: {card.MemberCount}</div>
                                  <div className="preview">
@@ -232,15 +233,15 @@ function SessionBooking(){
                </div>}
             </div>
             <div className="time-display" style={{paddingTop: 0}}>
-               <div><b>Tomorrow's Slots</b></div>
+               <div><b>Tomorrow's Gym Sessions</b></div>
                <div className="mbr-gallery-filter container gallery-filter-active">
                   <ul buttons="0">
                   {tomorrowSLot && tomorrowSLot.length > 0 && tomorrowSLot.map((card, i) => (
                      <li className="mbr-gallery-filter-all" key={"slot"+i}>
                         <div className={"btn btn-md btn-primary-outline display-4 md-btn " + (i=== 0 && 'first')}>
-                           <div className="day-info">
+                           <div className="day-info mm-info">
                               <div className="center-align">
-                                 <div>Duration: {card.WorkoutDuration} mins</div>
+                                 {/* <div>Duration: {card.WorkoutDuration} mins</div> */}
                                  <div>Break Time: {card.BreakMinutes} mins</div>
                                  <div>Members Allowed: {card.MemberCount}</div>
                                  <div className="preview">

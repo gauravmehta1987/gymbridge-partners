@@ -36,7 +36,7 @@ const useAuth = () => {
     const sendSignInRequest = useCallback((phone, otp) => {
         dispatchAuth({type: 'AUTH_START'});
 
-        let url = config.API_HOST+"/application/v1/login";
+        let url = config.API_HOST+"/application/v1/loginv";
         let obj = {
             mobilenumber: phone,
             otp: "d2a4827cfdc71b46ff518dbdcbc596befa12bbefb919cc8790d16836d25136dc" // this is static but need to change
@@ -53,6 +53,7 @@ const useAuth = () => {
                 console.log(response.data.data)
                 localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
                 localStorage.setItem('token', response.data.data.token);
+                localStorage.setItem('gymId', response.data.data.user.gymId);
                 dispatchAuth({type: 'AUTH_SUCCESS', 
                     token: response.data.data.token,
                     accessLevel: 1
@@ -73,6 +74,8 @@ const useAuth = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('userDetails');
         localStorage.removeItem('accessLevel');
+        localStorage.removeItem('gymId');
+        localStorage.removeItem('gymName');
         dispatchAuth({type: 'AUTH_LOGOUT'});
         authContext.setAccessLevel(0);
     },[authContext]);

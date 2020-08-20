@@ -8,7 +8,7 @@
 .gym-container .time-display {
    float: left;
    width: 100%;
-   padding: 20px;
+   padding: 10px;
 }
 .gym-container .time-display .slot-view{
    padding: 5px;
@@ -22,6 +22,9 @@
    height: 200px;
    padding: 20px;
    width: 280px;
+}
+.slot-content .day-info.mm-info{
+   width: 100%;
 }
 .gym-container .preview {
    margin-bottom: 20px;
@@ -59,33 +62,35 @@
 .gym-container .preview .slot:before {
    content: no-close-quote;
    position: absolute;
-   background-color: #fff;
+   background-color: #ff0000;
    width: 24px;
    height: 2px;
    border-radius: 50%;
    margin-left: 23px;
    top: 13px;
+   left: 13px;
 }
 .gym-container .slot-more-info {
-   color: #fff;
+   color: #000;
    position: absolute;
    top: 60px;
    text-align: left;
-   font-size: 0.8em;
+   font-size: 0.7em;
    white-space: normal;
-   width: 60px;
+   width: 70px;
    white-space: initial;
    height: 50px;
 }
 .gym-container .preview .slot:after {
    content: no-close-quote;
    position: absolute;
-   background-color: #fff;
+   background-color: #ff0000;
    width: 24px;
    height: 2px;
    border-radius: 50%;
    margin-left: 14px;
    top: 25px;
+   left: 22px;
 }
 .gym-container .preview .slot:last-child::before{
    content: '';
@@ -133,4 +138,22 @@
 }
 .more-info .tmName{
    width: 40%;
+}
+.ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+ }
+.cancel{
+   background: #fff !important;
+   color: #000 !important;
+   border: 1px solid #000 !important;
+}
+.confirm{
+   background: #1bd01b !important;
+   color: #fff !important;
+   border: 1px solid #1bd01b !important;
+}
+.center-view .text-right{
+   text-align: center;
 }

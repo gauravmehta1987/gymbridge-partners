@@ -26,28 +26,28 @@ function Slotbooking(){
    const daysInSys = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
    const durationValues = [{
       value: '30',
-      display: '0:30 hour'
+      display: '0:30 Hours'
    },{
       value: '60',
-      display: '1 hour'
+      display: '1 Hour'
    },{
       value: '90',
-      display: '1:30 hours'
+      display: '1:30 Hours'
    },{
       value: '120',
-      display: '2 hours'
+      display: '2 Hours'
    },{
       value: '150',
-      display: '2:30 hours'
+      display: '2:30 Hours'
    },{
       value: '180',
-      display: '3 hours'
+      display: '3 Hours'
    },{
       value: '210',
-      display: '3:30 hours'
+      display: '3:30 Hours'
    },{
       value: '240',
-      display: '4 hours'
+      display: '4 Hours'
    }]
 
    const timings = [
@@ -99,7 +99,7 @@ function Slotbooking(){
       }
 
       setLoader(true)
-      let url = config.appApiLink+'session/8'+'/'+(daysCommaValues.join())
+      let url = config.appApiLink+'session/'+localStorage.getItem('gymId')+'/'+(daysCommaValues.join())
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",
@@ -252,6 +252,12 @@ function Slotbooking(){
       let repeatArr = []
 
       if(!Monday && !Tuesday && !Wednesday && !Thursday && !Friday && !Saturday && !Sunday){
+         alert.show("Please select the days")
+         return false
+      }
+
+      if(!members || members === 0){
+         alert.show("Please add members")
          return false
       }
       
@@ -292,7 +298,7 @@ function Slotbooking(){
 
       setLoader(true)
 
-      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
+      let params = "?gymId="+localStorage.getItem('gymId')+"&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+duration+"&breakTime="+sanitize
 
       let url = config.appApiLink+'session/suggestion'+params;
       let apiHeader = {
@@ -409,6 +415,11 @@ function Slotbooking(){
          alert.show("Please select the days")
          return false
       }
+
+      if(!members || members === 0){
+         alert.show("Please add members")
+         return false
+      }
       
       if(Monday){
          dayArr1.push(0)
@@ -446,7 +457,7 @@ function Slotbooking(){
       let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
       let obj = {
-         "gymId": 8,
+         "gymId": localStorage.getItem('gymId'),
          "days": dayArr1.join(),
          "repeats": repeatArr1.join(),
          "startTime": stt,
@@ -516,15 +527,19 @@ function Slotbooking(){
       var mm = '';
       if(parseInt(tmArr[0]) > 12){
          str = parseInt(tmArr[0]) - 12
-         mm = 'PM'
+         mm = ' PM'
       }else if(parseInt(tmArr[0]) === 12){
          str = tmArr[0]
-         mm = 'PM'
+         mm = ' PM'
       }else {
          str = tmArr[0]
-         mm = 'AM'
+         mm = ' AM'
       }
-      str += ':'+tmArr[1]+mm
+      if(tmArr[1] < 10 && tmArr[1] !== '00'){
+         str += ':0'+tmArr[1]+mm
+      }else{
+         str += ':'+tmArr[1]+mm
+      }
       return str
    }
 
@@ -667,25 +682,25 @@ function Slotbooking(){
    const daysCheck1 = (e, day) => {
       e.preventDefault()
       if(day === 'Monday'){
-         const Day1 = !Monday
+         const Day1 = !Monday1
          setMonday1(Day1)
       }else if(day === 'Tuesday'){
-         const Day2 = !Tuesday
+         const Day2 = !Tuesday1
          setTuesday1(Day2)
       }else if(day === 'Wednesday'){
-         const Day3 = !Wednesday
+         const Day3 = !Wednesday1
          setWednesday1(Day3)
       }else if(day === 'Thursday'){
-         const Day4 = !Thursday
+         const Day4 = !Thursday1
          setThursday1(Day4)
       }else if(day === 'Friday'){
-         const Day5 = !Friday
+         const Day5 = !Friday1
          setFriday1(Day5)
       }else if(day === 'Saturday'){
-         const Day6 = !Saturday
+         const Day6 = !Saturday1
          setSaturday1(Day6)
       }else if(day === 'Sunday'){
-         const Day7 = !Sunday
+         const Day7 = !Sunday1
          setSunday1(Day7)
       }
    }
@@ -736,6 +751,12 @@ function Slotbooking(){
       let repeatArr = []
 
       if(!Monday1 && !Tuesday1 && !Wednesday1 && !Thursday1 && !Friday1 && !Saturday1 && !Sunday1){
+         alert.show("Please select the days")
+         return false
+      }
+
+      if(!membersEdit || membersEdit === 0){
+         alert.show("Please add members")
          return false
       }
       
@@ -776,7 +797,7 @@ function Slotbooking(){
 
       setLoader(true)
 
-      let params = "?gymId=8&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit+"&isUpdate=true"
+      let params = "?gymId="+localStorage.getItem('gymId')+"&days="+(dayArr)+"&repeats="+(repeatArr)+"&startTime="+(stt+1)+"&endTime="+ett+"&workoutTime="+durationEdit+"&breakTime="+sanitizeEdit+"&isUpdate=true"
 
       let url = config.appApiLink+'session/suggestion'+params;
       let apiHeader = {
@@ -812,6 +833,12 @@ function Slotbooking(){
       let repeatArr1 = []
 
       if(!Monday1 && !Tuesday1 && !Wednesday1 && !Thursday1 && !Friday1 && !Saturday1 && !Sunday1){
+         alert.show('Please select the days')
+         return false
+      }
+
+      if(!membersEdit || membersEdit === 0){
+         alert.show("Please add members")
          return false
       }
       
@@ -851,7 +878,7 @@ function Slotbooking(){
       let ett = (parseInt(et_t[0])*60)+parseInt(et_t[1])
 
       let obj = {
-         "gymId": 8,
+         "gymId": localStorage.getItem('gymId'),
          "days": dayArr1.join(),
          "repeats": repeatArr1.join(),
          "startTime": stt,
@@ -902,9 +929,9 @@ function Slotbooking(){
       <div className="clearfix gym-main-div">
             {loader && <Segment className="loader"></Segment>}
             {status?<div className="gym-container slot-content">
-            <h3 style={{float: 'left', width: '50%'}}>{slots.gym.name}</h3>
+            <h3 >{slots.gym.name}</h3>
             <div className="time-display">
-               <div>Gym Timings</div>
+               <div>Open Timings</div>
                {gymTime && gymTime.length > 0 && <div className='slot-view'>
                   {gymTime.map((time, id) => (
                      <div key={"tm" + id} className="info">{getTime(time.StartTime, time.EndTime)}</div>
@@ -1034,7 +1061,7 @@ function Slotbooking(){
                      <Button color='black' onClick={backToSlots}>
                         Back
                      </Button>
-                     <Button color='green' onClick={suggestions}>
+                     <Button color='green' onClick={suggestions} className="preview-btn">
                         Preview
                      </Button>
                   </form>
@@ -1050,7 +1077,7 @@ function Slotbooking(){
                }
                
                
-               {!addSlot && slots.slots && slots.slots.length > 0 && <div className="gym-container slot-content slot-list">
+               {!addSlot && slots.slots && slots.slots.length > 0 ? <div className="gym-container slot-content slot-list">
                   
                   <div className="mbr-gallery-filter container gallery-filter-active">
                      <ul buttons="0">
@@ -1089,15 +1116,16 @@ function Slotbooking(){
                      </ul>
                   </div>
 
-               </div>}
+               </div> : !addSlot && slots.slots && slots.slots.length === 0 ? <div className="noslotyet"><span>No available slots</span></div> : null}
 
                <Modal open={suggestionShow} onClose={closeModal} closeOnEscape={false} closeOnDimmerClick={false} className='custom'>
-                  <Modal.Header>Slot Preview</Modal.Header>
+                  <Modal.Header className="previewNew">Slot Preview</Modal.Header>
                   <Modal.Content image className="overhide">
                      <Modal.Description>
                      <Header>
-                        <div>
-                           Repeat On:
+                        <div className="repeats">
+                           Repeat on 
+                           <div>&nbsp;</div>
                            {Monday && <div>Every Monday</div>}
                            {Tuesday && <div>Every Tuesday</div>}
                            {Wednesday && <div>Every Wednesday</div>}
@@ -1107,9 +1135,9 @@ function Slotbooking(){
                            {Sunday && <div>Every Sunday</div>}
                         </div>
                         <br />
-                        <div>Timing Slots: {getTiming(stEnValue.start)} - {getTiming(stEnValue.end)}</div>
-                        <div>Break Time: <span style={{color: 'red'}}>{sanitize} mins</span></div>
-                        <div>Members Allowed: {members}</div>
+                        <div className="new-weight">Timing Slots: {getTiming(stEnValue.start)} - {getTiming(stEnValue.end)}</div>
+                        <div className="new-weight">Break Time: <span style={{color: 'red'}}>{sanitize} mins</span></div>
+                        <div className="new-weight">Members Allowed: {members}</div>
                      </Header>
                      <div className="preview">
                      {slotPreview.slots && slotPreview.slots.length > 0 && slotPreview.slots[0].sessions && slotPreview.slots[0].sessions.length > 0 && slotPreview.slots[0].sessions.map((session, index) => (

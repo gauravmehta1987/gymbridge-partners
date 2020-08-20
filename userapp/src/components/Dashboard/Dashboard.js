@@ -92,7 +92,7 @@ function Dashboard(){
       setToday({
          ...today,
          day: dayName[d.getDay()],
-         date: d.getDate() +'/'+ d.getMonth() +'/'+ d.getFullYear()
+         date: d.getDate() +'/'+ (d.getMonth()+1) +'/'+ d.getFullYear()
       })
 
       var tm = new Date();
@@ -101,7 +101,7 @@ function Dashboard(){
       setTomorrow({
          ...tomorrow,
          day: dayName[n.getDay()],
-         date: d.getDate() +'/'+ n.getMonth() +'/'+ n.getFullYear()
+         date: d.getDate() +'/'+ (n.getMonth()+1) +'/'+ n.getFullYear()
       })
 
       fetchSlotsData();
@@ -136,10 +136,11 @@ function Dashboard(){
    const cancelBooking = (e, id) => {
       e.preventDefault()
       confirmAlert({
-         title: 'Are you sure to do this?',
+         title: 'Cancel Booking ?',
          buttons: [
            {
-             label: 'Yes',
+             label: 'Cancel',
+             className: 'confirm',
              onClick: () => {
                setLoader(true)
                let obj = {
@@ -175,7 +176,8 @@ function Dashboard(){
              }
            },
            {
-             label: 'No',
+             label: 'Close',
+             className: 'close',
              onClick: () => console.log('No')
            }
          ]
@@ -210,7 +212,7 @@ function Dashboard(){
                         </div>
                      </li>
                      <li className="mbr-gallery-filter-all">
-                     <div className="center" style={{margin: '10px 0'}}><b>Tomorrow's Booking</b></div>
+                     <div className="center" style={{margin: '10px 0', marginTop: '40px'}}><b>Tomorrow's Booking</b></div>
                         <div className={"btn btn-md btn-primary-outline display-4 mt-0 " + (slotDetailsTm === '' ? 'nobook' : null)}>
                            <div className="day-info">
                               <div className="center-align center-view new-align">

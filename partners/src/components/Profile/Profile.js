@@ -55,7 +55,7 @@ function Profile(){
       let st5 = [];
       let st6 = [];
       let st7 = [];
-      let url = config.apiLink+'/onboarding/gym?id=8';
+      let url = config.apiLink+'/onboarding/gym?id='+localStorage.getItem('gymId');
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",

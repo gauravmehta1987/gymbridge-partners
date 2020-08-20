@@ -16,7 +16,7 @@
 
 .mbr-gallery-filter {
    padding-top: 0px !important;
-   padding-bottom: 30px;
+   padding-bottom: 10px;
    text-align: center;
 }
 
@@ -47,10 +47,14 @@
 }
 .mbr-gallery-filter li .btn {
    background: none;
-   border-color: #eaebeb;
+   border-color: #000;
    color: #0b566f;
-   background: linear-gradient(180deg,#42a5f5,#2196f3);
-   color: #fff;
+   /* background: linear-gradient(180deg,#42a5f5,#2196f3);
+   color: #fff; */
+   background: #fff;
+   color: #000;
+   border: 1px solid;
+   border-radius: 10px;
 }
 .mbr-gallery-filter li .btn {
    position: relative;
@@ -105,16 +109,20 @@
 }
 .view-slot {
    position: absolute;
-   bottom: -41px;
+   bottom: -47px;
    padding: 10px;
    cursor: pointer;
    width: 100%;
    left: 0;
-   background: linear-gradient(180deg,#42a5f5,#2196f3);
-   color: #090909;
+   background: #d94242;
+   color: #fff;
+   border-radius: 10px;
 }
 .nobook{
-   background: #ccc !important;
+   background: #fff !important;
+   border: 1px solid #000;
+   border-color: #000 !important;
+   color: #000 !important;
 }
 .mt-0{
    margin-top: 0 !important;
@@ -127,6 +135,7 @@
    margin-top: 20px;
    margin-left: 5px;
    display: inline-block;
+   border-radius: 10px;
 }
 .book-session a{
    color: #fff;
@@ -138,6 +147,12 @@
    float: left;
    width: 100%;
    text-align: center;
+   margin-top: 20px;
+}
+.close{
+   background: #fff !important;
+   color: #000 !important;
+   border: 1px solid #000 !important;
 }
 
 @media only screen and (max-width: 320px){

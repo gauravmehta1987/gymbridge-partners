@@ -28,6 +28,7 @@ export default class Navbar extends React.Component {
   logout = e => {
     localStorage.setItem('userDetails', null);
     localStorage.setItem('token', null);
+    localStorage.setItem('gymId', null);
     window.location.reload(false)
     // if(!this.props || !this.props.hasOwnProperty('history')){
     //   this.props = {

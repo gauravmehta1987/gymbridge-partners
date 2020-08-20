@@ -32,7 +32,7 @@ function Login(){
         if(!phone || !OTP){
             return false
         }
-        let url = config.API_HOST+"/application/v1/login";
+        let url = config.API_HOST+"/application/v1/loginv";
         let obj = {
             mobilenumber: phone,
             otp: "d2a4827cfdc71b46ff518dbdcbc596befa12bbefb919cc8790d16836d25136dc"
@@ -49,6 +49,7 @@ function Login(){
                 console.log(response.data.data)
                 localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
                 localStorage.setItem('token', response.data.data.token);
+                localStorage.setItem('gymId', response.data.data.user.gymId);
                 history.push({
                     pathname:  "/"
                  })

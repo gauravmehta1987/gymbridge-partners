@@ -65,7 +65,7 @@ function Login(){
         <Grid textAlign='center' verticalAlign='middle' className="login-page">
             <Grid.Column style={{ maxWidth: 450, margin: '0 10px' }}>
                 <Header as='h2' color='teal' textAlign='center'>
-                    <Image src='/logo.jpg' className="logo-img" /> <br />Users
+                    <Image src='/logo.jpg' className="logo-img" /> <br />Members
                 </Header>
                 <Form size='large'>
                     <p>Give us your mobile number<br /><br />To start, we need your mobile number linked to the gym.</p>
