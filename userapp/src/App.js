@@ -15,6 +15,18 @@ const PreviousBooking = React.lazy(() => {
   return import("./components/Booking/PreviousBooking");
 });
 
+const Planner  = React.lazy(() => {
+  return import("./components/Planner/Planner");
+});
+
+const Customized  = React.lazy(() => {
+  return import("./components/Planner/Customized");
+});
+
+const Assisted  = React.lazy(() => {
+  return import("./components/Planner/Assisted");
+});
+
 const App = (props) => {
   // const [title, SetTitle] = useState("");
 
@@ -49,6 +61,9 @@ const App = (props) => {
         <Route path="/" exact component={Dashboard} />
         <Route path="/SessionBooking" render={(props) => <SessionBooking {...props} />} />
         <Route path="/PreviousBooking" render={(props) => <PreviousBooking {...props} />} />
+        <Route path="/Planner" render={(props) => <Planner {...props} />} />
+        <Route path="/Customized" render={(props) => <Customized {...props} />} />
+        <Route path="/Assisted" render={(props) => <Assisted {...props} />} />
         <Redirect to="/" />
       </Switch>
     );

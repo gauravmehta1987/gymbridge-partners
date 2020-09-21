@@ -24,8 +24,11 @@ function Home(){
 
    const gotoSlotStats = (e) => {
       e.preventDefault()
+      // history.push({
+      //    pathname:  "/slotView"
+      // })
       history.push({
-         pathname:  "/slotView"
+         pathname:  "/SlotSessions"
       })
    }
 

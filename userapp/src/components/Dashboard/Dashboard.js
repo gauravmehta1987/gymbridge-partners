@@ -20,7 +20,8 @@ function Dashboard(){
 
    const fetchSlotsData = () => {
       setLoader(true)
-      let url = config.appApiLink + 'bookings/1?start=0&length=2'
+      // let url = config.appApiLink + 'bookings/1?start=0&length=2'
+      let url = config.appApiLink + 'userbookingstatus'
       let apiHeader = {
          headers: {
              'Content-Type': "application/json",
@@ -101,7 +102,7 @@ function Dashboard(){
       setTomorrow({
          ...tomorrow,
          day: dayName[n.getDay()],
-         date: d.getDate() +'/'+ (n.getMonth()+1) +'/'+ n.getFullYear()
+         date: n.getDate() +'/'+ (n.getMonth()+1) +'/'+ n.getFullYear()
       })
 
       fetchSlotsData();
@@ -207,7 +208,7 @@ function Dashboard(){
                                     {slotDetails.bookingStatus && <span>{slotDetails.bookingStatus.Name}</span>}
                                  </div></>:<div className="nobooking">No booking</div>}
                               </div>
-                              {slotDetails && slotDetails.bookingStatus && slotDetails.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetails.Id)}>Cancel</div>}
+                              {slotDetails && slotDetails.bookingStatus && slotDetails.bookingStatus.Name === 'Active' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetails.Id)}>Cancel</div>}
                            </div>
                         </div>
                      </li>
@@ -223,13 +224,20 @@ function Dashboard(){
                                     {slotDetailsTm.bookingStatus && <span>{slotDetailsTm.bookingStatus.Name}</span>}
                                  </div></>:<div className="nobooking">No booking</div>}
                               </div>
-                              {slotDetailsTm && slotDetailsTm.bookingStatus && slotDetailsTm.bookingStatus.Name !== 'Canceled' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetailsTm.Id)}>Cancel</div>}
+                              {slotDetailsTm && slotDetailsTm.bookingStatus && slotDetailsTm.bookingStatus.Name === 'Active' && <div className="view-slot" onClick={(e) => cancelBooking(e, slotDetailsTm.Id)}>Cancel</div>}
                            </div>
                         </div>
                      </li>
                   </ul>
                </div>
             </div>
+
+            <div className="moreinfos">
+               <div className="book-session">
+                  <NavLink to="/Planner">Workout Planner</NavLink>
+               </div>
+            </div>
+
             <div className="moreinfos">
                <div className="book-session">
                   <NavLink to="/SessionBooking">Click to book sessions</NavLink>

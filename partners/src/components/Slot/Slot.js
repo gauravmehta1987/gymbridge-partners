@@ -58,7 +58,7 @@ function Slot(){
                   {gymInfo.summary.cards && gymInfo.summary.cards.length > 0 && gymInfo.summary.cards.map((card, i) => (
                      <li className={"mbr-gallery-filter-all " + (i === 0 ? 'frst' : '')} key={"slot"+i}>
                         <div className="btn btn-md btn-primary-outline display-4 yes viewmode" onClick={(e) => viewSlot(e, card)}>
-                           <div className="day-info" style={{height: (card.days.split(/[ ,]+/).length*40)+"px"}}>
+                           <div className="day-info" style={{height: (card.days.split(/[ ,]+/).length*60)+"px"}}>
                               <div className="center-align newlook">
                                  {/* {card.days.split(/[ ,]+/).join(' - ')} */}
                                  <div className="heading">Timings</div>

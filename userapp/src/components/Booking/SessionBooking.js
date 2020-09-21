@@ -188,7 +188,7 @@ function SessionBooking(){
             {slotsInfo.gym && <h3 style={{float: 'left', width: '100%', paddingTop: '10px', fontSize: '1.5em', fontWeight: 'bold'}}>{slotsInfo.gym.name}</h3>}
             <div className="time-display">
                <div><b>Today's Gym Timings</b></div>
-               {gymTime && gymTime.length > 0 && <div className='slot-view'>
+               {gymTime && gymTime.length > 0 && <div className='slot-view newtime'>
                   {gymTime.map((time, id) => (
                      <div key={"tm" + id} className="info">{getTime(time.StartTime, time.EndTime)}</div>
                   ))}
@@ -226,7 +226,7 @@ function SessionBooking(){
 
             <div className="time-display">
                <div><b>Tomorrow's Gym Timings</b></div>
-               {gymTimeTo && gymTimeTo.length > 0 && <div className='slot-view'>
+               {gymTimeTo && gymTimeTo.length > 0 && <div className='slot-view newtime'>
                   {gymTimeTo.map((time, id) => (
                      <div key={"tm" + id} className="info">{getTime(time.StartTime, time.EndTime)}</div>
                   ))}

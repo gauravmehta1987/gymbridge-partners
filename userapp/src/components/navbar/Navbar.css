@@ -40,3 +40,17 @@
    background: linear-gradient(115deg, #bcb9b6, #565656);
    color: #fff;
 }
+
+.info{
+   float: left;
+   width: 100%;
+   text-align: center;
+   margin-top: 30%;
+   padding: 10px;
+   font-weight: bold;
+   line-height: 30px;
+}
+.info a{
+   display: block;
+   color: #000;
+}

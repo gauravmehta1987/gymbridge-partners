@@ -932,7 +932,7 @@ function Slotbooking(){
             <h3 >{slots.gym.name}</h3>
             <div className="time-display">
                <div>Open Timings</div>
-               {gymTime && gymTime.length > 0 && <div className='slot-view'>
+               {gymTime && gymTime.length > 0 && <div className='slot-view newtime'>
                   {gymTime.map((time, id) => (
                      <div key={"tm" + id} className="info">{getTime(time.StartTime, time.EndTime)}</div>
                   ))}

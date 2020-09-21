@@ -66,6 +66,15 @@ function Navbar({name}){
       >
         <NavLink className="navigation" to="/">Home</NavLink>
         <a className="navigation logout-new" onClick={logout}>Logout</a>
+
+        <div className="info">
+            <div className="text">
+              To report an issue<br />
+              Contact<br />
+              <a href="tel:+91-8851393590">+91-8851393590</a>
+              <a href="tel:+91-9873400053">+91-9873400053</a>
+            </div>
+          </div>
       </Drawer>
     </>
   );

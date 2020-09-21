@@ -349,6 +349,30 @@
    font-size: 1.5em;
    border: 1px solid;
 }
+.slot-content .tabsalign .first{
+   margin-top: 30px !important;
+}
+.slot-content .tabsalign .btn-md{
+   margin: 2.2rem .8rem !important
+}
+.slot-content .tabsalign .day-info{
+   height: 150px;
+}
+.tabsalign .preview .slot:last-child{
+   border-radius: 20px
+}
+.lchild{
+   height: 30px;
+   display: inline-block;
+   width: 100%;
+   margin-top: 20px;
+}
+.newtime{
+   padding: 0 !important;
+}
+.newtime .info{
+   margin-top: 0 !important;
+}
 
 @media only screen and (min-width: 1200px){
    .slot-list .day-info{

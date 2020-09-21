@@ -45,7 +45,7 @@ function Login(){
         };
         axios.post( url, obj, apiHeader)
         .then( response => {
-            if(response.status){
+            if(response.data.status && response.data.status === 'success'){
                 console.log(response.data.data)
                 localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
                 localStorage.setItem('token', response.data.data.token);

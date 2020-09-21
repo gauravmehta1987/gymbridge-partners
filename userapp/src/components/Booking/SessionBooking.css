@@ -157,3 +157,9 @@
 .center-view .text-right{
    text-align: center;
 }
+.newtime{
+   padding: 0 !important;
+}
+.newtime .info{
+   margin-top: 0 !important;
+}

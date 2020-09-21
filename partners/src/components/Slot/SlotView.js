@@ -157,7 +157,7 @@ function SlotView(){
                <select value={status} onChange={changeStatus}>
                   <option value=''>All</option>
                   <option value='Active'>Active</option>
-                  <option value='Process'>In Progress</option>
+                  <option value='In Progress'>In Progress</option>
                   <option value='Completed'>Completed</option>
                   <option value='Canceled'>Canceled</option>
                   <option value='Not Attended'>Not Attended</option>
