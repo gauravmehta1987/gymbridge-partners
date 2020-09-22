@@ -92,10 +92,22 @@
    background: green !important;
    color: #fff !important;
    border-radius: 10px !important;
+   left: 40%;
 }
 .all-lists.hiding{
    display: none !important;
 }
 .all-lists.showing{
    display: block !important;
+}
+.cat-list.all-lists.showing.text-align .text .name{
+   bottom: auto;
+   top: 20px;
+}
+.cat-list.all-lists.showing.text-align .newcards{
+   margin: 0;
+}
+.custom-check-box{
+   position: absolute;
+   bottom: 20px;
 }

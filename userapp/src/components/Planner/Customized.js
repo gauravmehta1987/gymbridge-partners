@@ -10,6 +10,7 @@ import { addDays } from 'date-fns'
 import '../Dashboard/Dashboard.css'
 import './Planner.css'
 import { useHistory } from 'react-router'
+import { Checkbox } from 'semantic-ui-react'
 
 function Customized(){
    
@@ -47,8 +48,14 @@ function Customized(){
    const [startDate, setStartDate] = useState(new Date())
 
    const [exercisetype, setExercisetype] = useState([])
+   const [muscleList, setMuscleList] = useState([])
+   const [exerciseList, setExerciseList] = useState([])
    const [stTiming, setStTiming] = useState(1)
    const [stKey, setStKey] = useState('AM')
+   const [selectedExercise, setSelectedExercise] = useState([])
+
+   const [selectedType, setSelectedType] = useState('')
+   const [selectedMus, setSelectedMus] = useState('')
 
    const fetchCategory = () => {
       setLoader(true)
@@ -65,6 +72,7 @@ function Customized(){
          if(response.data && response.data.status === 'success'){
             if(response.data.data){
                setExercisetype(response.data.data)
+               setSelectedType(response.data.data[0].Name)
             }
             setLoader(false)
          }else {
@@ -87,10 +95,206 @@ function Customized(){
       setStartDate(date)
    }
 
+   const fetchMuscles = (e) => {
+      if(selectedType === ''){
+         return false
+      }
+      setLoader(true)
+      let url = config.appApiLink + 'exercise/getweighttrainingmuscles'
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.get( url, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            if(response.data.data){
+               setMuscleList(response.data.data)
+            }
+            setLoader(false)
+         }else {
+            console.log('error')
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      alert.show("API gives an error, please login again")
+      } );
+   }
 
+   const fetchExercises = (musid) => {
+      setLoader(true)
+      if(selectedType === ''){
+         return false
+      }
+      if(selectedType === 'Weight Training' && musid === '' && selectedMus === ''){
+         return false
+      }
+      let typeId = exercisetype.findIndex((v) => v.Name === selectedType)
+      let url = config.appApiLink + 'exercise/getavailableexercise?id=' + exercisetype[typeId].Id
+      if(musid !== ''){
+         url += '&muscleId=' + musid
+      }else if(selectedMus !== '') {
+         url += '&muscleId=' + selectedMus
+      }
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.get( url, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            if(response.data.data){
+               response.data.data.forEach((v) => {
+                  v.selected = false
+                  v.selectedId = ''
+               })
+               setExerciseList(response.data.data)
+            }
+            setLoader(false)
+         }else {
+            console.log('error')
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      alert.show("API gives an error, please login again")
+      } );
+   }
+
+   useEffect(() => {
+      if(showSection){
+         setExerciseList([])
+         if(selectedType === 'Weight Training'){
+            fetchMuscles()
+         }else {
+            setMuscleList([])
+         }
+         setSelectedExercise([])
+         fetchExercises('')
+      }
+    },[selectedType, showSection]);
+
+   useEffect(() => {
+      if(showSection){
+         setExerciseList([])
+         setSelectedExercise([])
+         fetchExercises(selectedMus)
+      }
+    },[selectedMus, showSection]);
+
+   const handleVideoChange = (id, obj) => {
+      const values = [...exerciseList]
+      values[id].selected = !values[id].selected
+      const list = [...selectedExercise]
+      let idx = list.findIndex((v) => v.Id === obj.Id)
+      if(idx >= 0){
+         list.splice(idx, 1)
+      }else{
+         list.push(obj)
+      }
+      setSelectedExercise(list)
+      setExerciseList(values)
+   }
+
+   const checkCount = (id) => {
+      let num = selectedExercise.findIndex((v) => v.Id === id)
+      if(num >= 0){
+         return (num+1)
+      }else {
+         return ''
+      }
+   }
+
+   const saveCustomized = (e) => {
+      e.preventDefault()
+
+      let obj = {
+         exerciseIds: [],
+         date: 0,
+         time: 0
+      }
+
+      // calculate time
+      let hours = 0
+      if(stKey === 'AM'){
+         hours = parseInt(stTiming)*60
+      }else{
+         hours = (parseInt(stTiming)+12)*60
+      }
+      obj.time = hours
+
+      // calculate date
+      let dd = new Date(startDate)
+      let dateStr = dd.getFullYear()
+      let mm = dd.getMonth() + 1
+      let ddd = dd.getDate()
+      if(mm < 10){
+         dateStr += '0'+mm
+      }else{
+         dateStr += ''+mm
+      }
+      if(ddd < 10){
+         dateStr += '0'+ddd
+      }else{
+         dateStr += ''+ddd
+      }
+      obj.date = dateStr
+
+      // add exercise ids
+      if(selectedExercise && selectedExercise.length){
+         selectedExercise.forEach((v) => {
+            obj.exerciseIds.push(v.Id)
+         })
+      }
+
+      console.log(obj)
+
+      setLoader(true)
+      let url = config.appApiLink+'exercise/addcustomworkout'
+      let apiHeader = {
+         headers: {
+            'Content-Type': "application/json",
+            'accept': "application/json",
+            'Authorization': localStorage.getItem('token')
+         }
+      };
+      axios.post( url, obj, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            // console.log(response.data)
+            setLoader(false)
+            alert.show(response.data.message)
+            setTimeout(function(){
+               history.push({
+                  pathname: '/'
+               })
+            },1000)
+         }else {
+            console.log('error')
+            setLoader(false)
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      setLoader(false)
+      console.log(error);
+      } );
+   }
+   
    return (
       <>
-         <Navbar name={'Customized Workout'} />
+         <Navbar name={'Plan Your Workout'} />
          {loader && <Segment className="loader"></Segment>}
          <div className="container dashboard">
             <form className="ui form">
@@ -145,8 +349,7 @@ function Customized(){
                      {exercisetype.map((option, id) => (
                      <div className="cat-list" key={"exercisetype" + id}>
                         <label>
-                           <input type="radio" name="category" className="card-input-element" />
-                           {/* checked={option.Name === selectedCat} value={option.Name} onChange={selectedExercisetype} */}
+                           <input type="radio" name="category" className="card-input-element" checked={option.Name === selectedType} value={option.Name} onChange={(e) => setSelectedType(e.target.value)} />
                               <div className="panel panel-default card-input">
                                  <div className="panel-body">
                                  {option.Name}
@@ -157,8 +360,62 @@ function Customized(){
                      ))}
                      </div>
                   </div>
-               </div>
 
+                  {muscleList.length > 0 && <div className="field">
+                     <label htmlFor="Category">Muscles</label>
+                     <div className="ui input">
+                        <select id="Category" value={selectedMus} onChange={(e) => setSelectedMus(e.target.value)}>
+                           <option value="" disabled>Select</option>
+                           {muscleList.map((option, id) => (
+                              <option key={"muscleList" + id} value={option.Id}>
+                                 {option.Name}
+                              </option>
+                           ))}
+                        </select>
+                     </div>
+                  </div>}
+
+                  {exerciseList.length > 0 && <div className="field">
+                     <div className="ui input card-layout">
+                     {exerciseList.map((option, id) => (
+                     <div className="cat-list all-lists showing text-align" key={"exeList" + id}>
+                        <div className="panel panel-default card-input">
+                           <div className="panel-body">
+                           <div className="cat-name">Category: {id+1}</div>
+                           <div className="newcards">
+                              <div className="img" style={{backgroundImage: 'url(sample.png)'}}>
+                              </div>
+                              <div className="text">
+                                 <div className="counts name">{option.Name}</div>
+                                 <div className="custom-check-box">
+                                    <label>
+                                       {/* Select: {option.selectedId}: =={option.selected ? 'true':'false'}== */}
+                                       <Checkbox
+                                          checked={option.selected}
+                                          label={'Select ' + checkCount(option.Id)}
+                                          onChange={() =>
+                                             handleVideoChange(
+                                                id,
+                                                option
+                                             )
+                                          }
+                                          />
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           </div>
+                        </div>
+                     </div>
+                     ))}
+                     </div>
+                  </div>}
+
+                  {selectedExercise.length > 0 && <Button type="button" color='black' onClick={saveCustomized} className="pull-left fixedButton">
+                     Save
+                  </Button>}
+
+               </div>
             </form>
          </div>
       </>
