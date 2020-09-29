@@ -1,0 +1,71 @@
+.form-area{
+   padding: 20px;
+}
+.hide{
+   opacity: 0;
+}
+.fields .calender{
+   padding-left: .5em;
+   padding-right: .5em;
+   width: 50%;
+}
+.fields .calender label{
+   display: block;
+   margin: 0 0 .28571429rem 0;
+   color: rgba(0,0,0,.87);
+   font-size: .92857143em;
+   font-weight: 700;
+   text-transform: none;
+}
+.calender .inline input{
+   padding: 0 1px !important;
+   border: none !important;
+}
+.btn-green button{
+   background-color: green !important;
+   color: #fff !important;
+}
+.right{
+   text-align: right;
+}
+.left{
+   text-align: left;
+}
+.form-area .ui.form .field>label{
+   text-align: left;
+}
+.form-area .ui.form .field .ui.input input, .form-area .ui.form .fields .field .ui.input input, .form-area .ui.form .field>.selection.dropdown, .form-area .react-date-picker__wrapper{
+   border: none;
+   border-bottom: 1px solid #ccc;
+   padding-left: 0;
+}
+.ui.form .required.field>.checkbox:after, .ui.form .required.field>label:after, .ui.form .required.fields.grouped>label:after, .ui.form .required.fields:not(.grouped)>.field>.checkbox:after, .ui.form .required.fields:not(.grouped)>.field>label:after{
+   color: #000;
+}
+.rupee input[type=number]{
+   background-image: url('/rupee.png') !important;
+   padding-left: 16px !important;
+   background-size: 10px !important;
+   background-repeat: no-repeat !important;
+   background-position: 2px !important;
+}
+.noborder > div{
+   border: none !important;
+   border-bottom: 1px solid #ccc !important;
+   padding-left: 0 !important;
+}
+
+@media only screen and (max-width: 767px){
+   .fields .calender{
+      width: 100%
+   }
+   .ui.form .fields .right, .ui.form .fields .left{
+      text-align: center;
+   }
+   .form-area .ui.form .fields .halfdivison{
+      width: 50% !important;
+   }
+   .ui.form:not(.unstackable) [class*="equal width"].fields:not(.unstackable)>.field .halfdivison{
+      width: 50% !important;
+   }
+}

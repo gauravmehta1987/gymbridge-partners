@@ -32,6 +32,20 @@ function Home(){
       })
    }
 
+   const gotoWorkOutStats = (e) => {
+      e.preventDefault()
+      history.push({
+         pathname:  "/WorkoutStats"
+      })
+   }
+
+   const addNewMember = (e) => {
+      e.preventDefault()
+      history.push({
+         pathname:  "/addmember"
+      })
+   }
+
    const alert = useAlert()
 
    const [bookingId, setBookingId] = useState('')
@@ -95,6 +109,14 @@ function Home(){
             <div className="slot-link-in" onClick={gotoSlotStats} style={{marginLeft: '10px'}}>
                <div>Session</div>
                <div>Stats</div>
+            </div>
+            <div className="slot-link-in" onClick={gotoWorkOutStats} style={{marginLeft: '10px'}}>
+               <div>Workout</div>
+               <div>Stats</div>
+            </div>
+            <div className="slot-link-in" onClick={addNewMember} style={{marginLeft: '10px'}}>
+               <div>Add</div>
+               <div>Member</div>
             </div>
          </div>
 

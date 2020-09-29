@@ -1,0 +1,31 @@
+.workout-container{
+   padding: 10px;
+}
+.workout-container .calender{
+   float: left;
+   display: block;
+}
+.chart-area{
+   width: 100%;
+   overflow-x: auto;
+}
+
+.table-area{
+   margin: 40px 0;
+}
+
+table {
+   font-family: arial, sans-serif;
+   border-collapse: collapse;
+   width: 100%;
+ }
+ 
+ td, th {
+   border: 1px solid #dddddd;
+   text-align: left;
+   padding: 8px;
+ }
+ 
+ tr:nth-child(even) {
+   background-color: #dddddd;
+ }

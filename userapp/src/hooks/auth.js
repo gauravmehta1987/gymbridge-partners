@@ -54,6 +54,7 @@ const useAuth = () => {
                 localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
                 localStorage.setItem('token', response.data.data.token);
                 localStorage.setItem('gymId', response.data.data.user.gymId);
+                localStorage.setItem('gym', JSON.stringify(response.data.data.gym));
                 dispatchAuth({type: 'AUTH_SUCCESS', 
                     token: response.data.data.token,
                     accessLevel: 1

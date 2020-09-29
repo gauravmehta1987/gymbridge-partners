@@ -111,3 +111,17 @@
    position: absolute;
    bottom: 20px;
 }
+
+.date-container .picker-container .picker-column .picker-item{
+   background: #000;
+   color: #928e8e;
+}
+.date-container .picker-container .picker-column .picker-item.picker-item-selected{
+   color: #f4f2f2;
+}
+.date-container .picker-container .picker-inner{
+   -webkit-mask-box-image: linear-gradient(0deg,transparent,transparent 0%,#fff 10%,#fff 86%,transparent 99%,transparent);
+}
+.date-container .picker-container .picker-column{
+   background: #000;
+}

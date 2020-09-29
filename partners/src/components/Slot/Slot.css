@@ -267,7 +267,8 @@
    padding-top: 40px;
 }
 .calender{
-   display: inline-block
+   display: inline-block;
+   margin-bottom: 20px;
 }
 .status{
    margin-left: 10px;

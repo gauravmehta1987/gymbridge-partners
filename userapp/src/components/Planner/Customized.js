@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../navbar/Navbar'
-import { Segment, Button } from 'semantic-ui-react'
+import { Segment, Button, Modal } from 'semantic-ui-react'
 import config from '../../config'
 import axios from 'axios'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -11,6 +11,7 @@ import '../Dashboard/Dashboard.css'
 import './Planner.css'
 import { useHistory } from 'react-router'
 import { Checkbox } from 'semantic-ui-react'
+// import DateSelectPicker from './DateSelectPicker'
 
 function Customized(){
    
@@ -45,6 +46,22 @@ function Customized(){
       {"name": "12:00","hour": 12}
    ];
 
+   const durationValues = [{
+      value: '45',
+      display: '0:45 Hours'
+      },{
+         value: '60',
+         display: '1 Hour'
+      },{
+         value: '75',
+         display: '1:15 Hours'
+      },{
+         value: '90',
+         display: '1.30 Hours'
+   }]
+
+   const monthArr = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
    const [startDate, setStartDate] = useState(new Date())
 
    const [exercisetype, setExercisetype] = useState([])
@@ -53,6 +70,7 @@ function Customized(){
    const [stTiming, setStTiming] = useState(1)
    const [stKey, setStKey] = useState('AM')
    const [selectedExercise, setSelectedExercise] = useState([])
+   const [duration, setDuration] = useState(durationValues[0].value)
 
    const [selectedType, setSelectedType] = useState('')
    const [selectedMus, setSelectedMus] = useState('')
@@ -216,13 +234,20 @@ function Customized(){
       }
    }
 
+   const [open, setOpen] = useState(false)
+
+   const close = () => {
+      setOpen(false);
+   }
+
    const saveCustomized = (e) => {
       e.preventDefault()
 
       let obj = {
          exerciseIds: [],
          date: 0,
-         time: 0
+         time: 0,
+         duration: duration
       }
 
       // calculate time
@@ -291,6 +316,12 @@ function Customized(){
       console.log(error);
       } );
    }
+
+   const [showDate, setShowDate] = useState(false)
+
+   const hideDate = e => {
+      setShowDate(false)
+   }
    
    return (
       <>
@@ -300,7 +331,7 @@ function Customized(){
             <form className="ui form">
                <div className={"main-sections " + (showSection? 'none' : 'block')}>
                   <div className="calender field">
-                     <label>Date</label>
+                     <label onClick={() => setShowDate(true)}>Date: {new Date(startDate).getDate()}-{monthArr[new Date(startDate).getMonth()]}-{new Date(startDate).getFullYear()}</label>
                      <DatePicker
                         value={startDate}
                         onChange={set_StartDate}
@@ -311,6 +342,7 @@ function Customized(){
                         autoFocus={false}
                         clearIcon={null}
                      />
+                     {/* {showDate && <DateSelectPicker showDate={showDate} hideDate={hideDate} startDate={startDate} set_StartDate={set_StartDate} />} */}
                   </div>
                   <div className="field two-row">
                      <label htmlFor="start-time">Start TIme</label>
@@ -329,6 +361,16 @@ function Customized(){
                         <option value="" disabled>AM/PM</option>
                         <option value='AM'>AM</option>
                         <option value='PM'>PM</option>
+                     </select>
+                     </div>
+                  </div>
+                  <div className="field single-field">
+                     <label htmlFor="Duration">Duration</label>
+                     <div className="ui input">
+                     <select id="Duration" value={duration} onChange={(e) => setDuration(e.target.value)}>
+                        {durationValues.map((option, id) => (
+                           <option key={"du" + id} value={option.value}>{option.display}</option>
+                        ))}
                      </select>
                      </div>
                   </div>
@@ -411,9 +453,45 @@ function Customized(){
                      </div>
                   </div>}
 
-                  {selectedExercise.length > 0 && <Button type="button" color='black' onClick={saveCustomized} className="pull-left fixedButton">
-                     Save
+                  {selectedExercise.length > 0 && <Button type="button" color='black' onClick={() => setOpen(true)} className="pull-left fixedButton">
+                     Preview
                   </Button>}
+
+
+                  <Modal open={open} onClose={close} closeOnEscape={false} closeOnDimmerClick={false} className='custom'>
+                     <Modal.Header>Preview</Modal.Header>
+                        <Modal.Content image>
+                           <Modal.Description>
+                           <div className="field">
+                              <div className="ui input card-layout">
+                                 {selectedExercise.map((option, id) => (
+                                    <div className="cat-list all-lists showing text-align" key={"exeList" + id}>
+                                       <div className="panel panel-default card-input">
+                                          <div className="panel-body">
+                                          <div className="newcards">
+                                             <div className="img" style={{backgroundImage: 'url(sample.png)'}}>
+                                             </div>
+                                             <div className="text">
+                                                <div className="counts name">{option.Name}</div>
+                                             </div>
+                                          </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 ))}
+                              </div>
+                           </div>
+                           </Modal.Description>
+                        </Modal.Content>
+                        <Modal.Actions>
+                           <Button color='black' onClick={close}>
+                              Close
+                           </Button>
+                           <Button type="button" color='green' onClick={saveCustomized} className="">
+                              Save
+                           </Button>
+                        </Modal.Actions>
+                     </Modal>
 
                </div>
             </form>
