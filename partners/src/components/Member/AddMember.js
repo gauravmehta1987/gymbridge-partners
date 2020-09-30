@@ -139,13 +139,19 @@ function AddMember(){
             "name": fullname,
             "mobileNumber": phone,
             "gymId": localStorage.getItem('gymId'),
-            "paymentAmt": packCost,
+            "paymentAmt": 0,
             "tenure": tenure,
-            "paidAmt": 0, // amountPartial while partial, full to packcost
+            "paidAmt": packCost, // amountPartial while partial, full to packcost
             "paymentStatus": 0, // 0 for not paid, 1 for paid partial/full
             "startDate": dateStr,
             "genderId": options[options.findIndex((v) => v.value === gender)].key,
             "registerationAmt": regFee
+         }
+
+         if(payOption === 'Full'){
+            obj.paymentAmt = packCost
+         }else{
+            obj.paymentAmt = amountPartial
          }
 
          // console.log(obj)
@@ -302,71 +308,75 @@ function AddMember(){
                   />
                   <Form.Input fluid label='' placeholder='' style={{display: 'none'}} className="hide" />
                </Form.Group>
-               <Form.Group widths='equal'>
-                  <Form.Input className="rupee" type='number' fluid label='Registration Fees' defaultValue={regFee} onChange={setRegFeeVal} placeholder='Registration Fees' />
-                  <Form.Input className="rupee" type='number' fluid label='Package Cost' defaultValue={packCost} onChange={setPackCostVal} placeholder='Package Cost' required />
-               </Form.Group>
-               <Form.Group>
-                  <Form.Select
-                     fluid
-                     label='Package Tenure'
-                     required
-                     className="halfdivison"
-                     defaultValue={tenure}
-                     onChange={setTenureVal}
-                     options={months}
-                     placeholder='Package Tenure'
-                  />
-                  <div className="calender halfdivison">
-                     <label style={{marginBottom: '13px'}}>start date*</label>
-                     <span className="inline">
-                        <DatePicker
-                           value={startDate}
-                           onChange={set_StartDate}
-                           placeholderText="Select a date"
-                           className="datepicker"
-                           format='d-MM-y'
-                           autoFocus={false}
-                           clearIcon={null}
-                        />
-                     </span>
-                  </div>
-               </Form.Group>
-
-               <Form.Field >
-                  <Form.Select
-                     fluid
-                     label='Payment Details'
-                     required
-                     defaultValue={payOption}
-                     onChange={setpayOption}
-                     options={paymentOptions}
-                     placeholder='Payment Details'
-                  />
-                  {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={packCost} placeholder='Amount to be paid now' readOnly />}
-                  {payOption === 'Partial' && <>
-                  <Form.Input className="rupee" type='number' fluid label='Amount to be paid now' defaultValue={amountPartial} onChange={setAmountpartial} placeholder='Amount to be paid now' />
-                  <Form.Group>
-                     <Form.Input className="halfdivison" fluid label='Due amount' defaultValue={amountDue} onChange={setAmountDueVal} placeholder='Due amount' readOnly />
-                     <Form.Group>
-                        <div className="calender">
-                           <label style={{marginBottom: '13px'}}>Due date*</label>
-                           <span className="inline">
-                              <DatePicker
-                                 value={dueDate}
-                                 onChange={set_DueDate}
-                                 placeholderText="Select a date"
-                                 className="datepicker"
-                                 format='d-MM-y'
-                                 autoFocus={false}
-                                 clearIcon={null}
-                              />
-                           </span>
-                        </div>
-                     </Form.Group>
+               <div className="seperatrion">
+                  <Form.Group widths='equal'>
+                     <Form.Input className="rupee" type='number' fluid label='Registration Fees' defaultValue={regFee} onChange={setRegFeeVal} placeholder='Registration Fees' />
+                     <Form.Input className="rupee" type='number' fluid label='Package Cost' defaultValue={packCost} onChange={setPackCostVal} placeholder='Package Cost' required />
                   </Form.Group>
-                  </>}
-               </Form.Field>
+                  <Form.Group>
+                     <Form.Select
+                        fluid
+                        label='Package Tenure'
+                        required
+                        className="halfdivison"
+                        defaultValue={tenure}
+                        onChange={setTenureVal}
+                        options={months}
+                        placeholder='Select Month'
+                     />
+                     <div className="calender halfdivison">
+                        <label style={{marginBottom: '13px'}}>start date*</label>
+                        <span className="inline">
+                           <DatePicker
+                              value={startDate}
+                              onChange={set_StartDate}
+                              placeholderText="Select a date"
+                              className="datepicker"
+                              format='d-MM-y'
+                              autoFocus={false}
+                              clearIcon={null}
+                           />
+                        </span>
+                     </div>
+                  </Form.Group>
+               </div>
+               
+               <div className="seperatrion">
+                  <Form.Field >
+                     <Form.Select
+                        fluid
+                        label='Payment Details'
+                        required
+                        defaultValue={payOption}
+                        onChange={setpayOption}
+                        options={paymentOptions}
+                        placeholder='Payment Details'
+                     />
+                     {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={packCost} placeholder='Amount to be paid now' readOnly />}
+                     {payOption === 'Partial' && <>
+                     <Form.Input className="rupee" type='number' fluid label='Amount to be paid now' defaultValue={amountPartial} onChange={setAmountpartial} placeholder='Amount to be paid now' />
+                     <Form.Group>
+                        <Form.Input className="halfdivison" fluid label='Due amount' defaultValue={amountDue} onChange={setAmountDueVal} placeholder='Due amount' readOnly />
+                        <Form.Group>
+                           <div className="calender">
+                              <label style={{marginBottom: '13px'}}>Due date*</label>
+                              <span className="inline">
+                                 <DatePicker
+                                    value={dueDate}
+                                    onChange={set_DueDate}
+                                    placeholderText="Select a date"
+                                    className="datepicker"
+                                    format='d-MM-y'
+                                    autoFocus={false}
+                                    clearIcon={null}
+                                 />
+                              </span>
+                           </div>
+                        </Form.Group>
+                     </Form.Group>
+                     </>}
+                  </Form.Field>
+               </div>
 
                <Form.Group widths='equal'>
                   <Form.Button className="btn-green right" onClick={() => (state.button = 'now')}>Pay Now</Form.Button>

@@ -4,6 +4,7 @@ import { AuthContext } from "./context/auth-context";
 import useAuth from "./hooks/auth";
 import Login from "./components/Auth/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Notmember from "./components/Member/Notmember"
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 
@@ -55,7 +56,7 @@ const App = (props) => {
     </Switch>
   );
 
-  if (authContext.accessLevel > 0) {
+  if (authContext.accessLevel === 1) {
     routes = (
       <Switch>
         <Route path="/" exact component={Dashboard} />
@@ -64,6 +65,13 @@ const App = (props) => {
         <Route path="/Planner" render={(props) => <Planner {...props} />} />
         <Route path="/Customized" render={(props) => <Customized {...props} />} />
         <Route path="/Assisted" render={(props) => <Assisted {...props} />} />
+        <Redirect to="/" />
+      </Switch>
+    );
+  } else if (authContext.accessLevel === 2) {
+    routes = (
+      <Switch>
+        <Route path="/" exact component={Notmember} />
         <Redirect to="/" />
       </Switch>
     );

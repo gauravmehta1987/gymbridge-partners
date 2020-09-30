@@ -49,7 +49,8 @@ const useAuth = () => {
         };
         axios.post( url, obj, apiHeader)
         .then( response => {
-            if(response.status){
+            console.log(response.data)
+            if(response.data.status === 'success'){
                 console.log(response.data.data)
                 localStorage.setItem('userDetails', JSON.stringify(response.data.data.user));
                 localStorage.setItem('token', response.data.data.token);
@@ -60,6 +61,14 @@ const useAuth = () => {
                     accessLevel: 1
                 });
                 authContext.setAccessLevel(1);
+            }else if(response.data.status === 'notPaid'){
+                localStorage.setItem('token', 'notMember');
+                localStorage.setItem('notmember', JSON.stringify(response.data.data));
+                dispatchAuth({type: 'AUTH_SUCCESS', 
+                    token: response.data.data.token,
+                    accessLevel: 2
+                });
+                authContext.setAccessLevel(2);
             }else {
                 console.log('[auth.js] SignIn Error: ' + response.data.message);
                 dispatchAuth({type: 'AUTH_FAIL', networkError: response.data.message});
@@ -86,6 +95,12 @@ const useAuth = () => {
         if (!token) {
             dispatchAuth({type: 'AUTH_LOGOUT'});
             authContext.setAccessLevel(0);
+        } else if(token === 'notMember') {
+            dispatchAuth({type: 'AUTH_SUCCESS', 
+                token: token,
+                accessLevel: 2
+            });
+            authContext.setAccessLevel(2);
         } else {
             dispatchAuth({type: 'AUTH_SUCCESS', 
                 token: token,
