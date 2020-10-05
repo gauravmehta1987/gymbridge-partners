@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Icon, Button, Segment } from 'semantic-ui-react'
 import './Home.css'
 import 'antd/dist/antd.css'
@@ -46,6 +46,13 @@ function Home(){
       })
    }
 
+   const gotoMember = (e) => {
+      e.preventDefault()
+      history.push({
+         pathname:  "/members"
+      })
+   }
+
    const alert = useAlert()
 
    const [bookingId, setBookingId] = useState('')
@@ -85,6 +92,42 @@ function Home(){
       } );
    }
 
+   const [activeMembers, setActiveMembers] = useState(0)
+   const [inactiveMembers, setInactiveMembers] = useState(0)
+
+   const membersCount = () => {
+      setLoader(true)
+      let url = config.appApiLink + 'member/getgymmembercount'
+      let apiHeader = {
+         headers: {
+             'Content-Type': "application/json",
+             'accept': "application/json",
+             'Authorization': localStorage.getItem('token')
+         }
+      }
+      axios.get( url, apiHeader )
+      .then( response => {
+         if(response.data && response.data.status === 'success'){
+            if(response.data.data){
+               setActiveMembers(response.data.data.memberCount)
+               setInactiveMembers(response.data.data.inactiveCount)
+            }
+            setLoader(false)
+         }else {
+            setLoader(false)
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      } );
+   }
+
+   useEffect(() => {
+      membersCount()
+   },[])
+
    return (
       <>
       {loader && <Segment className="loader"></Segment>}
@@ -121,7 +164,7 @@ function Home(){
          </div>
 
          <div className="mamber-trainer-card clearfix">
-            <Card className="card-details blur">
+            <Card className="card-details" onClick={gotoMember}>
                <Card.Content>
                   <Icon disabled name='users' className="card-img members" />
                   <Card.Header>Members</Card.Header>
@@ -132,11 +175,11 @@ function Home(){
                <Card.Content extra>
                   <div className="extra-details active">
                      <span>Active</span>
-                     <span className="number">120</span>
+                     <span className="number">{activeMembers}</span>
                   </div>
                   <div className="extra-details inactive">
                      <span>Inactive</span>
-                     <span className="number">35</span>
+                     <span className="number">{inactiveMembers}</span>
                   </div>
                </Card.Content>
             </Card>

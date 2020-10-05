@@ -65,6 +65,7 @@ function Navbar({name}){
         className="navbar"
       >
         <NavLink className="navigation" to="/">Home</NavLink>
+        <NavLink className="navigation" to="/Profile">Profile</NavLink>
         <a className="navigation logout-new" onClick={logout}>Logout</a>
 
         <div className="info">

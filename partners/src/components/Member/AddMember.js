@@ -31,18 +31,18 @@ function AddMember(){
    ]
 
    const months = [
-      { key: '1', text: '1', value: '1' },
-      { key: '2', text: '2', value: '2' },
-      { key: '3', text: '3', value: '3' },
-      { key: '4', text: '4', value: '4' },
-      { key: '5', text: '5', value: '5' },
-      { key: '6', text: '6', value: '6' },
-      { key: '7', text: '7', value: '7' },
-      { key: '8', text: '8', value: '8' },
-      { key: '9', text: '9', value: '9' },
-      { key: '10', text: '10', value: '10' },
-      { key: '11', text: '11', value: '11' },
-      { key: '12', text: '12', value: '11' },
+      { key: '1', text: '1 Month', value: '1' },
+      { key: '2', text: '2 Months', value: '2' },
+      { key: '3', text: '3 Months', value: '3' },
+      { key: '4', text: '4 Months', value: '4' },
+      { key: '5', text: '5 Months', value: '5' },
+      { key: '6', text: '6 Months', value: '6' },
+      { key: '7', text: '7 Months', value: '7' },
+      { key: '8', text: '8 Months', value: '8' },
+      { key: '9', text: '9 Months', value: '9' },
+      { key: '10', text: '10 Months', value: '10' },
+      { key: '11', text: '11 Months', value: '11' },
+      { key: '12', text: '12 Months', value: '11' },
    ]
 
    const paymentOptions = [
@@ -63,6 +63,8 @@ function AddMember(){
    const [gender, setGender] = useState('')
    const [tenure, setTenure] = useState('')
    const [paymentOpt, setPaymentOpt] = useState('')
+   const [phoneInputError, setPhoneInputError] = useState(false)
+   const [ttcost, setTtcose] = useState('')
 
    const [open, setOpen] = useState(false)
 
@@ -83,7 +85,10 @@ function AddMember(){
    }
    const setAmountpartial = (e, value) => {
       setAmountPartial(value.value)
-      const val = packCost - value.value
+      let val = packCost - value.value
+      if(regFee){
+         val += parseInt(regFee)
+      }
       setAmountDue(val)
    }
    const setNameVal = (e, value) => {
@@ -91,12 +96,22 @@ function AddMember(){
    }
    const setPhoneVal = (e, value) => {
       setPhone(value.value)
+      if (value.value.length !== 10) {
+         setPhoneInputError(true);
+      } else {
+         setPhoneInputError(false);
+      }
    }
    const setRegFeeVal = (e, value) => {
       setRegFee(value.value)
    }
    const setPackCostVal = (e, value) => {
       setPackCost(value.value)
+      let ct = parseInt(value.value)
+      if(regFee){
+         ct += parseInt(regFee)
+      }
+      setTtcose(regFee)
    }
    const setGenderVal = (e, value) => {
       setGender(value.value)
@@ -294,7 +309,7 @@ function AddMember(){
             <Form onSubmit={submitForm}>
                <Form.Group widths='equal'>
                   <Form.Input fluid label='Name' defaultValue={fullname} onChange={setNameVal} placeholder='Name' required />
-                  <Form.Input type='number' fluid label='Phone' defaultValue={phone} onChange={setPhoneVal} placeholder='Phone' required />
+                  <Form.Input type='number' className={phoneInputError ? 'error': ''} onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() } fluid label='Phone' defaultValue={phone} onChange={setPhoneVal} placeholder='Phone' required />
                </Form.Group>
                <Form.Group widths='equal'>
                   <Form.Select
@@ -310,8 +325,8 @@ function AddMember(){
                </Form.Group>
                <div className="seperatrion">
                   <Form.Group widths='equal'>
-                     <Form.Input className="rupee" type='number' fluid label='Registration Fees' defaultValue={regFee} onChange={setRegFeeVal} placeholder='Registration Fees' />
-                     <Form.Input className="rupee" type='number' fluid label='Package Cost' defaultValue={packCost} onChange={setPackCostVal} placeholder='Package Cost' required />
+                     <Form.Input className="rupee" type='number' onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() } fluid label='Registration Fees' defaultValue={regFee} onChange={setRegFeeVal} placeholder='Registration Fees' />
+                     <Form.Input className="rupee" type='number' onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() } fluid label='Package Cost' defaultValue={packCost} onChange={setPackCostVal} placeholder='Package Cost' required />
                   </Form.Group>
                   <Form.Group>
                      <Form.Select
@@ -352,9 +367,9 @@ function AddMember(){
                         options={paymentOptions}
                         placeholder='Payment Details'
                      />
-                     {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={packCost} placeholder='Amount to be paid now' readOnly />}
+                     {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={ttcost} placeholder='Amount to be paid now' readOnly />}
                      {payOption === 'Partial' && <>
-                     <Form.Input className="rupee" type='number' fluid label='Amount to be paid now' defaultValue={amountPartial} onChange={setAmountpartial} placeholder='Amount to be paid now' />
+                     <Form.Input className="rupee" type='number' onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() } fluid label='Amount to be paid now' defaultValue={amountPartial} onChange={setAmountpartial} placeholder='Amount to be paid now' />
                      <Form.Group>
                         <Form.Input className="halfdivison" fluid label='Due amount' defaultValue={amountDue} onChange={setAmountDueVal} placeholder='Due amount' readOnly />
                         <Form.Group>

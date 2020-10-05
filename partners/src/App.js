@@ -9,8 +9,10 @@ import Slot from './components/Slot/Slot';
 import SlotView from './components/Slot/SlotView'
 import SlotSessions from './components/Slot/SlotSessions'
 import Slotbooking from './components/Slot/Slotbooking'
+import ViewMember from './components/Member/ViewMember'
 import WorkoutStats from './components/Workout/WorkoutStats'
 import Addmember from './components/Member/AddMember'
+import Members from './components/Member/Members'
 import Home from './components/home/home';
 // import Navbar from './components/navbar/Navbar';
 // import Member from './components/Member';
@@ -77,7 +79,9 @@ function App() {
               <Route exact path="/SlotSessions" component={SlotSessions} />
               <Route exact path="/addmember" component={Addmember} />
               <Route exact path="/WorkoutStats" component={WorkoutStats} />
+              <Route exact path="/Members" component={Members} />
               <Route exact path="/slotbooking/:days" component={Slotbooking} />
+              <Route exact path="/viewMember/:days" component={ViewMember} />
               <Route exact path="/" component={Home} />
               {/* <Route  render={() => <Redirect to={{pathname: "/"}} />} /> */}
 

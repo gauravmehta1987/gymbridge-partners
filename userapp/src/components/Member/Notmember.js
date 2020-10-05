@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Segment, Form, Modal, Button } from 'semantic-ui-react'
 import './Member.css'
+import config from '../../config'
+import axios from 'axios'
+import { useAlert } from 'react-alert'
 
 function Notmember(){
 
@@ -16,6 +19,7 @@ function Notmember(){
    const [gender, setGender] = useState('')
    const [tenure, setTenure] = useState('')
    const [loader, setLoader] = useState(true)
+   const alert = useAlert()
 
    const proceed = (e) => {
       e.preventDefault()
@@ -33,6 +37,8 @@ function Notmember(){
             let duDate = data.PaymentDueDate.toString()
             let strDu = duDate[6]+''+duDate[7]+'/'+duDate[4]+''+duDate[5]+'/'+duDate[0]+''+duDate[1]+''+duDate[2]+''+duDate[3]
             setDueDate(strDu)
+         }else{
+            setPayOption('Full')
          }
 
          let due = parseInt(data.PaymentAmt) + parseInt(data.RegisterationAmt) - parseInt(data.AmtToBePaid)
@@ -60,12 +66,75 @@ function Notmember(){
       setOpen(false);
    }
 
+   const [errmsg, seteErrmsg] = useState(false)
+
+   const paymentFail = (e) => {
+      e.preventDefault()
+      setOpen(false)
+      seteErrmsg(true)
+      setTimeout(() => {
+         seteErrmsg(false)
+      }, 2000)
+   }
+
+   const [paySuccess, setPaySuccess] = useState(false)
+
+   const closeSuccess = () => {
+      setPaySuccess(false);
+   }
+
+   const paymentSuccess = (e) => {
+      e.preventDefault()
+      setOpen(false)
+
+      setLoader(true)
+      let url = config.appApiLink + 'actionsignuprequest'
+      let apiHeader = {
+         headers: {
+            'Content-Type': "application/json",
+            'accept': "application/json",
+            'Authorization': localStorage.getItem('token')
+         }
+      };
+      const data = JSON.parse(localStorage.getItem('notmember'))
+      let obj = {
+         "requestId": data.Id,
+         "paidAmt": data.AmtToBePaid,
+         "paymentModeId": 1
+      }
+      axios.post( url, obj, apiHeader )
+      .then( response => {
+         setLoader(false)
+         if(response.data && response.data.status === 'success'){
+            setPaySuccess(true)
+         }else {
+            console.log('error')
+            alert.show(response.data.message)
+         }
+      })
+      .catch( error => {
+      console.log(error);
+      setLoader(false)
+      alert.show("API gives an error, please login again")
+      } );
+   }
+
+   const login = (e) => {
+      e.preventDefault()
+      localStorage.removeItem('token');
+      localStorage.removeItem('notmember');
+      setTimeout(function(){
+         window.location.reload(false);
+      },1000)
+   }
+
    return (
       <>
       {loader && <Segment className="loader"></Segment>}
          <div style={{marginTop: '-50px'}}>
             <div className="form-area">
                <h2>Please review and pay to start your membership</h2>
+               {errmsg && <h5 className="error" style={{textAlign: 'center', color: 'red'}}>Transaction failed, please retry again</h5>}
                <Form>
                   <Form.Group widths='equal'>
                      <Form.Input fluid label='Name' defaultValue={fullname} readOnly placeholder='Name'  />
@@ -101,7 +170,7 @@ function Notmember(){
                   </div>
 
                   <Form.Group widths='equal'>
-                     <Form.Button className="btn-green right" onClick={proceed}>Proceed To Pay</Form.Button>
+                     <Form.Button className="btn-green right" onClick={proceed}>Proceed To Pay <img width="15px" src="indian-rupee.png" />{payOption=== 'full' ? parseInt(packCost) + parseInt(regFee) : amountPartial}</Form.Button>
                   </Form.Group>
                </Form>
             </div>
@@ -113,12 +182,21 @@ function Notmember(){
                   
                </Modal.Description>
             </Modal.Content> */}
-            <Modal.Actions>
-               <Button color='black' onClick={close}>
+            <Modal.Actions style={{textAlign: 'center'}}>
+               <Button color='black' onClick={paymentFail}>
                   Payment Failure
                </Button>
-               <Button color='green' onClick={close}>
+               <Button color='green' onClick={paymentSuccess}>
                   Payment Success
+               </Button>
+            </Modal.Actions>
+         </Modal>
+
+         <Modal open={paySuccess} onClose={closeSuccess} closeOnEscape={false} closeOnDimmerClick={false} className='custom'>
+            <Modal.Header>Transaction successful, please login with the same number to access your membership</Modal.Header>
+            <Modal.Actions style={{textAlign: 'center'}}>
+               <Button color='black' onClick={login}>
+                  Login
                </Button>
             </Modal.Actions>
          </Modal>

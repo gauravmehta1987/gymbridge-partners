@@ -28,6 +28,10 @@ const Assisted  = React.lazy(() => {
   return import("./components/Planner/Assisted");
 });
 
+const Profile  = React.lazy(() => {
+  return import("./components/Member/Profile");
+});
+
 const App = (props) => {
   // const [title, SetTitle] = useState("");
 
@@ -65,6 +69,7 @@ const App = (props) => {
         <Route path="/Planner" render={(props) => <Planner {...props} />} />
         <Route path="/Customized" render={(props) => <Customized {...props} />} />
         <Route path="/Assisted" render={(props) => <Assisted {...props} />} />
+        <Route path="/Profile" render={(props) => <Profile {...props} />} />
         <Redirect to="/" />
       </Switch>
     );

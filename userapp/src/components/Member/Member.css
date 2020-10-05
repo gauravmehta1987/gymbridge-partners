@@ -72,6 +72,44 @@
    display: inline-block !important;
 } */
 
+.rupee{
+   width: 10px;
+}
+.profile .heading {
+   padding: 10px;
+   box-shadow: 0 0px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   margin-top: -10px;
+   padding-top: 20px;
+   background: #f3f3f385;
+}
+.profile .heading .img{
+   width: 80px;
+   display: inline-block;
+   border-right: 1px solid #ccc;
+   height: 80px;
+   background-position: center;
+   border-radius: 50px;
+   background-size: 100%;
+}
+.profile .heading .infos{
+   width: calc(100% - 80px);
+   padding: 10px;
+   display: inline-block;
+}
+.profile .package {
+   padding: 10px;
+   box-shadow: 0 0px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   background: #f3f3f385;
+}
+.history {
+   box-shadow: 0 0px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   margin: 10px;
+   padding: 10px;
+}
+.history span{
+   display: block;
+}
+
 @media only screen and (max-width: 767px){
    .fields .calender{
       width: 100%

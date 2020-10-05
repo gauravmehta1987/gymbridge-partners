@@ -62,6 +62,105 @@
    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }
 
+.member-area .tabs{
+   display: inline-block;
+   width: 100%;
+   margin-top: 20px;
+   margin-bottom: 20px;
+}
+.member-area .tabs > div{
+   display: inline-block;
+   width: 110px;
+   text-align: center;
+   padding: 5px;
+}
+.member-area .tabs > div.active{
+   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   border-bottom: 2px solid blue;
+}
+.member-area .status{
+   display: inline-block;
+   width: 100%;
+}
+.member-area .status > div{
+   display: inline-block;
+   padding: 5px;
+   margin-bottom: 20px;
+}
+.member-area .paid{
+   background: #f7a1044d;
+   color: #fff;
+   border-left: 20px solid #f7a104;
+   width: 80px !IMPORTANT;
+   margin-right: 10px;
+}
+.member-area .due{
+   background: #0b68da4d;
+   color: #fff;
+   border-left: 20px solid #0b68da;
+   width: 70px !IMPORTANT;
+}
+.member-area .members-list{
+   padding: 20px;
+   padding-top: 0;
+}
+.member-area .members-list .member-view{
+   box-shadow: 3px 0px 5px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+   position: relative;
+   height: 100px;
+   width: 100% !important;
+   background: #fff;
+   margin-bottom: 10px;
+   border-radius: 10px;
+}
+.member-area .members-list .member-view.yellow{
+   border-left: 5px solid #f7a104;
+}
+.member-area .members-list .member-view.green{
+   border-left: 5px solid green;
+}
+.member-area .members-list .member-view.red{
+   border-left: 5px solid red;
+}
+.member-area .members-list .member-view .img{
+   width: 80px;
+   display: inline-block;
+   border-right: 1px solid #ccc;
+   height: 80px;
+   background-position: center;
+   position: absolute;
+   left: 10px;
+   border-radius: 50px;
+   top: 10px;
+}
+.member-area .members-list .member-view .text{
+   width: calc(100% - 100px);
+   display: inline-block;
+   white-space: normal;
+   word-break: break-word;
+   padding-left: 5px;
+   vertical-align: top;
+   height: 100px;
+   text-align: left;
+   position: absolute;
+   left: 100px;
+   color: #000;
+   padding: 5px
+}
+.member-area .members-list .member-view .text .dd{
+   float: right;
+   font-size: 0.8em;
+}
+.smallfont{
+   font-size: 0.8em;
+}
+.endDate{
+   position: absolute;
+   bottom: 10px;
+   font-size: 0.8em;
+}
+
+
 @media only screen and (max-width: 767px){
    .fields .calender{
       width: 100%
