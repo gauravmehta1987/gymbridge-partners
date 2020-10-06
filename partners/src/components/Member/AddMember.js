@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Navbar from '../navbar/Navbar'
 import { Segment, Form, Modal, Button } from 'semantic-ui-react'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -54,7 +54,6 @@ function AddMember(){
    const [dueDate, setDueDate] = useState(new Date())
    const [amountPartial, setAmountPartial] = useState('')
    const [amountDue, setAmountDue] = useState('')
-   const [amount, setAmount] = useState('')
    const [payOption, setPayOption] = useState('Full')
    const [fullname, setFullname] = useState('')
    const [phone, setPhone] = useState('')
@@ -104,6 +103,10 @@ function AddMember(){
    }
    const setRegFeeVal = (e, value) => {
       setRegFee(value.value)
+      if(payOption === 'Full' && packCost){
+         let ct = parseInt(value.value) + parseInt(packCost)
+         setTtcose(ct)
+      }
    }
    const setPackCostVal = (e, value) => {
       setPackCost(value.value)
@@ -111,7 +114,7 @@ function AddMember(){
       if(regFee){
          ct += parseInt(regFee)
       }
-      setTtcose(regFee)
+      setTtcose(ct)
    }
    const setGenderVal = (e, value) => {
       setGender(value.value)
@@ -149,14 +152,29 @@ function AddMember(){
          dateStr += ''+ddd
       }
 
+      let dd1 = new Date(dueDate)
+      let dateStr1 = dd1.getFullYear()
+      let mm1 = dd1.getMonth() + 1
+      let ddd1 = dd1.getDate()
+      if(mm1 < 10){
+         dateStr1 += '0'+mm1
+      }else{
+         dateStr1 += ''+mm1
+      }
+      if(ddd1 < 10){
+         dateStr1 += '0'+ddd1
+      }else{
+         dateStr1 += ''+ddd1
+      }
+
       if(state.button === 'later'){
          let obj = {
             "name": fullname,
             "mobileNumber": phone,
             "gymId": localStorage.getItem('gymId'),
-            "paymentAmt": 0,
+            "paidAmt": 0,
             "tenure": tenure,
-            "paidAmt": packCost, // amountPartial while partial, full to packcost
+            "paymentAmt": packCost, // amountPartial while partial, full to packcost
             "paymentStatus": 0, // 0 for not paid, 1 for paid partial/full
             "startDate": dateStr,
             "genderId": options[options.findIndex((v) => v.value === gender)].key,
@@ -164,9 +182,13 @@ function AddMember(){
          }
 
          if(payOption === 'Full'){
-            obj.paymentAmt = packCost
+            obj.paidAmt = parseInt(packCost)
+            if(regFee){
+               obj.paidAmt += parseInt(regFee)
+            }
          }else{
-            obj.paymentAmt = amountPartial
+            obj.paidAmt = amountPartial
+            obj.paymentDueDate = dateStr1
          }
 
          // console.log(obj)
@@ -251,21 +273,24 @@ function AddMember(){
          "name": fullname,
          "mobileNumber": phone,
          "gymId": localStorage.getItem('gymId'),
-         "paymentAmt": 0,
+         "paidAmt": 0,
          "tenure": tenure,
-         "paidAmt": packCost, // amountPartial while partial, full to packcost
+         "paymentAmt": packCost, // amountPartial while partial, full to packcost
          "paymentStatus": 1, // 0 for not paid, 1 for paid partial/full
          "startDate": dateStr,
          "genderId": options[options.findIndex((v) => v.value === gender)].key,
          "registerationAmt": regFee,
-         "paymentDueDate": dateStr1,
          "paymentModeId": paymentModeOptions[paymentModeOptions.findIndex((v) => v.value === paymentOpt)].key
       }
 
       if(payOption === 'Full'){
-         obj.paymentAmt = packCost
+         obj.paidAmt = parseInt(packCost)
+         if(regFee){
+            obj.paidAmt += parseInt(regFee)
+         }
       }else{
-         obj.paymentAmt = amountPartial
+         obj.paidAmt = amountPartial
+         obj.paymentDueDate = dateStr1
       }
 
       // console.log(obj)

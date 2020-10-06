@@ -11,6 +11,7 @@ function Notmember(){
    const [dueDate, setDueDate] = useState()
    const [amountPartial, setAmountPartial] = useState('')
    const [amountDue, setAmountDue] = useState('')
+   const [amountToPaid, setAmountToPaid] = useState('')
    const [payOption, setPayOption] = useState('')
    const [fullname, setFullname] = useState('')
    const [phone, setPhone] = useState('')
@@ -41,6 +42,8 @@ function Notmember(){
             setPayOption('Full')
          }
 
+         let pay = parseInt(data.AmtToBePaid)
+         setAmountToPaid(pay)
          let due = parseInt(data.PaymentAmt) + parseInt(data.RegisterationAmt) - parseInt(data.AmtToBePaid)
          setAmountDue(due)
 
@@ -158,7 +161,7 @@ function Notmember(){
                   <div className="seperatrion">
                      <Form.Field >
                         <Form.Input fluid label='Payment Details' defaultValue={payOption} readOnly placeholder='Payment Details'  />
-                        {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={packCost} placeholder='Amount to be paid now' readOnly />}
+                        {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={amountToPaid} placeholder='Amount to be paid now' readOnly />}
                         {payOption === 'Partial' && <>
                         <Form.Input className="rupee" type='number' fluid label='Amount to be paid now' defaultValue={amountPartial} readOnly placeholder='Amount to be paid now' />
                         <Form.Group className="halfDivide">

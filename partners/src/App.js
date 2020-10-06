@@ -5,6 +5,7 @@ import './App.css';
 import { BrowserRouter, Route, Redirect} from 'react-router-dom';
 import Login from './Auth/Login';
 import Profile from './components/Profile/Profile';
+import Timing from './components/Profile/Timing';
 import Slot from './components/Slot/Slot';
 import SlotView from './components/Slot/SlotView'
 import SlotSessions from './components/Slot/SlotSessions'
@@ -53,7 +54,6 @@ function App() {
   },[history]);
 
   if(!auth){
-    console.log('login page redirect')
     return (
       <Provider template={AlertTemplate} {...options}>
       <BrowserRouter>    
@@ -65,8 +65,6 @@ function App() {
     )
   }
 
-  console.log('else page')
-
   return (
     <Provider template={AlertTemplate} {...options}>
     <BrowserRouter>    
@@ -74,6 +72,7 @@ function App() {
               
               {/* <Route exact path="/login" component={Login} /> */}
               <Route exact path="/Profile" component={Profile} />
+              <Route exact path="/Timing" component={Timing} />
               <Route exact path="/slot" component={Slot} />
               <Route exact path="/slotView" component={SlotView} />
               <Route exact path="/SlotSessions" component={SlotSessions} />
