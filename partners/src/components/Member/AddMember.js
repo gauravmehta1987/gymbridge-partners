@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../navbar/Navbar'
 import { Segment, Form, Modal, Button } from 'semantic-ui-react'
 import 'react-confirm-alert/src/react-confirm-alert.css'
@@ -63,7 +63,7 @@ function AddMember(){
    const [tenure, setTenure] = useState('')
    const [paymentOpt, setPaymentOpt] = useState('')
    const [phoneInputError, setPhoneInputError] = useState(false)
-   const [ttcost, setTtcose] = useState('')
+   const [ttcost, setTtcost] = useState('')
 
    const [open, setOpen] = useState(false)
 
@@ -103,18 +103,18 @@ function AddMember(){
    }
    const setRegFeeVal = (e, value) => {
       setRegFee(value.value)
-      if(payOption === 'Full' && packCost){
+      if(payOption === 'Full' && packCost && value.value !== '' && value.value > 0){
          let ct = parseInt(value.value) + parseInt(packCost)
-         setTtcose(ct)
+         setTtcost(ct)
       }
    }
    const setPackCostVal = (e, value) => {
       setPackCost(value.value)
       let ct = parseInt(value.value)
-      if(regFee){
+      if(regFee && regFee > 0){
          ct += parseInt(regFee)
       }
-      setTtcose(ct)
+      setTtcost(ct)
    }
    const setGenderVal = (e, value) => {
       setGender(value.value)
@@ -392,11 +392,11 @@ function AddMember(){
                         options={paymentOptions}
                         placeholder='Payment Details'
                      />
-                     {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' defaultValue={ttcost} placeholder='Amount to be paid now' readOnly />}
+                     {payOption === 'Full' && <Form.Input fluid label='Amount to be paid now' value={ttcost} placeholder='Amount to be paid now' readOnly />}
                      {payOption === 'Partial' && <>
                      <Form.Input className="rupee" type='number' onKeyDown={ (evt) => evt.key === 'e' && evt.preventDefault() } fluid label='Amount to be paid now' defaultValue={amountPartial} onChange={setAmountpartial} placeholder='Amount to be paid now' />
                      <Form.Group>
-                        <Form.Input className="halfdivison" fluid label='Due amount' defaultValue={amountDue} onChange={setAmountDueVal} placeholder='Due amount' readOnly />
+                        <Form.Input className="halfdivison" fluid label='Due amount' value={amountDue} onChange={setAmountDueVal} placeholder='Due amount' readOnly />
                         <Form.Group>
                            <div className="calender">
                               <label style={{marginBottom: '13px'}}>Due date*</label>

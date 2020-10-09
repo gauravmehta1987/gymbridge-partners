@@ -16,6 +16,8 @@ function Profile(){
    const [address, setAddress] = useState('')
    const [phone, setPhone] = useState('')
    const [gymname, setGymname] = useState('')
+   const [activeMembers, setActiveMembers] = useState('')
+   const [inactiveMembers, setInactiveMembers] = useState('')
    const [packageList, setPackageList] = useState([])
 
    const fetchMyInfo = () => {
@@ -34,16 +36,19 @@ function Profile(){
          // console.log(response.data)
          if(response.data && response.data.status === 'success'){
             console.log(response.data.data.gym)
-            if(response.data.data && response.data.data.gym){
-               setName(response.data.data.gym.OwnerName)
-               setAddress(response.data.data.gym.Address)
-               setGymname(response.data.data.gym.Name)
-               if(response.data.data.gym.packages && response.data.data.gym.packages.length){
-                  setPackageList(response.data.data.gym.packages)
+            if(response.data.data && response.data.data.ownerProfile && response.data.data.ownerProfile.gym){
+               setName(response.data.data.ownerProfile.gym.OwnerName)
+               setAddress(response.data.data.ownerProfile.gym.Address)
+               setGymname(response.data.data.ownerProfile.gym.Name)
+               if(response.data.data.ownerProfile.gym.packages && response.data.data.ownerProfile.gym.packages.length){
+                  setPackageList(response.data.data.ownerProfile.gym.packages)
                }
             }
-            setPhone(response.data.data.MobileNumber)
-
+            setPhone(response.data.data.ownerProfile.MobileNumber)
+            if(response.data.data && response.data.data.count){
+               setActiveMembers(response.data.data.count.memberCount)
+               setInactiveMembers(response.data.data.count.inactiveCount)
+            }
          }else {
             console.log('error')
             alert.show(response.data.message)
@@ -72,6 +77,11 @@ function Profile(){
                   <div>Gym Contact: {phone}</div>
                   <div>Gym Address: {address}</div>
                </div>
+            </div>
+            <div className="package history-package">
+               Members Count 
+               <div>Active: {activeMembers}</div>
+               <div>Inactive: {inactiveMembers}</div>
             </div>
             {packageList.length > 0 && <div className="package history-package">
                Package List 

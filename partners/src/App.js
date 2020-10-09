@@ -13,6 +13,7 @@ import Slotbooking from './components/Slot/Slotbooking'
 import ViewMember from './components/Member/ViewMember'
 import WorkoutStats from './components/Workout/WorkoutStats'
 import Addmember from './components/Member/AddMember'
+import Trainers from './components/Trainer/Trainers'
 import Members from './components/Member/Members'
 import Home from './components/home/home';
 // import Navbar from './components/navbar/Navbar';
@@ -77,6 +78,7 @@ function App() {
               <Route exact path="/slotView" component={SlotView} />
               <Route exact path="/SlotSessions" component={SlotSessions} />
               <Route exact path="/addmember" component={Addmember} />
+              <Route exact path="/trainers" component={Trainers} />
               <Route exact path="/WorkoutStats" component={WorkoutStats} />
               <Route exact path="/Members" component={Members} />
               <Route exact path="/slotbooking/:days" component={Slotbooking} />

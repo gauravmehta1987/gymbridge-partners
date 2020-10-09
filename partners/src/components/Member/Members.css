@@ -128,6 +128,7 @@
    border-right: 1px solid #ccc;
    height: 80px;
    background-position: center;
+   background-size: 100%;
    position: absolute;
    left: 10px;
    border-radius: 50px;
@@ -159,7 +160,28 @@
    bottom: 10px;
    font-size: 0.8em;
 }
-
+.actions-bttn{
+   position: absolute;
+   right: 1px;
+   bottom: 4px;
+}
+.actions-bttn button{
+   font-size: 0.8em !important;
+}
+.add-trainer{
+   position: fixed;
+   top: 4px;
+   right: 0;
+   z-index: 1;
+}
+.add-form.form-area .ui.form .btn-black, .add-form.form-area .ui.form .btn-green{
+   display: inline-block;
+   width: auto !important;
+}
+.view-trainer{
+   text-decoration: underline;
+   font-size: 0.8em;
+}
 
 @media only screen and (max-width: 767px){
    .fields .calender{

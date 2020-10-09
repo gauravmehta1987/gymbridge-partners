@@ -46,6 +46,13 @@ function Home(){
       })
    }
 
+   const addNewTrainer = (e) => {
+      e.preventDefault()
+      history.push({
+         pathname:  "/trainers"
+      })
+   }
+
    const gotoMember = (e) => {
       e.preventDefault()
       history.push({
@@ -160,6 +167,10 @@ function Home(){
             <div className="slot-link-in" onClick={addNewMember} style={{marginLeft: '10px'}}>
                <div>Add</div>
                <div>Member</div>
+            </div>
+            <div className="slot-link-in" onClick={addNewTrainer} style={{marginLeft: '10px'}}>
+               <div>Add/View</div>
+               <div>Trainer</div>
             </div>
          </div>
 
