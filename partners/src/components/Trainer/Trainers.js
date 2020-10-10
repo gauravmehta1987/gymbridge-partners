@@ -5,6 +5,7 @@ import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { useAlert } from 'react-alert'
 import '../Member/Members.css'
+import '../Profile/Profile.css'
 import config from '../../config'
 import axios from 'axios'
 
@@ -218,7 +219,7 @@ function Trainers(){
    }
 
    const [trainerInfo, setTrainerInfo] = useState({
-      name: '', phone:'', email: '', gender: '', type: '', description: ''
+      name: '', phone:'', email: '', gender: '', type: '', description: '', photo: ''
    })
 
    const [viewModal, setViewModal] = useState(false)
@@ -228,7 +229,7 @@ function Trainers(){
       console.log(data)
       setTrainerInfo({
          ...trainerInfo,
-         name: data.name, phone: data.mobileNumber, email: data.email, gender: data.gender.Name, type: data.userType.Type, description: ''
+         name: data.name, phone: data.mobileNumber, email: data.email, gender: data.gender.Name, type: data.userType.Type, description: '', photo: data.photo
       })
       setViewModal(true)
    }
@@ -246,7 +247,7 @@ function Trainers(){
                Add
             </Button>
          </div>
-         <div className="member-area" style={{paddingTop: '40px'}}>
+         <div className="member-area" style={{paddingTop: '20px'}}>
             <div className="members-list">
                {gymList.length > 0 ? 
                gymList.map((gym, i) => (
@@ -325,12 +326,22 @@ function Trainers(){
                <Modal.Description>
                <div className="add-form form-area" style={{padding: '0'}}>
 
-                  Name: <b>{trainerInfo.name}</b><br />
-                  Email: <b>{trainerInfo.email}</b><br />
-                  Phone: <b>{trainerInfo.phone}</b><br />
-                  Gender: <b>{trainerInfo.gender}</b><br />
-                  Position: <b>{trainerInfo.type}</b><br />
-                  Description: <b>{trainerInfo.description}</b><br /><br />
+                  <div className="profile">
+                     <div className="heading">
+                        <div className="img" style={{backgroundImage: `url(${trainerInfo.photo})`}} ></div>
+                        <div className="infos">
+                           <div><b>{trainerInfo.name}</b></div>
+                           <div>{trainerInfo.email}</div>
+                           <div>{trainerInfo.phone}</div>
+                           <div>{trainerInfo.gender}</div>
+                           <div>{trainerInfo.type}</div>
+                        </div>
+                     </div>
+                     {trainerInfo.description !== '' && <div className="package current-package">
+                        Description
+                        <div>{trainerInfo.description}</div>
+                     </div>}
+                  </div>
                
                   <Form.Group>
                      <Form.Button className="btn-black right" onClick={closeViewModal}>Close</Form.Button>

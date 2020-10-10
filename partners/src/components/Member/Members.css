@@ -182,6 +182,23 @@
    text-decoration: underline;
    font-size: 0.8em;
 }
+.profile .heading{
+   /* box-shadow: none; */
+}
+.profile .heading .img{
+   width: 80px;
+   display: inline-block;
+   border-right: 1px solid #ccc;
+   height: 80px;
+   background-position: center;
+   border-radius: 50px;
+   background-size: 100%;
+}
+.profile .heading .infos{
+   width: calc(100% - 80px);
+   padding: 10px;
+   display: inline-block;
+}
 
 @media only screen and (max-width: 767px){
    .fields .calender{

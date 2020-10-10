@@ -198,7 +198,7 @@ function Customized(){
          }else {
             setMuscleList([])
          }
-         setSelectedExercise([])
+         // setSelectedExercise([])
          fetchExercises('')
       }
     },[selectedType, showSection]);
@@ -206,7 +206,7 @@ function Customized(){
    useEffect(() => {
       if(showSection){
          setExerciseList([])
-         setSelectedExercise([])
+         // setSelectedExercise([])
          fetchExercises(selectedMus)
       }
     },[selectedMus, showSection]);
@@ -258,6 +258,8 @@ function Customized(){
          hours = (parseInt(stTiming)+12)*60
       }
       obj.time = hours
+
+      obj.endTime = parseInt(duration) + hours
 
       // calculate date
       let dd = new Date(startDate)
@@ -321,6 +323,16 @@ function Customized(){
 
    const hideDate = e => {
       setShowDate(false)
+   }
+
+   const deleteSelection = (e, data) => {
+      e.preventDefault()
+      const list = [...selectedExercise]
+      let idx = list.findIndex((v) => v.Id === data.Id)
+      if(idx >= 0){
+         list.splice(idx, 1)
+      }
+      setSelectedExercise(list)
    }
    
    return (
@@ -472,7 +484,12 @@ function Customized(){
                                              <div className="img" style={{backgroundImage: 'url(sample.png)'}}>
                                              </div>
                                              <div className="text">
-                                                <div className="counts name">{option.Name}</div>
+                                                <div className="counts name">{id+1}. {option.Name}</div>
+                                                <div className="action-bt">
+                                                   <Button color='black' onClick={(e) => deleteSelection(e, option)}>
+                                                      Remove
+                                                   </Button>
+                                                </div>
                                              </div>
                                           </div>
                                           </div>
